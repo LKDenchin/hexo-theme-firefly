@@ -16,7 +16,7 @@
 **[简体中文](README.md)** | **[English](README.en.md)**
 
 🚀 演示站点：
-[**🖥️ 我的博客**](https://blog.lkdenchin.cn/)
+[**🖥️ 我的博客**](https://blog.1007777.xyz/)
 
 ---
 
@@ -31,9 +31,6 @@
 Firefly 是一款清新美观且现代化的 Hexo 个人博客主题，从 [CuteLeaf](https://github.com/CuteLeaf) 开发的 [Astro 版 Firefly](https://github.com/CuteLeaf/Firefly) 迁移而来，完整保留了原版 Firefly 的全部功能和设计风格。该主题融合了丰富的功能模块和高度可定制的界面，让您能够轻松打造出专业且美观的个人博客网站。
 
 在布局上，Firefly 支持左右双侧边栏、文章列表/网格(多列)布局，并增加了站点统计、日历、文章目录、音乐播放器、快捷分类导航等小组件，让侧边栏和整体页面布局更加丰富。同时也支持分享按钮、相关文章推荐、上下篇导航等组件，让文章页面内容更丰富。
-
-> **如果你参考或使用了 Firefly 的组件设计和相关代码，请注明来自 Firefly。**
-
 ---
 
 ## ✨ 功能特性
@@ -138,9 +135,6 @@ Firefly 是一款清新美观且现代化的 Hexo 个人博客主题，从 [Cute
    ```bash
    hexo new page about
    hexo new page friends
-   hexo new page guestbook
-   hexo new page sponsor
-   hexo new page gallery
    hexo new page categories
    hexo new page tags
    ```
@@ -267,8 +261,6 @@ password: ""            # 加密密码（留空不加密）
 
 - [Firefly](https://github.com/CuteLeaf/Firefly) - Astro 原版主题 (CuteLeaf)
 - [fuwari](https://github.com/saicaca/fuwari) - Astro 博客模板 (saicaca)
-- 哔哩哔哩 up 主 `公公的日常` 的 Q 版 [流萤看板娘 Spine 切片数据](https://www.bilibili.com/video/BV1fuVzzdE5y)
-
 ---
 
 ## 📝 许可协议
@@ -278,7 +270,7 @@ password: ""            # 加密密码（留空不加密）
 **版权声明：**
 - Copyright (c) 2024 [saicaca](https://github.com/saicaca) - [fuwari](https://github.com/saicaca/fuwari)
 - Copyright (c) 2025 [CuteLeaf](https://github.com/CuteLeaf) - [Firefly](https://github.com/CuteLeaf/Firefly)
-- Copyright (c) 2025 [LKDenchin](https://github.com/LKDenchin) - [hexo-theme-firefly](https://github.com/LKDenchin/hexo-theme-firefly)
+- Copyright (c) 2026 [LKDenchin](https://github.com/LKDenchin) - [hexo-theme-firefly](https://github.com/LKDenchin/hexo-theme-firefly)
 
 ---
 
