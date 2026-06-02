@@ -238,7 +238,7 @@ password: ""           # Encrypt post (leave empty to disable)
 
 If this theme helps you, feel free to buy me a coffee~
 
-![Sponsor QR Code](screenshot/support.png)
+<img src="screenshot/support.png" width="200" alt="Sponsor QR Code" />
 
 ---
 
