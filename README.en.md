@@ -16,13 +16,21 @@
 **[简体中文](README.md)** | **[English](README.en.md)**
 
 🚀 Demo Site:
-[**🖥️My Blog**](https://blog.lkdenchin.cn/)
+[**🖥️ My Blog**](https://blog.lkdenchin.cn/)
 
 ---
 
-Firefly is a clean, beautiful, and modern Hexo blog theme, ported from the original [Astro-based Firefly theme](https://github.com/CuteLeaf/Firefly) developed by [CuteLeaf](https://github.com/CuteLeaf). It fully preserves all features and the design style of the original Firefly. With rich functional modules and a highly customizable interface, it allows you to easily build a professional and beautiful personal blog.
+## 📸 Preview
 
-In terms of layout, Firefly supports dual sidebars, list/grid article views, and features widgets such as site statistics, calendar, table of contents, music player, and category navigation, making the sidebar and overall page layout richer. It also supports share buttons, related post recommendations, and previous/next post navigation.
+| Homepage | Post Page |
+|:---:|:---:|
+| ![Homepage Screenshot](screenshot/index.png) | ![Post Screenshot](screenshot/blog.png) |
+
+---
+
+Firefly is a clean, beautiful, and modern Hexo blog theme, ported from the original [Astro-based Firefly theme](https://github.com/CuteLeaf/Firefly) developed by [CuteLeaf](https://github.com/CuteLeaf). It fully preserves all features and design of the original. With rich functional modules and a highly customizable interface, you can easily build a professional and beautiful personal blog.
+
+Firefly supports dual sidebars, list/grid article views, and features widgets such as site statistics, calendar, TOC, music player, and category navigation. It also supports share buttons, related post recommendations, and previous/next post navigation.
 
 > **If you reference or use Firefly's component designs and related code, please credit Firefly.**
 
@@ -32,79 +40,64 @@ In terms of layout, Firefly supports dual sidebars, list/grid article views, and
 
 ### Core
 
-- [x] **Hexo + EJS Templates** - High-performance static blog based on Hexo
-- [x] **Responsive Design** - Perfectly adapted for desktop, tablet, and mobile
-- [x] **i18n Multi-language** - UI supports zh-CN, zh-TW, English, Japanese, Russian
-- [x] **Local Search** - XML-based client-side full-text search
-- [x] **Sakura Petal Effect** - Toggle-able cherry blossom falling animation
-- [x] **Typewriter Effect** - Homepage title typewriter animation
+- [x] **Hexo + EJS Templates** - High-performance static blog
+- [x] **Responsive Design** - Desktop, tablet, and mobile
+- [x] **i18n** - UI: zh-CN, zh-TW, English, Japanese, Russian
+- [x] **Local Search** - XML-based full-text search
+- [x] **Sakura Petal Effect** - Toggle-able cherry blossom animation
+- [x] **Typewriter Effect** - Homepage title animation
 
 ### Personalization
 
-- [x] **Dynamic Sidebars** - Single or dual sidebar configuration with independent component positioning
-- [x] **Article Layouts** - List, grid (multi-column) views, switchable on the frontend
-- [x] **Light/Dark Mode** - Light, dark, or follow system preferences
-- [x] **Custom Theme Color** - 360° hue adjustment with on-the-fly switching
-- [x] **Wallpaper Modes** - Banner, fullscreen, semi-transparent overlay, or solid color background
-- [x] **Water Waves Effect** - Dynamic wave animation in the banner area
+- [x] **Dynamic Sidebars** - Single or dual sidebar
+- [x] **Article Layouts** - List, grid, switchable on frontend
+- [x] **Light/Dark Mode** - Light, dark, or follow system
+- [x] **Custom Theme Color** - 360° hue adjustment
+- [x] **Wallpaper Modes** - Banner, fullscreen, overlay, or solid color
+- [x] **Water Waves Effect** - Dynamic wave animation
 - [x] **Customizable Navbar** - Logo, title, menu links
 - [x] **Configurable Footer** - HTML injection, fully customizable
 
 ### Posts & Content
 
-- [x] **Cover Images** - Post cover support with random API covers
+- [x] **Cover Images** - Post cover with random API support
 - [x] **Table of Contents (TOC)** - Auto-generated floating TOC
-- [x] **Syntax Highlighting** - Highlight.js-based code highlighting
-- [x] **Collapsible Code Blocks** - Long code blocks auto-collapse with expand/collapse toggle
+- [x] **Syntax Highlighting** - Highlight.js-based
+- [x] **Collapsible Code Blocks** - Auto-collapse long blocks
 - [x] **Mermaid Diagrams** - Mermaid syntax rendering
 - [x] **PlantUML Diagrams** - PlantUML rendering
-- [x] **Image Lightbox** - Fancybox-based click-to-zoom
-- [x] **Encrypted Posts** - Password-protected articles
-- [x] **Outdated Post Notice** - Auto-display notice for posts older than a threshold
-- [x] **Copyright Notice** - Custom license info at the bottom of posts
+- [x] **Image Lightbox** - Fancybox click-to-zoom
+- [x] **Encrypted Posts** - Password protection
+- [x] **Outdated Post Notice** - Auto-display for old posts
+- [x] **Copyright Notice** - Custom license info
 
 ### Comment Systems
 
-- [x] **Giscus** - GitHub Discussions-based comments
-- [x] **Twikoo** - Lightweight comment system
-- [x] **Waline** - Modern comment system
-- [x] **Artalk** - Self-hosted comment system
-- [x] **Disqus** - Third-party comment system
+- [x] **Giscus** / **Twikoo** / **Waline** / **Artalk** / **Disqus**
 
 ### Sidebar Widgets
 
 - [x] **Profile Card** - Avatar, name, bio, social links
 - [x] **Announcement** - Closable announcement bar
-- [x] **Music Player** - MetingJS-based online music, supports local music
+- [x] **Music Player** - MetingJS online / local music
 - [x] **Category Navigation** - Quick category list
-- [x] **Tag Cloud** - Tag aggregation display
-- [x] **Site Stats** - Post count, category count, tag count, running days
-- [x] **Calendar** - Post publishing date calendar view
-- [x] **Sidebar TOC** - Sidebar version table of contents
+- [x] **Tag Cloud** - Tag aggregation
+- [x] **Site Stats** - Post count, categories, tags, running days
+- [x] **Calendar** - Post publishing calendar view
 
 ### Standalone Pages
 
-- [x] **Friends Links** - Friendship link showcase
-- [x] **Sponsor Page** - Donation QR codes
-- [x] **Guestbook** - Independent guestbook page
-- [x] **Gallery** - Image gallery display
-- [x] **About Page** - Custom about page
+- [x] **Friends** / **Sponsor** / **Guestbook** / **Gallery** / **About**
 
 ### Analytics
 
-- [x] **Busuanzi** - Visitor counting
-- [x] **Baidu Analytics**
-- [x] **Google Analytics**
-- [x] **Microsoft Clarity**
-- [x] **Umami** - Lightweight analytics
-- [x] **51.LA** - Website analytics
+- [x] **Busuanzi** / **Baidu Analytics** / **Google Analytics** / **Microsoft Clarity** / **Umami** / **51.LA**
 
 ### Others
 
-- [x] **Live2D / Spine Mascot** - Spine skeletal animation and Live2D model support
-- [x] **Banner Carousel** - Auto-rotating multiple wallpapers
-- [x] **Display Settings Panel** - Frontend user customizable toggles for effects and theme
-- [x] **Fancybox Lightbox** - Image viewer
+- [x] **Mascot** - Spine skeletal animation / Live2D model
+- [x] **Banner Carousel** - Auto-rotating wallpapers
+- [x] **Display Settings Panel** - Frontend customizable toggles
 
 ---
 
@@ -122,20 +115,19 @@ In terms of layout, Firefly supports dual sidebars, list/grid article views, and
    cd your-hexo-blog
    ```
 
-2. **Clone the theme into the themes directory:**
+2. **Clone the theme:**
    ```bash
    git clone https://github.com/LKDenchin/hexo-theme-firefly.git themes/firefly
    ```
 
-3. **Set the theme:**
-   Edit the site root `_config.yml` and set the `theme` field to `firefly`:
+3. **Set the theme** in site root `_config.yml`:
    ```yaml
    theme: firefly
    ```
 
-   > **Note**: You must set `theme: firefly` in the site root `_config.yml` for the theme to work properly.
+   > **Note**: You must set `theme: firefly` in the site root `_config.yml`.
 
-4. **Install required Hexo plugins:**
+4. **Install required plugins:**
    ```bash
    npm install hexo-generator-search --save
    npm install hexo-wordcount --save
@@ -152,80 +144,64 @@ In terms of layout, Firefly supports dual sidebars, list/grid article views, and
    hexo new page tags
    ```
 
-6. **Configure the theme:**
-   Edit `themes/firefly/_config.yml` to customize your blog settings.
+6. **Configure:** Edit `themes/firefly/_config.yml`.
 
-7. **Start the local server:**
+7. **Start server:**
    ```bash
    hexo clean && hexo server
    ```
-   Your blog will be available at `http://localhost:4000`
+   Blog available at `http://localhost:4000`
 
 ---
 
 ## 📖 Configuration
 
-All theme configurations are in `themes/firefly/_config.yml`, which contains all configuration items ported from the Astro version:
-
-### Directory Structure
+All settings in `themes/firefly/_config.yml`:
 
 ```
 themes/firefly/
-├── _config.yml          # Main theme configuration file
-├── _data/               # Data files (friend links, etc.)
-├── languages/           # Language files
-│   ├── zh-CN.yml        # Simplified Chinese
-│   ├── zh-TW.yml        # Traditional Chinese
-│   ├── en.yml           # English
-│   ├── ja.yml           # Japanese
-│   └── ru.yml           # Russian
-├── layout/              # EJS template files
-├── scripts/             # Hexo scripts (helpers, generators, tags)
-└── source/              # Static assets (CSS, JS, images, mascot models)
+├── _config.yml          # Main config file
+├── _data/               # Data files (friends, etc.)
+├── languages/           # i18n (zh-CN / zh-TW / en / ja / ru)
+├── layout/              # EJS templates
+├── scripts/             # Helpers, generators, tags
+└── source/              # Static assets
 ```
 
 ### Site Language
 
-Set in the site root `_config.yml`:
+In site root `_config.yml`:
 
 ```yaml
 language: zh-CN
 ```
 
-**Supported language codes:**
-- `zh-CN` - Simplified Chinese
-- `zh-TW` - Traditional Chinese
-- `en` - English
-- `ja` - Japanese
-- `ru` - Russian
+Supports: `zh-CN` `zh-TW` `en` `ja` `ru`
 
-### Key Configuration Sections
+### Key Sections
 
 | Section | Description |
 |:--------|:------------|
-| `theme_color` | Theme color hue (0-360), light/dark/system mode |
-| `nav` | Navigation bar settings: logo, title, menu items |
-| `wallpaper` | Wallpaper/background settings: banner/fullscreen/overlay/none |
-| `sidebar` | Sidebar settings with independent left/right component config |
-| `post` | Post settings: cover, TOC, copyright, navigation |
-| `post_list_layout` | Article list layout: list/grid/masonry |
-| `comments` | Comment system config (giscus/twikoo/waline/artalk/disqus) |
-| `music` | Music player config (MetingJS online/local) |
-| `effects` | Visual effects (sakura petals) |
-| `pio` | Mascot settings (Spine/Live2D) |
-| `profile` | Profile card configuration |
-| `widgets` | Sidebar widget enable settings |
-| `analytics` | Analytics settings (Baidu/Google/Umami/etc.) |
-| `search` | Local search configuration |
-| `code` | Code block settings (highlight theme, collapsible) |
+| `theme_color` | Theme hue (0-360), light/dark/system mode |
+| `nav` | Navbar: logo, title, menu |
+| `wallpaper` | Background modes: banner / fullscreen / overlay / none |
+| `sidebar` | Left/right sidebar widgets |
+| `post` | Cover, TOC, copyright, navigation |
+| `post_list_layout` | Article layout: list / grid / masonry |
+| `comments` | giscus / twikoo / waline / artalk / disqus |
+| `music` | Music player (MetingJS / local) |
+| `effects` | Sakura petals |
+| `pio` | Mascot (Spine / Live2D) |
+| `analytics` | Baidu / Google / Umami etc. |
+| `search` | Local search |
+| `code` | Highlight theme, collapsible |
 | `mermaid` | Mermaid diagrams |
 | `plantuml` | PlantUML diagrams |
-| `fancybox` | Image lightbox |
-| `font` | Custom font configuration |
+| `font` | Custom fonts |
 | `footer` | Footer settings |
-| `sponsor` | Sponsor page config |
-| `gallery` | Gallery config |
-| `friends_page` | Friends page config |
+| `sponsor` | Sponsor page |
+| `gallery` | Gallery |
+| `friends_page` | Friends page |
 
 ---
 
@@ -252,51 +228,55 @@ password: ""           # Encrypt post (leave empty to disable)
 
 ## 🧞 Commands
 
-All commands should be run from the Hexo site root directory:
-
 | Command | Action |
 |:--------|:-------|
 | `hexo clean` | Clean cache and generated files |
-| `hexo server` | Start local development server |
+| `hexo server` | Start local dev server |
 | `hexo generate` | Generate static files |
 | `hexo deploy` | Deploy the site |
 | `hexo new post "Title"` | Create a new post |
-| `hexo new page "PageName"` | Create a new page |
+| `hexo new page "Name"` | Create a new page |
+
+---
+
+## ❤️ Sponsor
+
+If this theme helps you, feel free to buy me a coffee~
+
+![Sponsor QR Code](screenshot/support.png)
 
 ---
 
 ## 🙏 Credits
 
-Special thanks to [saicaca](https://github.com/saicaca) for developing the [fuwari](https://github.com/saicaca/fuwari) template, and [CuteLeaf](https://github.com/CuteLeaf) for developing the [Firefly](https://github.com/CuteLeaf/Firefly) theme based on fuwari. This project is the Hexo port of Firefly.
+Special thanks to [saicaca](https://github.com/saicaca) for [fuwari](https://github.com/saicaca/fuwari), and [CuteLeaf](https://github.com/CuteLeaf) for [Firefly](https://github.com/CuteLeaf/Firefly). This project is the Hexo port of Firefly.
 
-Some Firefly-related image assets are copyrighted by the game [Honkai: Star Rail](https://sr.mihoyo.com/) developer [miHoYo](https://www.mihoyo.com/).
+Some Firefly-related image assets are copyrighted by [Honkai: Star Rail](https://sr.mihoyo.com/) developer [miHoYo](https://www.mihoyo.com/).
 
 ### Tech Stack
 
-- [Hexo](https://hexo.io) - Fast, simple & powerful blog framework
+- [Hexo](https://hexo.io) - Blog framework
 - [EJS](https://ejs.co) - Template engine
-- [Highlight.js](https://highlightjs.org) - Code syntax highlighting
-- [MetingJS](https://github.com/metowolf/MetingJS) - Online music player
+- [Highlight.js](https://highlightjs.org) - Code highlighting
+- [MetingJS](https://github.com/metowolf/MetingJS) - Music player
 - [Fancybox](https://fancyapps.com/fancybox/) - Image lightbox
 
-### Inspiration & References
+### References
 
 - [Firefly](https://github.com/CuteLeaf/Firefly) - Original Astro theme (CuteLeaf)
 - [fuwari](https://github.com/saicaca/fuwari) - Astro blog template (saicaca)
-- Bilibili creator 公公的日常's chibi [Firefly Spine model data](https://www.bilibili.com/video/BV1fuVzzdE5y)
+- Bilibili creator 公公的日常's [Firefly Spine model](https://www.bilibili.com/video/BV1fuVzzdE5y)
 
 ---
 
 ## 📝 License
 
-This project is licensed under the [MIT license](https://mit-license.org/).
+MIT License.
 
 **Copyright:**
 - Copyright (c) 2024 [saicaca](https://github.com/saicaca) - [fuwari](https://github.com/saicaca/fuwari)
 - Copyright (c) 2025 [CuteLeaf](https://github.com/CuteLeaf) - [Firefly](https://github.com/CuteLeaf/Firefly)
 - Copyright (c) 2025 [LKDenchin](https://github.com/LKDenchin) - [hexo-theme-firefly](https://github.com/LKDenchin/hexo-theme-firefly)
-
-Under the MIT open-source license, you are free to use, modify, and distribute the code, provided the above copyright notices are retained.
 
 ---
 
