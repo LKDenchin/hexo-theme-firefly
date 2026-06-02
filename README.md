@@ -239,8 +239,7 @@ password: ""            # 加密密码（留空不加密）
 
 如果这个主题对你有帮助，欢迎请我喝杯咖啡~
 
-![赞赏码](screenshot/support.png)
-
+<img src="screenshot/support.png" width="200" alt="赞赏码" />
 ---
 
 ## 🙏 致谢
