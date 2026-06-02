@@ -1,0 +1,90 @@
+<%
+/**
+ * Homepage / Index template.
+ * Displays posts in a three-column grid layout with optional sidebars.
+ *
+ * Layout: Left Sidebar | Main Content (posts) | Right Sidebar
+ *
+ * Variables available:
+ *   page       - current paginated page (Hexo)
+ *   site       - Hexo site object
+ *   config     - Hexo site configuration
+ *   theme      - theme _config.yml values
+ *   __()       - i18n function
+ */
+var sidebar = theme.sidebar || {};
+var sidebarPosition = sidebar.position || 'both';
+var showLeftSidebar = sidebarPosition === 'both' || sidebarPosition === 'left';
+var showRightSidebar = sidebarPosition === 'both' || sidebarPosition === 'right';
+var gridClass = 'has-no-sidebar';
+if (showLeftSidebar && showRightSidebar) {
+  gridClass = 'has-both-sidebars';
+} else if (showLeftSidebar) {
+  gridClass = 'has-left-sidebar';
+} else if (showRightSidebar) {
+  gridClass = 'has-right-sidebar';
+}
+var postListDefault = theme.post_list_layout && theme.post_list_layout.default_mode || 'list';
+%>
+
+<div id="main-grid" class="main-grid-layout <%= gridClass %>">
+  <!-- ===== Left Sidebar ===== -->
+  <% if (showLeftSidebar) { %>
+  <aside class="sidebar-left" aria-label="<%= __('sidebar.left') %>">
+    <%- partial('_partials/post/sidebar-left') %>
+  </aside>
+  <% } %>
+
+  <!-- ===== Main Content ===== -->
+  <main
+    id="main-content"
+    class="post-list-container"
+    data-layout="<%= postListDefault %>"
+    aria-label="<%= __('post_list') %>"
+  >
+    <%- partial('_partials/post/content-nav') %>
+    <!-- Category navigation bar at top (if enabled) -->
+    <% if (theme.category_bar && theme.category_bar.enable && !page.hide) { %>
+    <div class="category-bar-container">
+      <%- partial('_partials/post/category-bar') %>
+    </div>
+    <% } %>
+
+    <!-- Page title (shown on paginated pages > 1 or when configured) -->
+    <% if (page.current > 1 || (theme.index && theme.index.show_title)) { %>
+    <h1 class="page-title">
+      <%= __('home') %>
+      <% if (page.total > 1) { %>
+        <span class="page-title-pagination">
+          (<%= page.current %> / <%= page.total %>)
+        </span>
+      <% } %>
+    </h1>
+    <% } %>
+
+    <!-- Post list -->
+    <div class="post-list" data-mode="<%= postListDefault %>">
+      <% if (page.posts && page.posts.length > 0) { %>
+        <% page.posts.each(function(post) { %>
+          <%- partial('_partials/post/post-card', { post: post }) %>
+        <% }); %>
+      <% } else { %>
+      <div class="post-list-empty">
+        <p><%= __('no_posts') %></p>
+      </div>
+      <% } %>
+    </div>
+
+    <!-- Pagination -->
+    <%- partial('_partials/paginator') %>
+  </main>
+
+  <!-- ===== Right Sidebar ===== -->
+  <% if (showRightSidebar) { %>
+  <aside class="sidebar-right" aria-label="<%= __('sidebar.right') %>">
+    <%- partial('_partials/post/sidebar-right') %>
+  </aside>
+  <% } %>
+
+  <%- partial('_partials/footer') %>
+</div>

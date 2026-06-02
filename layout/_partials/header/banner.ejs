@@ -1,0 +1,225 @@
+<%
+var wallpaperMode = theme.wallpaper.mode || 'banner';
+var bannerImages = theme.wallpaper.src || [];
+var wallpaperDimOpacity = theme.wallpaper.dim_opacity || 0.45;
+var bannerSwitchInterval = theme.wallpaper.banner_switch_interval || 5000;
+var bannerEnableCarousel = theme.wallpaper.enable_carousel !== false;
+var showScrollDown = theme.wallpaper.show_scroll_down !== false;
+var scrollDownText = theme.wallpaper.scroll_down_text || __('scroll_down') || 'Scroll Down';
+var isHome = is_home();
+var isPost = is_post();
+
+/*
+if (isPost && (page.cover || page.thumbnail || page.index_img || page.banner_img)) {
+  var postCover = page.cover || page.thumbnail || page.index_img || page.banner_img;
+  bannerImages = [{
+    desktop: postCover,
+    mobile: postCover,
+    alt: page.title || 'Post Cover'
+  }];
+}
+*/
+%>
+
+<div id="wallpaper-wrapper">
+  <% if (wallpaperMode === 'banner') { %>
+  <!-- Banner Mode: Image slides with Ken Burns effect -->
+  <div id="banner-images" class="banner-images-container" data-interval="<%= bannerSwitchInterval %>">
+    <% if (bannerImages && bannerImages.length > 0) { %>
+      <% bannerImages.forEach(function(img, index) { %>
+      <div class="banner-image-slide<%= index === 0 ? ' active' : '' %>" data-index="<%= index %>">
+        <% if (img.desktop) { %>
+        <picture>
+          <% if (img.mobile) { %>
+          <source media="(max-width: 768px)" srcset="<%= url_for(img.mobile) %>">
+          <% } %>
+          <img src="<%= url_for(img.desktop) %>" alt="<%= img.alt || 'Banner ' + (index + 1) %>"
+               class="banner-img banner-img-desktop"
+               data-object-position="<%= img.object_position || 'center center' %>"
+               loading="<%= index === 0 ? 'eager' : 'lazy' %>">
+        </picture>
+        <% } else if (img.src) { %>
+        <img src="<%= url_for(img.src) %>" alt="<%= img.alt || 'Banner ' + (index + 1) %>"
+             class="banner-img"
+             data-object-position="<%= img.object_position || 'center center' %>"
+             loading="<%= index === 0 ? 'eager' : 'lazy' %>">
+        <% } %>
+      </div>
+      <% }); %>
+    <% } else { %>
+      <div class="banner-image-slide active" data-index="0">
+        <img src="<%= url_for('/images/default-banner.jpg') %>" alt="Banner" class="banner-img"
+             data-object-position="center center" loading="eager">
+      </div>
+    <% } %>
+  </div>
+  <% } %>
+
+  <% if (wallpaperMode === 'fullscreen') { %>
+  <!-- Fullscreen Mode: Full viewport background image -->
+  <div id="fullscreen-wallpaper" class="fullscreen-wallpaper">
+    <% if (bannerImages && bannerImages.length > 0) { %>
+      <picture>
+        <% if (bannerImages[0].mobile) { %>
+        <source media="(max-width: 768px)" srcset="<%= url_for(bannerImages[0].mobile) %>">
+        <% } %>
+        <img src="<%= url_for(bannerImages[0].desktop || bannerImages[0].src) %>"
+             alt="<%= bannerImages[0].alt || 'Fullscreen Wallpaper' %>"
+             class="fullscreen-bg-img"
+             data-object-position="<%= bannerImages[0].object_position || 'center center' %>"
+             loading="eager">
+      </picture>
+    <% } %>
+  </div>
+  <% } %>
+
+  <% if (wallpaperMode === 'overlay') { %>
+  <!-- Overlay Mode: Fixed background -->
+  <div id="overlay-wallpaper" class="overlay-wallpaper">
+    <% if (bannerImages && bannerImages.length > 0) { %>
+      <picture>
+        <% if (bannerImages[0].mobile) { %>
+        <source media="(max-width: 768px)" srcset="<%= url_for(bannerImages[0].mobile) %>">
+        <% } %>
+        <img src="<%= url_for(bannerImages[0].desktop || bannerImages[0].src) %>"
+             alt="<%= bannerImages[0].alt || 'Overlay Wallpaper' %>"
+             class="overlay-bg-img"
+             data-object-position="<%= bannerImages[0].object_position || 'center center' %>"
+             loading="eager">
+      </picture>
+    <% } %>
+  </div>
+  <% } %>
+
+  <% if (wallpaperMode === 'none') { %>
+  <!-- No wallpaper - hidden -->
+  <div id="none-wallpaper" style="display: none;"></div>
+  <% } %>
+
+  <!-- Banner Dim Overlay -->
+  <div id="banner-dim-container" style="opacity: <%= wallpaperDimOpacity %>;"></div>
+
+  <!-- Carousel Preload Images (hidden) -->
+  <% if (wallpaperMode === 'banner' && bannerEnableCarousel) { %>
+  <div id="banner-carousel-images" style="display: none;" aria-hidden="true">
+    <% if (bannerImages && bannerImages.length > 1) { %>
+      <% bannerImages.forEach(function(img, index) { %>
+        <% if (index > 0) { %>
+        <img src="<%= url_for(img.desktop || img.src) %>" alt="" loading="lazy">
+        <% } %>
+      <% }); %>
+    <% } %>
+  </div>
+  <% } %>
+
+  <!-- Banner Overlay Container -->
+  <div id="banner-overlay-container">
+    <% if (isHome && (wallpaperMode === 'banner' || wallpaperMode === 'fullscreen')) { %>
+    <!-- Home Page Text Overlay -->
+    <div class="home-text-overlay">
+      <% if (theme.home_text && theme.home_text.title) { %>
+      <h1 class="home-text-title"><%= theme.home_text.title %></h1>
+      <% } else { %>
+      <h1 class="home-text-title"><%= config.title %></h1>
+      <% } %>
+      <% if (theme.home_text && theme.home_text.subtitle) { %>
+      <span class="typewriter home-text-subtitle" data-text="<%= theme.home_text.subtitle %>"><%= theme.home_text.subtitle %></span>
+      <% } %>
+    </div>
+    <% } %>
+
+    <% if (isPost && (wallpaperMode === 'banner' || wallpaperMode === 'fullscreen')) { %>
+    <!-- Post Meta Overlay -->
+    <div class="post-meta-overlay banner-post-meta">
+      <h1 class="post-meta-title"><%= page.title %></h1>
+      <div class="post-meta-info meta-info">
+        <% if (page.date) { %>
+        <span class="post-meta-date">
+          <i class="fa-regular fa-calendar"></i>
+          <%= __('published') %>: <%= date(page.date, 'YYYY-MM-DD') %>
+        </span>
+        <% } %>
+        <% if (page.updated && page.updated !== page.date) { %>
+        <span class="post-meta-updated">
+          <i class="fa-regular fa-pen-to-square"></i>
+          <%= __('updated') %>: <%= date(page.updated, theme.post.updated.date_format || config.date_format || 'YYYY-MM-DD HH:mm') %>
+        </span>
+        <% } %>
+        <% if (page.content && page.content.length > 0) { %>
+        <span class="post-meta-word-count">
+          <i class="fa-regular fa-file-lines"></i>
+          <%= wordcount(page) %> <%= __('word_count') %>
+        </span>
+        <span class="post-meta-reading-time">
+          <i class="fa-regular fa-clock"></i>
+          <%= readingTime(page.content, config.language || 'zh-CN') %>
+        </span>
+        <% } %>
+      </div>
+    </div>
+    <% } %>
+
+    <% if (!isHome && !isPost && (wallpaperMode === 'banner' || wallpaperMode === 'fullscreen' || wallpaperMode === 'overlay')) { %>
+    <!-- Page Title Overlay -->
+    <div class="page-title-overlay">
+      <%
+      var displayTitle = page.title || __('untitled');
+      var displaySubtitle = '';
+      
+      if (is_archive()) {
+        displayTitle = __('archive') || '归档';
+        displaySubtitle = __('archive_post_total', site.posts.length);
+      } else if (is_category()) {
+        displayTitle = page.category;
+        var cat = site.categories.findOne({ name: page.category });
+        displaySubtitle = cat ? __('category.post_count', cat.posts.length) : '';
+      } else if (is_tag()) {
+        displayTitle = page.tag;
+        var tg = site.tags.findOne({ name: page.tag });
+        displaySubtitle = tg ? __('tag.post_count', tg.posts.length) : '';
+      } else if (page.layout === 'categories' || page.path.indexOf('categories') === 0) {
+        displayTitle = __('category.title') || '分类';
+        var allCatsCount = site.categories.filter(function(cat) { return cat.length > 0; }).length;
+        displaySubtitle = __('category.total', allCatsCount);
+      } else if (page.layout === 'tags' || page.path.indexOf('tags') === 0) {
+        displayTitle = __('tag.title') || '标签';
+        var allTagsCount = site.tags.filter(function(tag) { return tag.length > 0; }).length;
+        displaySubtitle = __('tag.total', allTagsCount);
+      }
+      %>
+      <h1 class="page-title"><%= displayTitle %></h1>
+      <% if (displaySubtitle) { %>
+      <div class="page-subtitle"><%= displaySubtitle %></div>
+      <% } %>
+    </div>
+    <% } %>
+  </div>
+
+  <!-- Water Waves SVG (4 layers) -->
+  <svg class="water-waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none">
+    <defs>
+      <path id="wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+    </defs>
+    <g>
+      <use href="#wave-path" x="50" y="0" class="wave-1"/>
+      <use href="#wave-path" x="50" y="4" class="wave-2"/>
+      <use href="#wave-path" x="50" y="7" class="wave-3"/>
+      <use href="#wave-path" x="50" y="10" class="wave-4"/>
+    </g>
+  </svg>
+
+  <!-- Gradient Transition -->
+  <div id="banner-gradient" class="banner-gradient"></div>
+
+  <!-- Scroll Down Indicator (fullscreen mode, homepage only) -->
+  <% if (isHome && wallpaperMode === 'fullscreen' && showScrollDown) { %>
+  <div id="scroll-down-indicator" class="scroll-down-indicator" aria-label="<%= scrollDownText %>">
+    <span class="scroll-down-text"><%= scrollDownText %></span>
+    <div class="scroll-down-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </div>
+  </div>
+  <% } %>
+</div>

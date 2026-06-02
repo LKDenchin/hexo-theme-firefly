@@ -1,0 +1,148 @@
+<%
+var navConfig = theme.nav || {};
+var pagesEnabled = theme.pages || {};
+var isSticky = navConfig.sticky !== false;
+var isTransparent = navConfig.transparent !== false;
+var siteTitle = config.title || 'Firefly';
+var logoUrl = theme.logo ? theme.logo.url : null;
+var logoIcon = theme.logo ? theme.logo.icon : null;
+%>
+
+<nav id="navbar"
+     class="navbar<%= isSticky ? ' sticky' : '' %><%= isTransparent ? ' transparent' : '' %>"
+     data-transparent="<%= isTransparent %>"
+     role="navigation"
+     aria-label="<%= __('main_navigation') || 'Main navigation' %>">
+
+  <div>
+    <div class="navbar-inner">
+    <!-- Left: Logo + Site Title -->
+    <div class="navbar-brand">
+      <a href="<%= url_for('/') %>" class="navbar-logo-link" aria-label="<%= siteTitle %> - <%= __('home') %>">
+        <% if (logoIcon) { %>
+        <span class="navbar-logo-icon"><%= logoIcon %></span>
+        <% } else if (logoUrl) { %>
+        <img src="<%= url_for(logoUrl) %>" alt="<%= siteTitle %>" class="navbar-logo-img" width="32" height="32">
+        <% } %>
+        <span class="navbar-title"><%= siteTitle %></span>
+      </a>
+    </div>
+
+    <!-- Center: Menu Links -->
+    <div class="navbar-menu" id="navbar-menu" role="menubar">
+      <ul class="navbar-links">
+        <!-- Home (LinkPreset.Home) -->
+        <li class="navbar-link-item" role="none">
+          <a href="<%= url_for('/') %>" class="navbar-link<%= is_home() ? ' active' : '' %>" role="menuitem">
+            <i class="fa-solid fa-house"></i>
+            <span><%= __('home') %></span>
+          </a>
+        </li>
+
+        <!-- Archive (LinkPreset.Archive) -->
+        <li class="navbar-link-item" role="none">
+          <a href="<%= url_for('/archives') %>" class="navbar-link<%= page.layout === 'archive' ? ' active' : '' %>" role="menuitem">
+            <i class="fa-solid fa-box-archive"></i>
+            <span><%= __('archive') %></span>
+          </a>
+        </li>
+
+        <!-- Categories -->
+        <li class="navbar-link-item" role="none">
+          <a href="<%= url_for('/categories') %>" class="navbar-link<%= page.layout === 'categories' || page.layout === 'category' ? ' active' : '' %>" role="menuitem">
+            <i class="fa-regular fa-folder"></i>
+            <span><%= __('categories') %></span>
+          </a>
+        </li>
+
+        <!-- Tags -->
+        <li class="navbar-link-item" role="none">
+          <a href="<%= url_for('/tags') %>" class="navbar-link<%= page.layout === 'tags' || page.layout === 'tag' ? ' active' : '' %>" role="menuitem">
+            <i class="fa-solid fa-tags"></i>
+            <span><%= __('tags') %></span>
+          </a>
+        </li>
+
+        <!-- About -->
+        <li class="navbar-link-item" role="none">
+          <a href="<%= url_for('/about') %>" class="navbar-link<%= page.path && page.path.indexOf('about') !== -1 ? ' active' : '' %>" role="menuitem">
+            <i class="fa-solid fa-user"></i>
+            <span><%= __('about') %></span>
+          </a>
+        </li>
+
+        <!-- Friends -->
+        <% if (pagesEnabled.friends && pagesEnabled.friends.enable !== false) { %>
+        <li class="navbar-link-item" role="none">
+          <a href="<%= url_for('/friends') %>" class="navbar-link<%= page.path && page.path.indexOf('friends') !== -1 ? ' active' : '' %>" role="menuitem">
+            <i class="fa-solid fa-users"></i>
+            <span><%= __('friends') || 'Friends' %></span>
+          </a>
+        </li>
+        <% } %>
+
+
+
+        <!-- Custom Nav Links / Dropdown Groups -->
+        <% if (navConfig.links && navConfig.links.length > 0) { %>
+          <% navConfig.links.forEach(function(link) { %>
+            <% if (link.children && link.children.length > 0) { %>
+            <!-- Dropdown Group -->
+            <li class="navbar-link-item navbar-dropdown" role="none">
+              <a href="<%= link.url || '#' %>" class="navbar-link dropdown-toggle" role="menuitem" aria-haspopup="true" aria-expanded="false">
+                <% if (link.icon) { %><i class="<%- fa_icon(link.icon) %>"></i><% } %>
+                <span><%= link.label || link.name || '' %></span>
+                <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+              </a>
+              <ul class="dropdown-menu" role="menu" aria-label="<%= link.label || link.name || '' %> submenu">
+                <% link.children.forEach(function(child) { %>
+                <li role="none">
+                  <a href="<%= child.url %>" class="dropdown-item" role="menuitem"<%= child.external ? ' target="_blank" rel="noopener noreferrer"' : '' %>>
+                    <% if (child.icon) { %><i class="<%- fa_icon(child.icon) %>"></i><% } %>
+                    <span><%= child.label || child.name || '' %></span>
+                  </a>
+                </li>
+                <% }); %>
+              </ul>
+            </li>
+            <% } else { %>
+            <!-- Single Link -->
+            <li class="navbar-link-item" role="none">
+              <a href="<%= link.url %>" class="navbar-link" role="menuitem"<%= link.external ? ' target="_blank" rel="noopener noreferrer"' : '' %>>
+                <% if (link.icon) { %><i class="<%- fa_icon(link.icon) %>"></i><% } %>
+                <span><%= link.label || link.name || '' %></span>
+              </a>
+            </li>
+            <% } %>
+          <% }); %>
+        <% } %>
+      </ul>
+    </div>
+
+    <!-- Right Side Buttons -->
+    <div class="navbar-actions">
+      <!-- Theme Toggle (Light/Dark/System) -->
+      <button id="theme-toggle" class="navbar-action-btn theme-switch-btn" aria-label="<%= __('toggle_theme') || 'Toggle theme' %>" title="<%= __('toggle_theme') || 'Toggle theme' %>">
+        <i class="fa-solid fa-sun theme-icon-light sun-icon"></i>
+        <i class="fa-solid fa-moon theme-icon-dark moon-icon"></i>
+      </button>
+
+      <!-- Display Settings Toggle -->
+      <button id="display-settings-toggle" class="navbar-action-btn display-settings-toggle" aria-label="<%= __('display_settings') || 'Display settings' %>" title="<%= __('display_settings') || 'Display settings' %>">
+        <i class="fa-solid fa-gear"></i>
+      </button>
+
+      <!-- Search Toggle -->
+      <button id="search-toggle" class="navbar-action-btn search-toggle-btn" aria-label="<%= __('search') || 'Search' %>" title="<%= __('search') || 'Search' %>">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+
+      <!-- Mobile Hamburger Menu -->
+      <button id="mobile-menu-toggle" class="navbar-action-btn mobile-menu-btn" aria-label="<%= __('toggle_menu') || 'Toggle menu' %>" aria-expanded="false" aria-controls="navbar-menu">
+        <i class="fa-solid fa-bars hamburger-icon"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+</nav>

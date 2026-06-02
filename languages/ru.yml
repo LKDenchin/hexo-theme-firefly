@@ -1,0 +1,186 @@
+# Navigation
+home: Главная
+about: О себе
+archive: Архив
+search: Поиск
+tags: Теги
+categories: Категории
+friends: Друзья
+guestbook: Гостевая
+sponsor: Спонсор
+bangumi: Бангуми
+gallery: Галерея
+links: Ссылки
+
+# Post
+published: Опубликовано
+updated: Обновлено
+read_more: Читать далее
+word_count: слов
+reading_time: мин. чтения
+min_read: мин.
+prev: Предыдущая
+next: Следующая
+related_posts: Похожие записи
+last_modified: Последнее изменение
+outdated: Эта запись может быть устаревшей
+pinned: Закреплено
+draft: Черновик
+encrypted: Зашифровано
+no_posts: Нет записей
+
+# Comments
+comments: Комментарии
+no_comments: Комментариев пока нет
+load_comments: Загрузить комментарии
+
+# Sidebar & Widgets
+profile: Профиль
+announcement: Объявление
+site_stats: Статистика сайта
+total_posts: Всего записей
+total_categories: Категорий
+total_tags: Тегов
+running_days: Дней работы
+calendar: Календарь
+music: Музыка
+advertisement: Реклама
+no_categories: Нет категорий
+no_tags: Нет тегов
+
+# Theme & Display
+theme_color: Цвет темы
+hue: Оттенок
+light: Светлая
+dark: Тёмная
+system: Системная
+wallpaper_mode: Режим обоев
+banner: Баннер
+fullscreen: Полный экран
+overlay: Наложение
+none: Нет
+overlay_settings: Настройки наложения
+opacity: Прозрачность обоев
+blur: Размытие фона
+card_opacity: Прозрачность карточек
+features: Функции
+water_waves: Водяные волны
+gradient: Градиент
+banner_title: Заголовок баннера
+sakura: Эффект сакуры
+banner_carousel: Карусель баннеров
+post_layout: Макет записей
+layout_mode: Режим макета
+list: Список
+grid: Сетка
+reset: Сброс
+display_settings: Настройки отображения
+
+# Search
+search_placeholder: Поиск записей...
+search_hint: Введите для поиска
+no_results: Ничего не найдено
+search_results: Результаты поиска
+
+# Pagination
+prev_page: Предыдущая
+next_page: Следующая
+page: Страница
+
+# Footer
+copyright: Авторские права
+license: Лицензия
+powered_by: Работает на
+rss: RSS-лента
+sitemap: Карта сайта
+
+# 404
+page_not_found: Страница не найдена
+back_home: На главную
+not_found_msg: Извините, страница, которую вы ищете, не существует или была удалена.
+
+# Misc
+share: Поделиться
+copy_link: Скопировать ссылку
+top: Наверх
+loading: Загрузка...
+close: Закрыть
+copy_code: Копировать код
+confirm: Подтвердить
+cancel: Отмена
+error: Ошибка
+success: Успешно
+warning: Предупреждение
+info: Информация
+tip: Подсказка
+note: Примечание
+danger: Опасно
+caution: Внимание
+
+# Time
+days: дн.
+hours: ч.
+minutes: мин.
+seconds: сек.
+ago: назад
+
+# Actions
+download: Скачать
+view_all: Смотреть всё
+show_more: Показать больше
+show_less: Свернуть
+expand: Развернуть
+collapse: Свернуть
+
+# Archive
+archive_post_total: "Всего %d записей"
+archive_empty: "Записей пока нет"
+
+# Calendar
+calendar_january: "Январь"
+calendar_february: "Февраль"
+calendar_march: "Март"
+calendar_april: "Апрель"
+calendar_may: "Май"
+calendar_june: "Июнь"
+calendar_july: "Июль"
+calendar_august: "Август"
+calendar_september: "Сентябрь"
+calendar_october: "Октябрь"
+calendar_november: "Ноябрь"
+calendar_december: "Декабрь"
+calendar_sunday: "Вс"
+calendar_monday: "Пн"
+calendar_tuesday: "Вт"
+calendar_wednesday: "Ср"
+calendar_thursday: "Чт"
+calendar_friday: "Пт"
+calendar_saturday: "Сб"
+calendar_year: "Год"
+
+# Misc text
+license_text: "Это произведение доступно по лицензии CC BY-NC-SA 4.0"
+by: "от"
+visitors: "посетителей"
+views: "просмотров"
+
+category:
+  breadcrumb: Путь категорий
+  title: Название категории
+  post_count: "%d записей"
+  total: "Всего %d категорий"
+  no_posts: Нет записей
+  empty: Нет категорий
+
+post:
+  toc: Содержание
+  license: Лицензия
+  share: Поделиться
+  navigation: Навигация по записям
+  prev_post: Предыдущая запись
+  next_post: Следующая запись
+  related_posts: Похожие записи
+  last_modified: "Последнее изменение %s"
+  meta:
+    wordcount: "%d слов"
+  updated: "Обновлено %s"

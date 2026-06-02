@@ -1,0 +1,21 @@
+<% if (theme.comments.type === 'artalk' && theme.comments.artalk) { %>
+<div class="comments-container">
+  <div class="comments-title"><%= __('comments') %></div>
+  <div id="artalk"></div>
+  <script>
+    (function() {
+      var artalk = document.createElement('script');
+      artalk.src = '<%= theme.comments.artalk.server %>/dist/Artalk.js';
+      artalk.onload = function() {
+        Artalk.init({
+          el: '#artalk',
+          server: '<%= theme.comments.artalk.server %>',
+          locale: '<%= theme.comments.artalk.locale || config.language %>',
+          darkMode: 'auto'
+        });
+      };
+      document.head.appendChild(artalk);
+    })();
+  </script>
+</div>
+<% } %>

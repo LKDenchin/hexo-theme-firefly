@@ -1,0 +1,315 @@
+/* ============================================================
+   code.css
+   Code highlighting and code block UI for Firefly Hexo theme
+   ============================================================ */
+
+/* Hexo figure.highlight wrapper */
+figure.highlight {
+  margin: 1rem 0;
+  border-radius: var(--radius-large);
+  overflow: hidden;
+  border: 1px solid var(--line-divider);
+  background: var(--btn-regular-bg);
+  position: relative;
+}
+figure.highlight table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+figure.highlight .gutter {
+  width: 2.5rem;
+  text-align: right;
+  padding: 0;
+  border-right: 1px solid var(--line-divider);
+  user-select: none;
+}
+figure.highlight .gutter pre {
+  padding: 1rem 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--text-tertiary);
+  background: transparent;
+  margin: 0;
+}
+figure.highlight .code {
+  padding: 0;
+}
+figure.highlight .code pre {
+  padding: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: transparent;
+  margin: 0;
+  overflow-x: auto;
+}
+
+/* Code block wrapper (for our JS-injected wrapper) */
+.code-block-wrapper {
+  position: relative;
+  margin: 1rem 0;
+  border-radius: var(--radius-large);
+  overflow: hidden;
+  border: 1px solid var(--line-divider);
+  background: var(--btn-regular-bg);
+}
+.code-block-wrapper pre {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+.code-block-wrapper figure.highlight {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+}
+
+/* Language badge */
+.code-language-badge {
+  position: absolute;
+  top: 0;
+  right: 0.5rem;
+  padding: 0.125rem 0.5rem;
+  background: var(--btn-regular-bg);
+  border-radius: 0 0 var(--radius-small) var(--radius-small);
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+
+/* Copy button */
+.code-copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--line-divider);
+  border-radius: var(--radius-small);
+  background: var(--card-bg);
+  color: var(--text-tertiary);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+  opacity: 0;
+  z-index: 5;
+}
+figure.highlight:hover .code-copy-btn { opacity: 1; }
+.code-block-wrapper:hover .code-copy-btn { opacity: 1; }
+.code-copy-btn:hover { color: var(--primary); border-color: var(--primary); }
+.code-copy-btn.copied { color: oklch(0.65 0.15 140); border-color: oklch(0.65 0.15 140); }
+
+/* Collapsible code */
+.code-collapsible {
+  position: relative;
+}
+.code-collapsible .code-overflow-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4rem;
+  background: linear-gradient(to bottom, transparent, var(--card-bg));
+  pointer-events: none;
+}
+.code-collapsible .code-expand-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  width: 100%;
+  border: none;
+  background: var(--btn-regular-bg);
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+.code-collapsible .code-expand-btn:hover {
+  background: var(--btn-plain-bg-hover);
+  color: var(--primary);
+}
+.code-collapsible.expanded .code-overflow-gradient { display: none; }
+.code-collapsible.expanded .code-expand-btn { display: none; }
+
+/* Highlight.js themes integration */
+pre code.hljs { display: block; overflow-x: auto; padding: 1rem; }
+
+/* Diff / line numbers */
+/* Diff / line numbers */
+.hljs-ln { border-collapse: collapse; }
+.hljs-ln td { padding: 0 0.5rem; }
+.hljs-ln-numbers {
+  text-align: right;
+  color: var(--text-tertiary);
+  border-right: 1px solid var(--line-divider);
+  user-select: none;
+}
+
+/* ============================================================
+   Syntax Highlighting Colors (OKLCH-based)
+   Supports Hexo server-side highlight and Highlight.js classes
+   ============================================================ */
+
+/* Comments & punctuation */
+figure.highlight .comment,
+.hljs-comment,
+figure.highlight .quote,
+.hljs-quote {
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+/* Keywords */
+figure.highlight .keyword,
+.hljs-keyword,
+figure.highlight .selector-tag,
+.hljs-selector-tag,
+figure.highlight .addition,
+.hljs-addition {
+  color: oklch(0.55 0.18 10); /* rich red/pink */
+  font-weight: 600;
+}
+.dark figure.highlight .keyword,
+.dark .hljs-keyword,
+.dark figure.highlight .selector-tag,
+.dark .hljs-selector-tag,
+.dark figure.highlight .addition,
+.dark .hljs-addition {
+  color: oklch(0.70 0.16 10); /* bright red/pink */
+}
+
+/* Strings */
+figure.highlight .string,
+.hljs-string,
+figure.highlight .meta .string,
+.hljs-meta .string,
+figure.highlight .doctag,
+.hljs-doctag {
+  color: oklch(0.48 0.14 140); /* rich green */
+}
+.dark figure.highlight .string,
+.dark .hljs-string,
+.dark figure.highlight .meta .string,
+.dark .hljs-meta .string,
+.dark figure.highlight .doctag,
+.dark .hljs-doctag {
+  color: oklch(0.75 0.14 140); /* bright green */
+}
+
+/* Numbers & Literals */
+figure.highlight .number,
+.hljs-number,
+figure.highlight .literal,
+.hljs-literal,
+figure.highlight .variable,
+.hljs-variable,
+figure.highlight .template-variable,
+.hljs-template-variable {
+  color: oklch(0.50 0.15 65); /* rich orange/yellow */
+}
+.dark figure.highlight .number,
+.dark .hljs-number,
+.dark figure.highlight .literal,
+.dark .hljs-literal,
+.dark figure.highlight .variable,
+.dark .hljs-variable,
+.dark figure.highlight .template-variable,
+.dark .hljs-template-variable {
+  color: oklch(0.72 0.15 65); /* bright orange */
+}
+
+/* Titles, Function Names, Classes */
+figure.highlight .title,
+.hljs-title,
+figure.highlight .attr,
+.hljs-attr,
+figure.highlight .attribute,
+.hljs-attribute,
+figure.highlight .section,
+.hljs-section,
+figure.highlight .name,
+.hljs-name {
+  color: oklch(0.48 0.16 260); /* rich blue */
+}
+.dark figure.highlight .title,
+.dark .hljs-title,
+.dark figure.highlight .attr,
+.dark .hljs-attr,
+.dark figure.highlight .attribute,
+.dark .hljs-attribute,
+.dark figure.highlight .section,
+.dark .hljs-section,
+.dark figure.highlight .name,
+.dark .hljs-name {
+  color: oklch(0.72 0.14 260); /* bright blue */
+}
+
+/* Built-ins, Types */
+figure.highlight .built_in,
+.hljs-built_in,
+figure.highlight .type,
+.hljs-type,
+figure.highlight .class,
+.hljs-class,
+figure.highlight .selector-class,
+.hljs-selector-class,
+figure.highlight .selector-id,
+.hljs-selector-id {
+  color: oklch(0.46 0.15 200); /* rich teal/cyan */
+}
+.dark figure.highlight .built_in,
+.dark .hljs-built_in,
+.dark figure.highlight .type,
+.dark .hljs-type,
+.dark figure.highlight .class,
+.dark .hljs-class,
+.dark figure.highlight .selector-class,
+.dark .hljs-selector-class,
+.dark figure.highlight .selector-id,
+.dark .hljs-selector-id {
+  color: oklch(0.70 0.15 200); /* bright teal */
+}
+
+/* Regexp & Special Characters */
+figure.highlight .regexp,
+.hljs-regexp,
+figure.highlight .link,
+.hljs-link,
+figure.highlight .meta,
+.hljs-meta,
+figure.highlight .symbol,
+.hljs-symbol,
+figure.highlight .bullet,
+.hljs-bullet {
+  color: oklch(0.48 0.16 330); /* rich magenta */
+}
+.dark figure.highlight .regexp,
+.dark .hljs-regexp,
+.dark figure.highlight .link,
+.dark .hljs-link,
+.dark figure.highlight .meta,
+.dark .hljs-meta,
+.dark figure.highlight .symbol,
+.dark .hljs-symbol,
+.dark figure.highlight .bullet,
+.dark .hljs-bullet {
+  color: oklch(0.72 0.16 330); /* bright magenta */
+}
+
+/* Deletions (diff blocks) */
+figure.highlight .deletion,
+.hljs-deletion {
+  color: oklch(0.50 0.18 20); /* rich dark red */
+  background: oklch(0.50 0.18 20 / 0.1);
+  display: inline-block;
+  width: 100%;
+}
+.dark figure.highlight .deletion,
+.dark .hljs-deletion {
+  color: oklch(0.70 0.16 20); /* bright red */
+  background: oklch(0.70 0.16 20 / 0.15);
+}

@@ -1,0 +1,48 @@
+<%
+/**
+ * Archive page - lists all posts grouped by year.
+ *
+ * Variables:
+ *   page       - paginated page containing posts
+ *   site       - Hexo site object
+ *   config     - Hexo site configuration
+ *   theme      - theme _config.yml values
+ */
+%>
+
+<div id="main-grid" class="main-grid-layout has-no-sidebar">
+  <main id="main-content" class="archive-container full-width">
+    <%- partial('_partials/post/content-nav') %>
+
+
+    <div class="archive-list">
+      <% var cursorYear = 0; %>
+      <% if (page.posts && page.posts.length > 0) { %>
+        <% page.posts.each(function(post) { %>
+          <% var postYear = date(post.date, 'YYYY'); %>
+          <% if (postYear !== cursorYear) { cursorYear = postYear; %>
+          <h2 class="archive-year" id="year-<%= cursorYear %>">
+            <%= cursorYear %>
+          </h2>
+          <% } %>
+          <div class="archive-item">
+            <time datetime="<%= date(post.date, 'YYYY-MM-DD') %>" pubdate class="archive-item-date">
+              <%- date(post.date, 'MM-DD') %>
+            </time>
+            <a href="<%= url_for(post.path) %>" class="archive-item-title">
+              <%= post.title %>
+            </a>
+          </div>
+        <% }); %>
+      <% } else { %>
+      <div class="archive-empty">
+        <p><%= __('archive_empty') %></p>
+      </div>
+      <% } %>
+    </div>
+
+    <%- partial('_partials/paginator') %>
+  </main>
+
+  <%- partial('_partials/footer') %>
+</div>

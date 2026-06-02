@@ -1,0 +1,190 @@
+<%
+/**
+ * Single post page template.
+ *
+ * Layout: Left Sidebar (TOC/category bar) | Main Content (article) | Right Sidebar (TOC/floating TOC)
+ *
+ * Variables available:
+ *   page       - current post page
+ *   site       - Hexo site object
+ *   config     - Hexo site configuration
+ *   theme      - theme _config.yml values
+ *   post       - alias for page (Hexo convention)
+ *   __()       - i18n function
+ */
+var post = page;
+var tocConfig = theme.post && theme.post.toc || {};
+var categoryBarConfig = theme.post && theme.post.category_bar || {};
+var showToc = tocConfig.enable && post.toc !== false;
+
+// Determine sidebar positions
+var sidebar = theme.sidebar || {};
+var sidebarPosition = sidebar.position || 'both';
+var showLeftSidebar = sidebarPosition === 'both' || sidebarPosition === 'left';
+var showRightSidebar = sidebarPosition === 'both' || sidebarPosition === 'right';
+
+// TOC placement
+var tocPlacement = tocConfig.placement || 'right';
+var tocInLeft = showToc && tocPlacement === 'left';
+var tocInRight = showToc && tocPlacement !== 'left';
+var tocFloating = showToc && tocConfig.floating !== false;
+
+// Category bar placement for post
+var catBarPlacement = categoryBarConfig.placement || 'left';
+var showCatBarInLeft = showLeftSidebar && categoryBarConfig.enable && catBarPlacement !== 'right' && !post.hide;
+var showCatBarInRight = showRightSidebar && categoryBarConfig.enable && catBarPlacement === 'right' && !post.hide;
+
+var actualLeft = (showLeftSidebar || tocInLeft || showCatBarInLeft);
+var actualRight = (showRightSidebar || tocInRight || showCatBarInRight);
+var gridClass = 'has-no-sidebar';
+if (actualLeft && actualRight) {
+  gridClass = 'has-both-sidebars';
+} else if (actualLeft) {
+  gridClass = 'has-left-sidebar';
+} else if (actualRight) {
+  gridClass = 'has-right-sidebar';
+}
+%>
+
+<div id="main-grid" class="main-grid-layout <%= gridClass %>">
+  <!-- ===== Left Sidebar ===== -->
+  <% if (showLeftSidebar || tocInLeft || showCatBarInLeft) { %>
+  <aside class="sidebar-left" aria-label="<%= __('sidebar.left') %>">
+    <% if (showLeftSidebar) { %>
+      <%- partial('_partials/post/sidebar-left') %>
+    <% } %>
+    <% if (tocInLeft) { %>
+      <%- partial('_partials/post/toc') %>
+    <% } %>
+    <% if (showCatBarInLeft) { %>
+      <%- partial('_partials/post/category-bar') %>
+    <% } %>
+  </aside>
+  <% } %>
+
+  <!-- ===== Main Content ===== -->
+  <main id="main-content" aria-label="<%= __('article') %>">
+    <%- partial('_partials/post/content-nav') %>
+    <article class="post-container" itemscope itemtype="http://schema.org/Article">
+
+
+      <div class="post-content-card">
+        <!-- Post meta top: title, date, author, reading time, word count, categories -->
+        <%- partial('_partials/post/meta-top') %>
+
+        <% if (post.cover || post.thumbnail || post.index_img || post.banner_img) { %>
+        <% var coverImg = post.cover || post.thumbnail || post.index_img || post.banner_img; %>
+        <div class="post-cover">
+          <img src="<%= url_for(coverImg) %>" alt="<%= post.title %>" itemprop="image">
+        </div>
+        <% } %>
+
+        <!-- Post content -->
+        <div
+          class="post-content markdown-body custom-md"
+          itemprop="articleBody"
+        >
+          <%- post.content %>
+        </div>
+
+        <!-- Post license / copyright -->
+        <% if (theme.post && theme.post.copyright && theme.post.copyright.enable && post.copyright !== false) { %>
+          <%- partial('_partials/post/copyright') %>
+        <% } %>
+
+        <!-- Post meta bottom: tags, last modified -->
+        <%- partial('_partials/post/meta-bottom') %>
+      </div>
+
+      <!-- Share buttons -->
+      <% if (theme.post && theme.post.share && theme.post.share.enable) { %>
+      <div class="post-share">
+        <span class="post-share-label"><%= __('post.share') %></span>
+        <div class="post-share-buttons">
+          <% if (theme.post.share.twitter !== false) { %>
+          <a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(post.title) %>&url=<%= encodeURIComponent(post.permalink) %>"
+             target="_blank" rel="noopener noreferrer" class="share-btn share-twitter" aria-label="Share on Twitter">
+            <i class="fa-brands fa-twitter"></i>
+          </a>
+          <% } %>
+          <% if (theme.post.share.facebook !== false) { %>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(post.permalink) %>"
+             target="_blank" rel="noopener noreferrer" class="share-btn share-facebook" aria-label="Share on Facebook">
+            <i class="fa-brands fa-facebook"></i>
+          </a>
+          <% } %>
+          <% if (theme.post.share.weibo !== false) { %>
+          <a href="https://service.weibo.com/share/share.php?title=<%= encodeURIComponent(post.title) %>&url=<%= encodeURIComponent(post.permalink) %>"
+             target="_blank" rel="noopener noreferrer" class="share-btn share-weibo" aria-label="Share on Weibo">
+            <i class="fa-brands fa-weibo"></i>
+          </a>
+          <% } %>
+        </div>
+      </div>
+      <% } %>
+
+      <!-- Prev / Next post navigation -->
+      <% if (theme.post && theme.post.prev_next && theme.post.prev_next.enable !== false) { %>
+      <nav class="post-navigation" aria-label="<%= __('post.navigation') %>">
+        <div class="post-nav-item post-nav-prev">
+          <% if (post.prev) { %>
+          <a href="<%= url_for(post.prev.path) %>" rel="prev" title="<%= post.prev.title %>">
+            <span class="nav-label"><%= __('post.prev_post') %></span>
+            <span class="nav-title"><%= post.prev.title %></span>
+          </a>
+          <% } %>
+        </div>
+        <div class="post-nav-item post-nav-next">
+          <% if (post.next) { %>
+          <a href="<%= url_for(post.next.path) %>" rel="next" title="<%= post.next.title %>">
+            <span class="nav-label"><%= __('post.next_post') %></span>
+            <span class="nav-title"><%= post.next.title %></span>
+          </a>
+          <% } %>
+        </div>
+      </nav>
+      <% } %>
+
+      <!-- Related posts -->
+      <% if (theme.post && theme.post.related && theme.post.related.enable) { %>
+      <div class="related-posts">
+        <h3 class="related-posts-title"><%= __('post.related_posts') %></h3>
+        <div class="related-posts-grid">
+          <%- related_posts({ maxCount: theme.post.related.maxCount || 6 }) %>
+        </div>
+      </div>
+      <% } %>
+    </article>
+
+    <!-- Comments section -->
+    <% if (theme.comments && theme.comments.type && theme.comments.type !== 'none' && post.comments !== false) { %>
+    <section class="post-comments" aria-label="<%= __('comments') %>">
+      <%- partial('_partials/comments/' + theme.comments.type) %>
+    </section>
+    <% } %>
+  </main>
+
+  <!-- ===== Right Sidebar ===== -->
+  <% if (showRightSidebar || tocInRight || showCatBarInRight) { %>
+  <aside class="sidebar-right" aria-label="<%= __('sidebar.right') %>">
+    <% if (showRightSidebar) { %>
+      <%- partial('_partials/post/sidebar-right') %>
+    <% } %>
+    <% if (tocInRight) { %>
+      <%- partial('_partials/post/toc') %>
+    <% } %>
+    <% if (showCatBarInRight) { %>
+      <%- partial('_partials/post/category-bar') %>
+    <% } %>
+  </aside>
+  <% } %>
+
+  <!-- Floating TOC (always available via JS, appears as a floating widget on scroll) -->
+  <% if (tocFloating && !tocInLeft && !tocInRight) { %>
+  <div class="toc-floating">
+    <%- partial('_partials/post/toc') %>
+  </div>
+  <% } %>
+
+  <%- partial('_partials/footer') %>
+</div>

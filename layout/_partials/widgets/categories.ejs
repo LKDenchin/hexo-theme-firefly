@@ -1,0 +1,27 @@
+<div class="widget categories-widget">
+  <div class="widget-header"><%= __('categories') %></div>
+  <div class="widget-body">
+    <%
+    var categories = site.categories;
+    var collapseThreshold = theme.sidebar.left_components.find(function(c) { return c.type === 'categories'; })?.collapse_threshold || 10;
+    if (categories && categories.length) {
+      var sortedCategories = categories.sort('length', -1).toArray();
+      var displayCategories = sortedCategories.slice(0, collapseThreshold);
+      displayCategories.forEach(function(cat) {
+    %>
+    <div class="category-item">
+      <a href="<%= url_for(cat.path) %>"><%= cat.name %></a>
+      <span class="category-count"><%= cat.posts.length %></span>
+    </div>
+    <% }); %>
+    <% if (categories.length > collapseThreshold) { %>
+    <div class="category-more-container" style="display: flex; justify-content: center; margin-top: 0.75rem;">
+      <a href="<%= url_for('/categories/') %>" style="color: var(--primary); font-size: 0.875rem; font-weight: 600; text-decoration: none;" class="category-more-btn">••• 更多</a>
+    </div>
+    <% } %>
+    <%
+    } else { %>
+    <div class="text-50"><%= __('no_categories') %></div>
+    <% } %>
+  </div>
+</div>

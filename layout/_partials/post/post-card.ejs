@@ -1,0 +1,95 @@
+<%
+/**
+ * Post card component used in index and archive pages.
+ * Supports both 'list' and 'grid' layout modes via CSS.
+ * The parent container sets data-layout attribute.
+ */
+var postUrl = url_for(post.path);
+var coverImg = post.cover || post.thumbnail || post.index_img || post.banner_img || (theme.post && theme.post.default_index_img) || '';
+var isPinned = post.pinned || (typeof post.sticky !== 'undefined' && post.sticky > 0);
+var excerpt = post.description;
+if (!excerpt) {
+  var raw = post.excerpt || post.content || '';
+  excerpt = strip_html(raw).substring(0, 200).trim();
+}
+var categories = post.categories || [];
+var tags = post.tags || [];
+%>
+
+<article class="post-card-item card-base" data-pinned="<%= isPinned %>" data-has-cover="<%= !!coverImg %>">
+  <!-- Cover image area -->
+  <% if (coverImg) { %>
+  <div class="post-card-cover">
+    <a href="<%= postUrl %>" aria-hidden="true" tabindex="-1">
+      <img
+        src="<%= url_for(coverImg) %>"
+        alt="<%= post.title %>"
+        loading="lazy"
+      >
+    </a>
+  </div>
+  <% } %>
+
+  <!-- Content area -->
+  <div class="post-card-content">
+    <!-- Title -->
+    <h2 class="post-card-title">
+      <a href="<%= postUrl %>"><%= post.title %></a>
+    </h2>
+
+    <!-- Meta line: date, category -->
+    <div class="post-card-meta">
+      <% if (isPinned) { %>
+      <span class="pinned-badge-inline">
+        <i class="fa-solid fa-thumbtack"></i>
+        <span><%= __('pinned') %></span>
+      </span>
+      <% } %>
+      <% if (post.date) { %>
+      <time datetime="<%= date(post.date, 'YYYY-MM-DD') %>" pubdate>
+        <i class="fa-regular fa-calendar"></i>
+        <span><%- date(post.date, (theme.post_list_layout && theme.post_list_layout.date_format) || 'YYYY-MM-DD') %></span>
+      </time>
+      <% } %>
+      <% if ((!theme.post_list_layout || theme.post_list_layout.show_category !== false) && categories.length > 0) { %>
+        <% var firstCat = categories.first(); %>
+        <a class="category-badge" href="<%= url_for(firstCat.path) %>">
+          <i class="fa-regular fa-folder"></i>
+          <span><%= firstCat.name %></span>
+        </a>
+      <% } %>
+    </div>
+
+    <!-- Description / excerpt -->
+    <% if (excerpt) { %>
+    <p class="post-card-excerpt"><%= excerpt %></p>
+    <% } %>
+
+    <!-- Footer: tags & reading time -->
+    <div class="post-card-footer">
+      <% if ((!theme.post_list_layout || theme.post_list_layout.show_tags !== false) && tags.length > 0) { %>
+      <div class="post-card-tags">
+        <% tags.each(function(tag) { %>
+          <a href="<%= url_for(tag.path) %>" class="post-tag-item">
+            #<%= tag.name %>
+          </a>
+        <% }); %>
+      </div>
+      <% } %>
+      <% if (!theme.post_list_layout || theme.post_list_layout.show_reading_time !== false) { %>
+      <span class="post-card-reading-time">
+        <%- readingTime(post.content, (theme.post && theme.post.meta && theme.post.meta.min2read) ? theme.post.meta.min2read.language : undefined) %>
+      </span>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Right side chevron panel for coverless cards -->
+  <% if (!coverImg) { %>
+  <div class="post-card-arrow">
+    <a href="<%= postUrl %>" aria-hidden="true" tabindex="-1">
+      <i class="fa-solid fa-chevron-right"></i>
+    </a>
+  </div>
+  <% } %>
+</article>

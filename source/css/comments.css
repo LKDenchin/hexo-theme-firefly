@@ -1,0 +1,27 @@
+/* Comment container */
+.comments-container {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line-divider);
+}
+
+.comments-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Giscus adaptor */
+.giscus-wrapper {
+  margin: 0 auto;
+}
+
+/* Twikoo / Waline / Artalk common */
+#twikoo, #waline, #artalk {
+  margin-top: 1rem;
+}
+
+/* Disqus */
+#disqus_thread {
+  margin-top: 1rem;
+}

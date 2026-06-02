@@ -1,0 +1,507 @@
+/* ==========================================================================
+   Firefly Hexo Theme - navbar.css
+   Navigation bar styles (ported from Firefly's navbar.css).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Navbar Container
+   -------------------------------------------------------------------------- */
+
+#navbar {
+  position: relative;
+  width: 100%;
+  height: var(--navbar-height);
+  z-index: 40;
+  transition: all var(--duration-medium);
+  pointer-events: auto;
+  margin-top: 1rem;
+}
+
+#navbar > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 1.5rem;
+  background: oklch(0.99 0.005 var(--hue) / 0.45) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  transition: all var(--duration-medium);
+  border: 1px solid var(--line-divider) !important;
+  border-radius: var(--radius-large, 12px) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.dark #navbar > div,
+:root.dark #navbar > div,
+html.dark #navbar > div {
+  background: oklch(0.20 0.01 var(--hue) / 0.45) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Transparent Modes
+   -------------------------------------------------------------------------- */
+
+/* Full transparent: navbar is see-through with subtle blur */
+#navbar[data-transparent-mode="full"] > div {
+  background: transparent !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom-color: transparent;
+}
+
+/* Semi transparent: frosted glass effect */
+#navbar[data-transparent-mode="semi"] > div {
+  background: oklch(0.99 0.005 var(--hue) / 0.85);
+  backdrop-filter: blur(var(--navbar-glass-blur));
+  -webkit-backdrop-filter: blur(var(--navbar-glass-blur));
+  border-bottom-color: var(--line-divider);
+}
+
+.dark #navbar[data-transparent-mode="semi"] > div,
+:root.dark #navbar[data-transparent-mode="semi"] > div,
+html.dark #navbar[data-transparent-mode="semi"] > div {
+  background: oklch(0.20 0.01 var(--hue) / 0.85);
+}
+
+/* --------------------------------------------------------------------------
+   Scrolled State
+   -------------------------------------------------------------------------- */
+
+#navbar.scrolled > div {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom-color: var(--line-divider);
+}
+
+/* --------------------------------------------------------------------------
+   Banner mode: navbar is transparent when at top of page
+   -------------------------------------------------------------------------- */
+
+.enable-banner #navbar:not(.scrolled) > div {
+  border-bottom-color: transparent;
+}
+
+/* Light mode transparent navbar defaults */
+.enable-banner #navbar:not(.scrolled) .navbar-links a {
+  color: var(--text-secondary);
+}
+
+.enable-banner #navbar:not(.scrolled) .navbar-links a:hover,
+.enable-banner #navbar:not(.scrolled) .navbar-links a.active {
+  color: var(--primary);
+  background: var(--btn-plain-bg-hover);
+}
+
+.enable-banner #navbar:not(.scrolled) .btn-plain,
+.enable-banner #navbar:not(.scrolled) .navbar-action-btn {
+  color: var(--text-secondary);
+}
+
+.enable-banner #navbar:not(.scrolled) .btn-plain:hover,
+.enable-banner #navbar:not(.scrolled) .navbar-action-btn:hover {
+  color: var(--primary);
+  background: var(--btn-plain-bg-hover);
+}
+
+.enable-banner #navbar:not(.scrolled) .navbar-brand {
+  color: var(--text-primary);
+}
+
+/* Dark mode transparent navbar overrides */
+.dark .enable-banner #navbar:not(.scrolled) .navbar-links a,
+html.dark .enable-banner #navbar:not(.scrolled) .navbar-links a {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dark .enable-banner #navbar:not(.scrolled) .navbar-links a:hover,
+.dark .enable-banner #navbar:not(.scrolled) .navbar-links a.active,
+html.dark .enable-banner #navbar:not(.scrolled) .navbar-links a:hover,
+html.dark .enable-banner #navbar:not(.scrolled) .navbar-links a.active {
+  color: white;
+}
+
+.dark .enable-banner #navbar:not(.scrolled) .btn-plain,
+.dark .enable-banner #navbar:not(.scrolled) .navbar-action-btn,
+html.dark .enable-banner #navbar:not(.scrolled) .btn-plain,
+html.dark .enable-banner #navbar:not(.scrolled) .navbar-action-btn {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dark .enable-banner #navbar:not(.scrolled) .btn-plain:hover,
+.dark .enable-banner #navbar:not(.scrolled) .navbar-action-btn:hover,
+html.dark .enable-banner #navbar:not(.scrolled) .btn-plain:hover,
+html.dark .enable-banner #navbar:not(.scrolled) .navbar-action-btn:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.dark .enable-banner #navbar:not(.scrolled) .navbar-brand,
+html.dark .enable-banner #navbar:not(.scrolled) .navbar-brand {
+  color: white;
+}
+
+/* --------------------------------------------------------------------------
+   Brand / Logo
+   -------------------------------------------------------------------------- */
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+  flex-shrink: 0;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.navbar-brand:hover {
+  color: var(--primary);
+}
+
+.navbar-brand img,
+.navbar-brand-logo {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-small);
+  object-fit: cover;
+}
+
+.navbar-brand-logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Nav Links
+   -------------------------------------------------------------------------- */
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links li {
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius-medium);
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: all var(--duration-fast);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navbar-links a:hover {
+  color: var(--primary);
+  background: var(--btn-plain-bg-hover);
+}
+
+.navbar-links a.active {
+  color: var(--primary);
+}
+
+/* Dropdown arrow icon inside nav links */
+.navbar-links a.has-dropdown::after {
+  content: '';
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-left: 0.125rem;
+  background-color: currentColor;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z'/%3E%3C/svg%3E");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z'/%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  transition: transform var(--duration-fast);
+}
+
+/* --------------------------------------------------------------------------
+   Right Actions Area
+   -------------------------------------------------------------------------- */
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Icon-only buttons inside navbar actions */
+.navbar-actions .btn-plain,
+.navbar-action-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border-radius: var(--radius-medium);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all var(--duration-fast);
+  font-size: inherit;
+  line-height: 1;
+}
+
+.navbar-actions .btn-plain:hover,
+.navbar-action-btn:hover {
+  background: var(--btn-plain-bg-hover);
+  color: var(--primary);
+}
+
+.navbar-actions .btn-plain svg,
+.navbar-actions .btn-plain i,
+.navbar-action-btn svg,
+.navbar-action-btn i {
+  width: 1.25rem;
+  height: 1.25rem;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Theme Switch Icon
+   -------------------------------------------------------------------------- */
+
+.theme-switch-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0.25rem;
+  border-radius: var(--radius-medium);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all var(--duration-fast);
+}
+
+.theme-switch-btn:hover {
+  background: var(--btn-plain-bg-hover);
+  color: var(--primary);
+}
+
+.theme-switch-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.5s ease;
+}
+
+.dark .theme-switch-btn svg {
+  transform: rotate(180deg);
+}
+
+/* Sun/moon icon swap */
+.theme-switch-btn .icon-sun,
+.theme-switch-btn .icon-moon {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.dark .theme-switch-btn .icon-sun {
+  opacity: 0;
+  transform: scale(0.5) rotate(90deg);
+}
+
+.dark .theme-switch-btn .icon-moon {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.theme-switch-btn .icon-sun {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.theme-switch-btn .icon-moon {
+  opacity: 0;
+  transform: scale(0.5) rotate(-90deg);
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Menu Toggle
+   -------------------------------------------------------------------------- */
+
+.mobile-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--radius-medium);
+  color: var(--text-secondary);
+  transition: all var(--duration-fast);
+}
+
+.mobile-menu-btn.visible {
+  display: flex;
+}
+
+.mobile-menu-btn:hover {
+  background: var(--btn-plain-bg-hover);
+  color: var(--primary);
+}
+
+.mobile-menu-btn .hamburger-icon {
+  font-size: 1.2rem;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Menu
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  #navbar {
+    margin-top: 0.5rem;
+    padding: 0 0.5rem;
+  }
+  .navbar-links {
+    display: none;
+  }
+}
+#navbar.mobile-nav .navbar-links {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .navbar-links.open {
+    display: flex !important;
+    flex-direction: column;
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    padding: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--line-divider);
+    max-height: calc(100vh - var(--navbar-height));
+    overflow-y: auto;
+    z-index: 39;
+  }
+  .navbar-links.open a {
+    width: 100%;
+    padding: 0.625rem 1rem;
+    font-size: 1rem;
+    border-radius: var(--radius-medium);
+  }
+  .navbar-links.open a.has-dropdown::after {
+    margin-left: auto;
+  }
+}
+
+#navbar.mobile-nav .navbar-links.open {
+  display: flex !important;
+  flex-direction: column;
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  right: 0;
+  background: var(--card-bg);
+  padding: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--line-divider);
+  max-height: calc(100vh - var(--navbar-height));
+  overflow-y: auto;
+  z-index: 39;
+}
+#navbar.mobile-nav .navbar-links.open a {
+  width: 100%;
+  padding: 0.625rem 1rem;
+  font-size: 1rem;
+  border-radius: var(--radius-medium);
+}
+#navbar.mobile-nav .navbar-links.open a.has-dropdown::after {
+  margin-left: auto;
+}
+
+/* --------------------------------------------------------------------------
+   Search button in navbar
+   -------------------------------------------------------------------------- */
+
+.navbar-search-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius-medium);
+  background: var(--btn-regular-bg);
+  color: var(--text-tertiary);
+  border: none;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  transition: all var(--duration-fast);
+}
+
+.navbar-search-btn:hover {
+  background: var(--btn-regular-bg-hover);
+  color: var(--text-secondary);
+}
+
+.navbar-search-btn svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.navbar-search-btn kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.125rem 0.375rem;
+  font-size: 0.6875rem;
+  font-family: var(--font-mono);
+  border-radius: var(--radius-small);
+  border: 1px solid var(--line-divider);
+  background: var(--card-bg);
+  color: var(--text-tertiary);
+}
+
+/* --------------------------------------------------------------------------
+   Wallpaper transparent navbar
+   -------------------------------------------------------------------------- */
+
+.wallpaper-transparent #navbar > div {
+  background: var(--card-bg-transparent) !important;
+}
+
+.wallpaper-transparent #navbar.scrolled > div {
+  backdrop-filter: blur(calc(var(--navbar-glass-blur) * 2));
+  -webkit-backdrop-filter: blur(calc(var(--navbar-glass-blur) * 2));
+}
+
+/* --------------------------------------------------------------------------
+   Navbar inner max-width constraint
+   -------------------------------------------------------------------------- */
+
+#navbar > div > .navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: var(--page-width);
+  margin: 0 auto;
+  height: 100%;
+}

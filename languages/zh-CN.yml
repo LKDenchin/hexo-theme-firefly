@@ -1,0 +1,212 @@
+# Navigation
+home: 首页
+about: 关于
+archive: 归档
+search: 搜索
+tags: 标签
+categories: 分类
+friends: 友链
+guestbook: 留言板
+sponsor: 赞助
+bangumi: 番组计划
+gallery: 相册
+links: 链接
+
+# Post
+published: 发布于
+updated: 更新于
+read_more: 阅读更多
+word_count: 字
+reading_time: 分钟阅读
+min_read: 分钟
+prev: 上一篇
+next: 下一篇
+related_posts: 相关文章
+last_modified: 最后编辑
+outdated: 这篇文章可能已过时
+pinned: 置顶
+draft: 草稿
+encrypted: 加密文章
+no_posts: 暂无文章
+
+# Comments
+comments: 评论
+no_comments: 暂无评论
+load_comments: 加载评论
+
+# Sidebar & Widgets
+profile: 个人资料
+announcement: 公告栏
+site_stats: 站点统计
+total_posts: 文章
+total_categories: 分类
+total_tags: 标签
+running_days: 运行时长
+total_words: 总字数
+last_active: 最后活动
+posts_unit: 篇
+categories_unit: 个
+tags_unit: 个
+words_unit: 字
+days_unit: 天
+calendar: 日历
+music: 音乐
+advertisement: 广告
+no_categories: 暂无分类
+no_tags: 暂无标签
+
+# Theme & Display
+theme_color: 主题色
+hue: 色相
+light: 浅色
+dark: 深色
+system: 跟随系统
+wallpaper_mode: 壁纸模式
+banner: 横幅模式
+fullscreen: 全屏模式
+overlay: 透明模式
+none: 纯色模式
+overlay_settings: 透明模式设置
+opacity: 壁纸透明度
+blur: 背景模糊度
+card_opacity: 卡片透明度
+features: 功能开关
+water_waves: 水波纹动画
+gradient: 渐变过渡
+banner_title: 横幅标题
+sakura: 樱花特效
+banner_carousel: 横幅轮播
+post_layout: 文章布局
+layout_mode: 布局模式
+list: 列表
+grid: 网格
+reset: 重置
+display_settings: 显示设置
+
+# Search
+search_placeholder: 搜索文章...
+search_hint: 输入关键词搜索
+no_results: 没有找到相关文章
+search_results: 搜索结果
+
+# Pagination
+prev_page: 上一页
+next_page: 下一页
+page: 页
+
+# Footer
+copyright: 版权所有
+license: 许可协议
+powered_by: 技术支持
+rss: RSS 订阅
+sitemap: 站点地图
+
+# 404
+page_not_found: 页面未找到
+back_home: 返回首页
+not_found_msg: 抱歉，您访问的页面不存在或已被移除。
+
+# Misc
+share: 分享
+copy_link: 复制链接
+top: 回到顶部
+loading: 加载中...
+close: 关闭
+copy_code: 复制代码
+confirm: 确认
+cancel: 取消
+error: 出错了
+success: 操作成功
+warning: 警告
+info: 信息
+tip: 提示
+note: 注意
+danger: 危险
+caution: 注意
+
+# Navbar & UI
+toggle_theme: 切换主题
+toggle_wallpaper_mode: 切换壁纸模式
+toggle_menu: 切换菜单
+scroll_down: 向下滚动
+main_navigation: 主导航
+sidebar.left: 左侧边栏
+sidebar.right: 右侧边栏
+post_list: 文章列表
+article: 文章
+untitled: 无标题
+
+# Time
+days: 天
+hours: 小时
+minutes: 分钟
+seconds: 秒
+ago: 前
+
+# Actions
+download: 下载
+view_all: 查看全部
+show_more: 显示更多
+show_less: 收起
+expand: 展开
+collapse: 折叠
+
+# Archive
+archive_post_total: "共计 %d 篇文章"
+archive_empty: "暂无文章"
+
+# Calendar
+calendar_january: "一月"
+calendar_february: "二月"
+calendar_march: "三月"
+calendar_april: "四月"
+calendar_may: "五月"
+calendar_june: "六月"
+calendar_july: "七月"
+calendar_august: "八月"
+calendar_september: "九月"
+calendar_october: "十月"
+calendar_november: "十一月"
+calendar_december: "十二月"
+calendar_sunday: "日"
+calendar_monday: "一"
+calendar_tuesday: "二"
+calendar_wednesday: "三"
+calendar_thursday: "四"
+calendar_friday: "五"
+calendar_saturday: "六"
+calendar_year: "年"
+
+# Misc text
+license_text: "本作品采用 CC BY-NC-SA 4.0 许可协议"
+by: "由"
+visitors: "访客"
+views: "浏览"
+
+tag:
+  title: 标签
+  total: "共 %d 个标签"
+  empty: 暂无标签
+  post_count: "%d 篇文章"
+  no_posts: 暂无文章
+
+category:
+  breadcrumb: 分类路径
+  title: 分类标题
+  post_count: "%d 篇文章"
+  total: "共 %d 个分类"
+  no_posts: 暂无文章
+  empty: 暂无分类
+
+post:
+  toc: 目录
+  license: 版权声明
+  share: 分享
+  navigation: 文章导航
+  prev_post: 上一篇
+  next_post: 下一篇
+  related_posts: 相关文章
+  last_modified: 最后编辑于 %s
+  meta:
+    wordcount: "%d 字"
+  updated: "更新于 %s"

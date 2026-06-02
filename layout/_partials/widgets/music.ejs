@@ -1,0 +1,29 @@
+<% if (theme.music && theme.music.mode !== 'none') { %>
+<div class="widget music-widget">
+  <div class="widget-header"><%= __('music') %></div>
+  <div class="widget-body">
+    <% if (theme.music.mode === 'meting' && theme.music.meting) { %>
+      <meting-js
+        server="<%= theme.music.meting.server || 'netease' %>"
+        type="<%= theme.music.meting.type || 'playlist' %>"
+        id="<%= theme.music.meting.id || '' %>"
+        <% if (theme.music.meting.api) { %>api="<%= theme.music.meting.api %>"<% } %>
+        order="<%= theme.music.play_mode || 'list' %>"
+        fixed="false"
+        mini="false"
+        autoplay="false"
+        theme="var(--primary)"
+        loop="all"
+        preload="auto"
+        volume="<%= (theme.music.volume || 0.7) %>"
+        mutex="true">
+      </meting-js>
+    <% } else if (theme.music.mode === 'local' && theme.music.local && theme.music.local.playlist) { %>
+      <div id="aplayer-local" class="aplayer"></div>
+      <script>
+        window.__LOCAL_PLAYLIST = <%- JSON.stringify(theme.music.local.playlist) %>;
+      </script>
+    <% } %>
+  </div>
+</div>
+<% } %>

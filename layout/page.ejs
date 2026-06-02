@@ -1,0 +1,116 @@
+<%
+/**
+ * Generic page template.
+ * Used for static pages such as About, Friends/Links, Guestbook, Sponsor, etc.
+ *
+ * Variables:
+ *   page       - current page (page.type: 'about', 'friends', 'links', etc.)
+ *   config     - Hexo site configuration
+ *   theme      - theme _config.yml values
+ */
+var pageType = page.type || 'page';
+var friendsConfig = theme.friends || theme.links || {};
+%>
+
+<div id="main-grid" class="main-grid-layout has-no-sidebar">
+  <main id="main-content" class="page-container full-width">
+    <%- partial('_partials/post/content-nav') %>
+    <article class="page-content">
+      <!-- ===== About Page ===== -->
+      <% if (pageType === 'about') { %>
+        <!-- Profile widget -->
+        <% if (theme.widgets && theme.widgets.profile && theme.widgets.profile.enable !== false) { %>
+        <div class="page-profile-widget">
+          <%- partial('_partials/widgets/profile') %>
+        </div>
+        <% } %>
+
+        <!-- About content -->
+        <div class="markdown-body custom-md">
+          <%- page.content %>
+        </div>
+
+      <!-- ===== Friends / Links Page ===== -->
+      <% } else if (pageType === 'friends' || pageType === 'links') { %>
+        <header class="page-header">
+          <h1 class="page-title"><%= page.title || __('friends') %></h1>
+          <% if (page.description) { %>
+          <p class="page-description"><%= page.description %></p>
+          <% } %>
+        </header>
+
+        <% if (page.content) { %>
+        <div class="markdown-body custom-md">
+          <%- page.content %>
+        </div>
+        <% } %>
+
+        <% var friends = site.data.friends || site.data.links || []; %>
+        <% if (friends.length > 0) { %>
+        <div class="friends-grid">
+          <% friends.forEach(function(friend) { %>
+          <a
+            href="<%= friend.url || friend.link %>"
+            class="friend-card"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="<%= friend.name || friend.title %>"
+          >
+            <div class="friend-card-avatar">
+              <img
+                src="<%= url_for(friend.avatar || friend.img || '/img/default-avatar.png') %>"
+                alt="<%= friend.name || friend.title %>"
+                loading="lazy"
+              >
+            </div>
+            <div class="friend-card-info">
+              <span class="friend-card-name"><%= friend.name || friend.title %></span>
+              <% if (friend.description || friend.desc) { %>
+              <span class="friend-card-desc"><%= friend.description || friend.desc %></span>
+              <% } %>
+            </div>
+          </a>
+          <% }); %>
+        </div>
+        <% } else { %>
+        <div class="friends-empty">
+          <p><%= __('friends.empty') %></p>
+        </div>
+        <% } %>
+
+      <!-- ===== Guestbook Page ===== -->
+      <% } else if (pageType === 'guestbook') { %>
+        <header class="page-header">
+          <h1 class="page-title"><%= page.title || __('guestbook') %></h1>
+        </header>
+
+        <% if (page.content) { %>
+        <div class="markdown-body custom-md">
+          <%- page.content %>
+        </div>
+        <% } %>
+
+      <!-- ===== Default Page ===== -->
+      <% } else { %>
+        <% if (page.title && pageType !== 'page') { %>
+        <header class="page-header">
+          <h1 class="page-title"><%= page.title %></h1>
+        </header>
+        <% } %>
+
+        <div class="markdown-body custom-md">
+          <%- page.content %>
+        </div>
+      <% } %>
+    </article>
+
+    <!-- Comments (for pages that support it: guestbook, about, etc.) -->
+    <% if (theme.comments && theme.comments.type && theme.comments.type !== 'none' && page.comments !== false) { %>
+    <section class="page-comments" aria-label="<%= __('comments') %>">
+      <%- partial('_partials/comments/' + theme.comments.type) %>
+    </section>
+    <% } %>
+  </main>
+
+  <%- partial('_partials/footer') %>
+</div>

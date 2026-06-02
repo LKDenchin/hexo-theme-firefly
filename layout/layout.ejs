@@ -1,0 +1,183 @@
+<%
+const BANNER_HEIGHT_EXTEND = 6;
+const PAGE_WIDTH = theme.page_width || 100;
+const configHue = theme.theme_color.hue;
+const defaultMode = theme.theme_color.default_mode || 'system';
+const defaultWallpaperMode = theme.wallpaper.mode;
+const wallSwitchable = theme.wallpaper.switchable !== false;
+const cardTransparentOpacity = theme.wallpaper.overlay && theme.wallpaper.overlay.card_opacity ? theme.wallpaper.overlay.card_opacity : 0.6;
+%>
+<!DOCTYPE html>
+<html lang="<%= config.language %>" data-wallpaper-mode="<%= theme.wallpaper.mode %>" style="--bannerOffset: 15vh; --banner-height-home: 55vh; --banner-height: 50vh; --configHue: <%= configHue %>; --page-width: <%= PAGE_WIDTH %>rem;">
+<head>
+  <%- partial('_partials/head') %>
+</head>
+<body class="min-h-screen <%- is_home() ? 'is-home' : '' %> <%- theme.wallpaper.mode === 'banner' ? 'enable-banner' : '' %> <%- theme.nav && theme.nav.sticky !== false ? 'sticky-navbar' : '' %> <%- theme.cards && theme.cards.border !== false ? 'enable-card-border' : '' %> <%- theme.cards && theme.cards.follow_theme_hue ? 'card-follow-theme-hue' : '' %>" style="--bannerOffset: 15vh; --banner-height-home: 55vh; --banner-height: 50vh; --configHue: <%= configHue %>; --page-width: <%= PAGE_WIDTH %>rem;">
+  <script>
+    (function() {
+      var BANNER_HEIGHT_EXTEND = <%- BANNER_HEIGHT_EXTEND %>;
+      var configHue = <%- configHue %>;
+      var defaultMode = '<%- defaultMode %>';
+      var defaultWallpaperMode = '<%- defaultWallpaperMode %>';
+      var wallSwitchable = <%- wallSwitchable %>;
+      var cardTransparentOpacity = <%- cardTransparentOpacity %>;
+
+      // 1. Set theme
+      var storedTheme = localStorage.getItem('theme');
+      var themeToApply = storedTheme || defaultMode;
+      if (themeToApply === 'system') {
+        themeToApply = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      if (themeToApply === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      document.documentElement.setAttribute('data-theme', themeToApply);
+
+      // 2. Set hue
+      var storedHue = localStorage.getItem('hue');
+      var hueToApply = storedHue !== null ? storedHue : configHue;
+      document.documentElement.style.setProperty('--hue', hueToApply);
+
+      // 3. Set wallpaper mode
+      var wallpaperModeToApply = 'banner';
+      document.documentElement.setAttribute('data-wallpaper-mode', wallpaperModeToApply);
+
+      // 4. Set card opacity (no longer needed for overlay but keeping var)
+      
+      // 5. Calculate --banner-height-extend
+      var vh = window.innerHeight;
+      var extend = BANNER_HEIGHT_EXTEND * 4;
+      var bannerHeightExtend = extend > vh ? Math.floor(vh / 4) * 4 : extend;
+      if (bannerHeightExtend === 0) bannerHeightExtend = 4;
+      document.documentElement.style.setProperty('--banner-height-extend', bannerHeightExtend + 'px');
+
+      // 6. Apply wallpaper and content positioning when DOM is ready
+      requestAnimationFrame(function() {
+        var isHomePage = <%- is_home() %>;
+        var body = document.body;
+        var wrapper = document.getElementById('wallpaper-wrapper');
+        var mainContentWrapper = document.querySelector('.z-30.pointer-events-none');
+        var isMobile = window.innerWidth < 1024;
+        var isMobileNonHome = isMobile && !isHomePage;
+
+        // Reset wallpaper classes on body
+        body.classList.remove('enable-banner', 'no-banner-layout', 'wallpaper-transparent');
+
+        // Always apply banner mode
+        body.classList.add('enable-banner');
+        if (wrapper) {
+          wrapper.classList.remove('wallpaper-overlay', 'wallpaper-fullscreen');
+          if (isMobileNonHome) {
+            wrapper.style.display = 'none';
+            wrapper.classList.add('mobile-hide-banner');
+          } else {
+            wrapper.style.display = 'block';
+            wrapper.classList.remove('mobile-hide-banner');
+          }
+        }
+
+        // Apply main content positioning
+        if (mainContentWrapper) {
+          mainContentWrapper.style.setProperty("transition", "none", "important");
+
+          if (isMobileNonHome) {
+            mainContentWrapper.classList.add('mobile-main-no-banner');
+          } else {
+            mainContentWrapper.classList.remove('mobile-main-no-banner');
+          }
+
+          if (isMobile && isHomePage) {
+            mainContentWrapper.style.removeProperty('top');
+            mainContentWrapper.style.position = '';
+            mainContentWrapper.style.zIndex = '';
+            mainContentWrapper.style.setProperty('margin-top', '0', 'important');
+          } else if (isMobileNonHome) {
+            mainContentWrapper.style.setProperty('top', '5.5rem', 'important');
+            mainContentWrapper.style.position = '';
+            mainContentWrapper.style.zIndex = '';
+            mainContentWrapper.style.setProperty('margin-top', '0', 'important');
+          } else {
+            var targetTop = isHomePage ? 'calc(var(--banner-height-home) - 7.5rem)' : 'calc(var(--banner-height) - 4rem)';
+            mainContentWrapper.style.setProperty('top', targetTop, 'important');
+            mainContentWrapper.style.position = '';
+            mainContentWrapper.style.zIndex = '';
+            mainContentWrapper.style.setProperty('margin-top', '0', 'important');
+          }
+
+          // Make page visible now that positions are set
+          mainContentWrapper.style.visibility = 'visible';
+
+          requestAnimationFrame(function() {
+            mainContentWrapper.style.removeProperty('transition');
+          });
+        }
+
+        // Banner title overlay visibility
+        var bannerTextOverlay = document.querySelector('.home-text-overlay');
+        if (bannerTextOverlay) {
+          if (isHomePage) {
+            bannerTextOverlay.classList.remove('hidden');
+          } else {
+            bannerTextOverlay.classList.add('hidden');
+          }
+        }
+      });
+
+      // 7. Set additional data attributes from localStorage
+      if (localStorage.getItem('wavesEnabled') !== null) {
+        document.documentElement.setAttribute('data-waves-enabled', localStorage.getItem('wavesEnabled'));
+      }
+      if (localStorage.getItem('gradientEnabled') !== null) {
+        document.documentElement.setAttribute('data-gradient-enabled', localStorage.getItem('gradientEnabled'));
+      }
+      if (localStorage.getItem('bannerTitleEnabled') !== null) {
+        document.documentElement.setAttribute('data-banner-title-enabled', localStorage.getItem('bannerTitleEnabled'));
+      }
+      if (localStorage.getItem('sakuraEnabled') !== null) {
+        document.documentElement.setAttribute('data-sakura-enabled', localStorage.getItem('sakuraEnabled'));
+      }
+    })();
+  </script>
+
+  <!-- Navbar -->
+  <div id="top-row" class="z-50 pointer-events-none relative transition-all duration-700 mx-auto w-full xl:w-[92vw] max-w-[var(--page-width)] px-3 md:px-4">
+    <div id="navbar-wrapper" class="pointer-events-auto transition-all sticky top-0">
+      <%- partial('_partials/header/navigation') %>
+    </div>
+  </div>
+
+  <!-- Wallpaper / Banner -->
+  <%- partial('_partials/header/banner') %>
+
+  <!-- Main Content Area with grid wrappers -->
+  <div id="main-content-wrapper" class="absolute w-full z-30 pointer-events-none <%- is_home() ? '' : 'mobile-main-no-banner' %>">
+    <div class="relative w-full xl:w-[92vw] max-w-[var(--page-width)] mx-auto pointer-events-auto">
+      <%- body %>
+    </div>
+  </div>
+
+  <!-- Search Modal -->
+  <div id="search-modal" class="search-modal" role="dialog" aria-label="<%= __('search') || 'Search' %>" aria-hidden="true">
+    <div class="search-modal-backdrop search-backdrop"></div>
+    <div class="search-modal-content">
+      <div class="search-input-wrapper">
+        <i class="fa-solid fa-magnifying-glass search-input-icon"></i>
+        <input type="text" id="search-input" class="search-input" placeholder="<%= __('search_placeholder') || 'Search...' %>" autocomplete="off">
+        <button id="search-close" class="search-close-btn close-btn" aria-label="<%= __('close') || 'Close' %>">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="search-results" class="search-results">
+        <div class="search-hints">
+          <span><%= __('search_hint') || 'Type to search posts and pages...' %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- partial('_partials/display-settings') %>
+  <%- partial('_partials/scripts') %>
+</body>
+</html>

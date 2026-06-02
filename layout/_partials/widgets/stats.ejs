@@ -1,0 +1,85 @@
+<%
+var totalWords = 0;
+var latestPost = null;
+
+site.posts.forEach(function(post) {
+  // Word count calculation
+  var content = post.content || '';
+  var cleanContent = content.replace(/<\/?[^>]+(>|$)/g, ""); // strip HTML tags
+  var chineseChars = cleanContent.match(/[\u4e00-\u9fa5]/g) || [];
+  var englishWords = cleanContent.match(/[a-zA-Z]+/g) || [];
+  totalWords += chineseChars.length + englishWords.length;
+
+  // Find latest post for last active date
+  if (!latestPost || post.date > latestPost.date) {
+    latestPost = post;
+  }
+});
+
+var totalWordsFormatted = totalWords.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+var latestPostDate = latestPost ? latestPost.date.toDate().toISOString() : '';
+%>
+
+<div class="widget stats-widget">
+  <div class="widget-header"><%= __('site_stats') %></div>
+  <div class="widget-body">
+    <!-- Posts -->
+    <div class="stat-item">
+      <div class="stat-label">
+        <i class="fa-regular fa-file-lines stat-icon"></i>
+        <span><%= __('total_posts') %></span>
+      </div>
+      <span class="stat-value"><%= site.posts.length %></span>
+    </div>
+    
+    <!-- Categories -->
+    <div class="stat-item">
+      <div class="stat-label">
+        <i class="fa-regular fa-folder stat-icon"></i>
+        <span><%= __('total_categories') %></span>
+      </div>
+      <span class="stat-value"><%= site.categories.length %></span>
+    </div>
+    
+    <!-- Tags -->
+    <div class="stat-item">
+      <div class="stat-label">
+        <i class="fa-solid fa-tag stat-icon"></i>
+        <span><%= __('total_tags') %></span>
+      </div>
+      <span class="stat-value"><%= site.tags.length %></span>
+    </div>
+    
+    <!-- Total Words -->
+    <div class="stat-item">
+      <div class="stat-label">
+        <i class="fa-solid fa-chart-line stat-icon"></i>
+        <span><%= __('total_words') %></span>
+      </div>
+      <span class="stat-value"><%= totalWordsFormatted %></span>
+    </div>
+    
+    <!-- Running Days -->
+    <div class="stat-item">
+      <div class="stat-label">
+        <i class="fa-regular fa-calendar-days stat-icon"></i>
+        <span><%= __('running_days') %></span>
+      </div>
+      <div>
+        <span class="stat-value" id="site-running-days">--</span>
+        <span class="stat-suffix"> <%= __('days_unit') || '天' %></span>
+      </div>
+    </div>
+    
+    <!-- Last Active -->
+    <div class="stat-item">
+      <div class="stat-label">
+        <i class="fa-solid fa-heart-pulse stat-icon"></i>
+        <span><%= __('last_active') %></span>
+      </div>
+      <div>
+        <span class="stat-value" id="site-last-active" data-latest-date="<%= latestPostDate %>">--</span>
+      </div>
+    </div>
+  </div>
+</div>

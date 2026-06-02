@@ -1,0 +1,96 @@
+/* ===== Desktop: >= 1280px ===== */
+@media (min-width: 1280px) {
+  .desktop-only { display: block; }
+  .mobile-only { display: none; }
+  .tablet-only { display: none; }
+}
+
+/* ===== Tablet: 769px - 1279px ===== */
+@media (min-width: 769px) and (max-width: 1279px) {
+  .desktop-only { display: none; }
+  .tablet-only { display: block; }
+  .mobile-only { display: none; }
+  
+  /* Sidebar adjustments */
+  #main-grid {
+    padding: 0 1.25rem;
+  }
+  
+  /* Post card grid: 2 columns max */
+  .post-list-container[data-layout="grid"] .post-list {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+/* ===== Mobile: <= 768px ===== */
+@media (max-width: 768px) {
+  .desktop-only, .tablet-only { display: none; }
+  .mobile-only { display: block; }
+  
+  html { font-size: 15px; }
+  
+  #main-grid {
+    grid-template-columns: 1fr !important;
+    padding: 0 0.75rem;
+    gap: 0.75rem;
+  }
+  
+  /* Hide sidebars on mobile */
+  .sidebar-left, .sidebar-right { display: none !important; }
+  
+  /* Show mobile bottom sidebar */
+  .mobile-bottom-sidebar { display: flex; }
+  
+  /* Banner adjustments */
+  .home-text-title { font-size: 2rem !important; }
+  .home-text-subtitle { font-size: 1rem !important; }
+  
+  /* Post card: single column */
+  .post-card-item {
+    grid-template-columns: 1fr !important;
+  }
+  .post-card-cover {
+    max-height: 200px;
+  }
+  
+  /* Navbar mobile */
+  #navbar > div { padding: 0 1rem; }
+  
+  /* Display settings panel */
+  .display-settings-panel {
+    width: calc(100vw - 2rem);
+    right: 1rem;
+    max-height: 70vh;
+  }
+  
+  /* Search panel */
+  .search-panel {
+    width: 95%;
+  }
+  
+  /* Post navigation: stacked */
+  .post-navigation {
+    grid-template-columns: 1fr;
+  }
+  .post-navigation a.next { grid-column: 1; }
+  
+  /* Pagination */
+  .pagination { font-size: 0.875rem; }
+}
+
+/* ===== Small mobile: <= 480px ===== */
+@media (max-width: 480px) {
+  html { font-size: 15px; }
+  
+  .home-text-title { font-size: 1.5rem !important; }
+  .home-text-subtitle { font-size: 0.875rem !important; }
+  
+  .post-list-container[data-layout="grid"] .post-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .display-settings-panel {
+    width: calc(100vw - 1rem);
+    right: 0.5rem;
+  }
+}

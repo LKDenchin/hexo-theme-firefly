@@ -1,0 +1,24 @@
+{
+  "name": "hexo-theme-firefly",
+  "version": "1.0.0",
+  "description": "Firefly - A clean and modern blog theme for Hexo, migrated from Astro",
+  "author": "Firefly (migrated to Hexo)",
+  "license": "MIT",
+  "keywords": [
+    "hexo",
+    "theme",
+    "firefly",
+    "blog",
+    "clean",
+    "modern",
+    "responsive"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LKDenchin/hexo-theme-firefly"
+  },
+  "peerDependencies": {
+    "hexo": ">= 6.0.0",
+    "nunjucks": ">= 3.0.0"
+  }
+}

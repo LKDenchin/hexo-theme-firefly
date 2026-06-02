@@ -1,0 +1,186 @@
+# Navigation
+home: ホーム
+about: 概要
+archive: アーカイブ
+search: 検索
+tags: タグ
+categories: カテゴリ
+friends: 友達リンク
+guestbook: ゲストブック
+sponsor: スポンサー
+bangumi: バングミ
+gallery: ギャラリー
+links: リンク
+
+# Post
+published: 公開日
+updated: 更新日
+read_more: 続きを読む
+word_count: 文字
+reading_time: 分で読めます
+min_read: 分
+prev: 前へ
+next: 次へ
+related_posts: 関連記事
+last_modified: 最終更新
+outdated: この記事は古い可能性があります
+pinned: ピン留め
+draft: 下書き
+encrypted: 暗号化
+no_posts: 記事がありません
+
+# Comments
+comments: コメント
+no_comments: コメントはまだありません
+load_comments: コメントを読み込む
+
+# Sidebar & Widgets
+profile: プロフィール
+announcement: お知らせ
+site_stats: サイト統計
+total_posts: 記事総数
+total_categories: カテゴリ数
+total_tags: タグ数
+running_days: 運営日数
+calendar: カレンダー
+music: 音楽
+advertisement: 広告
+no_categories: カテゴリなし
+no_tags: タグなし
+
+# Theme & Display
+theme_color: テーマカラー
+hue: 色相
+light: ライト
+dark: ダーク
+system: システム
+wallpaper_mode: 壁紙モード
+banner: バナー
+fullscreen: フルスクリーン
+overlay: オーバーレイ
+none: なし
+overlay_settings: オーバーレイ設定
+opacity: 壁紙の不透明度
+blur: 背景のぼかし
+card_opacity: カードの不透明度
+features: 機能
+water_waves: 水波アニメーション
+gradient: グラデーション
+banner_title: バナータイトル
+sakura: 桜エフェクト
+banner_carousel: バナーカルーセル
+post_layout: 記事レイアウト
+layout_mode: レイアウトモード
+list: リスト
+grid: グリッド
+reset: リセット
+display_settings: 表示設定
+
+# Search
+search_placeholder: 記事を検索...
+search_hint: キーワードを入力
+no_results: 結果が見つかりません
+search_results: 検索結果
+
+# Pagination
+prev_page: 前のページ
+next_page: 次のページ
+page: ページ
+
+# Footer
+copyright: 著作権
+license: ライセンス
+powered_by: 提供
+rss: RSS フィード
+sitemap: サイトマップ
+
+# 404
+page_not_found: ページが見つかりません
+back_home: ホームに戻る
+not_found_msg: 申し訳ありません、お探しのページは存在しないか削除されました。
+
+# Misc
+share: 共有
+copy_link: リンクをコピー
+top: トップに戻る
+loading: 読み込み中...
+close: 閉じる
+copy_code: コードをコピー
+confirm: 確認
+cancel: キャンセル
+error: エラー
+success: 成功
+warning: 警告
+info: 情報
+tip: ヒント
+note: 注意
+danger: 危険
+caution: 注意
+
+# Time
+days: 日
+hours: 時間
+minutes: 分
+seconds: 秒
+ago: 前
+
+# Actions
+download: ダウンロード
+view_all: すべて表示
+show_more: もっと見る
+show_less: 折りたたむ
+expand: 展開
+collapse: 折りたたむ
+
+# Archive
+archive_post_total: "計 %d 記事"
+archive_empty: "記事がありません"
+
+# Calendar
+calendar_january: "1月"
+calendar_february: "2月"
+calendar_march: "3月"
+calendar_april: "4月"
+calendar_may: "5月"
+calendar_june: "6月"
+calendar_july: "7月"
+calendar_august: "8月"
+calendar_september: "9月"
+calendar_october: "10月"
+calendar_november: "11月"
+calendar_december: "12月"
+calendar_sunday: "日"
+calendar_monday: "月"
+calendar_tuesday: "火"
+calendar_wednesday: "水"
+calendar_thursday: "木"
+calendar_friday: "金"
+calendar_saturday: "土"
+calendar_year: "年"
+
+# Misc text
+license_text: "本作品は CC BY-NC-SA 4.0 ライセンスの下で提供されています"
+by: "作成者"
+visitors: "訪問者"
+views: "閲覧数"
+
+category:
+  breadcrumb: カテゴリパス
+  title: カテゴリタイトル
+  post_count: "%d 記事"
+  total: "全 %d カテゴリ"
+  no_posts: 記事なし
+  empty: カテゴリなし
+
+post:
+  toc: 目次
+  license: ライセンス
+  share: 共有
+  navigation: 記事ナビゲーション
+  prev_post: 前の記事
+  next_post: 次の記事
+  related_posts: 関連記事
+  last_modified: "%s に最終更新"
+  meta:
+    wordcount: "%d 文字"
+  updated: "更新日 %s"

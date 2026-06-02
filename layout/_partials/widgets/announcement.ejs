@@ -1,0 +1,16 @@
+<% if (theme.announcement && theme.announcement.content) { %>
+<div class="widget announcement-widget announcement-<%= theme.announcement.type || 'info' %>">
+  <div class="widget-header">
+    <% if (theme.announcement.icon) { %><span data-icon="<%= theme.announcement.icon %>"></span><% } %>
+    <%= theme.announcement.title || __('announcement') %>
+  </div>
+  <div class="widget-body">
+    <div class="announcement-content"><%= theme.announcement.content %></div>
+    <% if (theme.announcement.link && theme.announcement.link.enable) { %>
+      <a href="<%= theme.announcement.link.url %>" <%= theme.announcement.link.external ? 'target="_blank"' : '' %> class="announcement-link">
+        <%= theme.announcement.link.text %>
+      </a>
+    <% } %>
+  </div>
+</div>
+<% } %>

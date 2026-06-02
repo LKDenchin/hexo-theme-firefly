@@ -1,0 +1,48 @@
+<%
+var currentPath = page.path || '';
+var isHome = is_home();
+var isPost = is_post();
+var isArchive = is_archive();
+var isCategory = is_category();
+var isTag = is_tag();
+%>
+<div class="content-nav-bar card-base">
+  <!-- Home button -->
+  <a href="<%= url_for('/') %>" class="content-nav-item content-nav-home<%= isHome ? ' active' : '' %>" aria-label="Home" title="<%= __('home') %>">
+    <i class="fa-solid fa-house"></i>
+  </a>
+  
+  <!-- Archive button -->
+  <a href="<%= url_for('/archives') %>" class="content-nav-item<%= (isArchive || page.layout === 'archive' || currentPath.indexOf('archives') === 0) ? ' active' : '' %>">
+    <span class="nav-item-label">归档</span>
+    <span class="nav-item-count"><%= site.posts.length %></span>
+  </a>
+
+  <!-- Dynamic Categories -->
+  <%
+  var displayCats = [];
+  if (site.categories && site.categories.length > 0) {
+    displayCats = site.categories.filter(function(cat) { return cat.length > 0; }).toArray();
+    displayCats.sort(function(a, b) { return b.length - a.length; });
+    displayCats = displayCats.slice(0, 3); // Top 3 categories
+  }
+  if (displayCats && displayCats.length > 0) {
+    displayCats.forEach(function(cat) {
+      var isCurrentCat = false;
+      if (isCategory && page.category === cat.name) {
+        isCurrentCat = true;
+      } else if (isPost && page.categories && page.categories.length > 0) {
+        isCurrentCat = page.categories.some(function(postCat) {
+          return postCat.name === cat.name;
+        });
+      }
+  %>
+    <a href="<%= url_for(cat.path) %>" class="content-nav-item<%= isCurrentCat ? ' active' : '' %>">
+      <span class="nav-item-label"><%= cat.name %></span>
+      <span class="nav-item-count"><%= cat.posts.length %></span>
+    </a>
+  <%
+    });
+  }
+  %>
+</div>

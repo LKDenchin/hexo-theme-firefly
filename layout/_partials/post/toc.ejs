@@ -1,0 +1,22 @@
+<%
+/**
+ * Table of Contents (TOC) partial.
+ * Renders a TOC that is populated client-side by JavaScript (e.g., tocbot).
+ *
+ * Variables:
+ *   theme  - theme config (theme.post.toc for settings)
+ *   page   - current page
+ */
+var tocConfig = theme.post && theme.post.toc || {};
+%>
+
+<% if (tocConfig.enable && page.toc !== false) { %>
+<div id="toc" class="toc-widget">
+  <div class="toc-header">
+    <span><%= __('post.toc') %></span>
+  </div>
+  <div class="toc-body" id="toc-body">
+    <!-- Populated by client-side JavaScript -->
+  </div>
+</div>
+<% } %>

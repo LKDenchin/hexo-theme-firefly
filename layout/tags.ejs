@@ -1,0 +1,38 @@
+<%
+/**
+ * Tags cloud page.
+ * Displays all tags in a proportional cloud layout with post counts.
+ */
+var allTags = site.tags.sort('name').filter(function(tag) {
+  return tag.length > 0;
+});
+var maxCount = 0;
+allTags.forEach(function(tag) { if (tag.length > maxCount) maxCount = tag.length; });
+%>
+
+<div id="main-grid" class="main-grid-layout has-no-sidebar">
+  <main id="main-content" class="tags-container full-width">
+    <%- partial('_partials/post/content-nav') %>
+
+
+    <div class="tag-cloud">
+      <% if (allTags.length > 0) { %>
+        <% allTags.forEach(function(tag) {
+          var size = 0.85 + (tag.length / Math.max(maxCount, 1)) * 1.15;
+        %>
+        <a href="<%= url_for(tag.path) %>" class="tag-cloud-item"
+           style="font-size: <%= size.toFixed(2) %>rem;">
+          <span class="tag-cloud-name"><%= tag.name %></span>
+          <span class="tag-cloud-count"><%= tag.length %></span>
+        </a>
+        <% }); %>
+      <% } else { %>
+      <div class="tag-cloud-empty">
+        <p><%= __('tag.empty') %></p>
+      </div>
+      <% } %>
+    </div>
+  </main>
+
+  <%- partial('_partials/footer') %>
+</div>

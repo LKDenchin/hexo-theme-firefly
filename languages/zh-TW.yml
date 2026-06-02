@@ -1,0 +1,186 @@
+# Navigation
+home: 首頁
+about: 關於
+archive: 歸檔
+search: 搜尋
+tags: 標籤
+categories: 分類
+friends: 友鏈
+guestbook: 留言板
+sponsor: 贊助
+bangumi: 番組計劃
+gallery: 相冊
+links: 連結
+
+# Post
+published: 發佈於
+updated: 更新於
+read_more: 閱讀更多
+word_count: 字
+reading_time: 分鐘閱讀
+min_read: 分鐘
+prev: 上一篇
+next: 下一篇
+related_posts: 相關文章
+last_modified: 最後編輯
+outdated: 這篇文章可能已過時
+pinned: 置頂
+draft: 草稿
+encrypted: 加密文章
+no_posts: 暫無文章
+
+# Comments
+comments: 評論
+no_comments: 暫無評論
+load_comments: 載入評論
+
+# Sidebar & Widgets
+profile: 個人資料
+announcement: 公告欄
+site_stats: 站點統計
+total_posts: 文章總數
+total_categories: 分類總數
+total_tags: 標籤總數
+running_days: 運行天數
+calendar: 日曆
+music: 音樂
+advertisement: 廣告
+no_categories: 暫無分類
+no_tags: 暫無標籤
+
+# Theme & Display
+theme_color: 主題色
+hue: 色相
+light: 淺色
+dark: 深色
+system: 跟隨系統
+wallpaper_mode: 桌布模式
+banner: 橫幅模式
+fullscreen: 全螢幕模式
+overlay: 透明模式
+none: 純色模式
+overlay_settings: 透明模式設定
+opacity: 桌布透明度
+blur: 背景模糊度
+card_opacity: 卡片透明度
+features: 功能開關
+water_waves: 水波紋動畫
+gradient: 漸變過渡
+banner_title: 橫幅標題
+sakura: 櫻花特效
+banner_carousel: 橫幅輪播
+post_layout: 文章佈局
+layout_mode: 佈局模式
+list: 列表
+grid: 網格
+reset: 重置
+display_settings: 顯示設定
+
+# Search
+search_placeholder: 搜尋文章...
+search_hint: 輸入關鍵詞搜尋
+no_results: 沒有找到相關文章
+search_results: 搜尋結果
+
+# Pagination
+prev_page: 上一頁
+next_page: 下一頁
+page: 頁
+
+# Footer
+copyright: 版權所有
+license: 許可協議
+powered_by: 技術支援
+rss: RSS 訂閱
+sitemap: 站點地圖
+
+# 404
+page_not_found: 頁面未找到
+back_home: 返回首頁
+not_found_msg: 抱歉，您訪問的頁面不存在或已被移除。
+
+# Misc
+share: 分享
+copy_link: 複製連結
+top: 回到頂部
+loading: 載入中...
+close: 關閉
+copy_code: 複製程式碼
+confirm: 確認
+cancel: 取消
+error: 出錯了
+success: 操作成功
+warning: 警告
+info: 資訊
+tip: 提示
+note: 注意
+danger: 危險
+caution: 注意
+
+# Time
+days: 天
+hours: 小時
+minutes: 分鐘
+seconds: 秒
+ago: 前
+
+# Actions
+download: 下載
+view_all: 檢視全部
+show_more: 顯示更多
+show_less: 收起
+expand: 展開
+collapse: 摺疊
+
+# Archive
+archive_post_total: "共計 %d 篇文章"
+archive_empty: "暫無文章"
+
+# Calendar
+calendar_january: "一月"
+calendar_february: "二月"
+calendar_march: "三月"
+calendar_april: "四月"
+calendar_may: "五月"
+calendar_june: "六月"
+calendar_july: "七月"
+calendar_august: "八月"
+calendar_september: "九月"
+calendar_october: "十月"
+calendar_november: "十一月"
+calendar_december: "十二月"
+calendar_sunday: "日"
+calendar_monday: "一"
+calendar_tuesday: "二"
+calendar_wednesday: "三"
+calendar_thursday: "四"
+calendar_friday: "五"
+calendar_saturday: "六"
+calendar_year: "年"
+
+# Misc text
+license_text: "本作品採用 CC BY-NC-SA 4.0 許可協議"
+by: "由"
+visitors: "訪客"
+views: "瀏覽"
+
+category:
+  breadcrumb: 分類路徑
+  title: 分類標題
+  post_count: "%d 篇文章"
+  total: "共 %d 個分類"
+  no_posts: 暫無文章
+  empty: 暫無分類
+
+post:
+  toc: 目錄
+  license: 版權聲明
+  share: 分享
+  navigation: 文章導航
+  prev_post: 上一篇
+  next_post: 下一篇
+  related_posts: 相關文章
+  last_modified: "最後編輯於 %s"
+  meta:
+    wordcount: "%d 字"
+  updated: "更新於 %s"

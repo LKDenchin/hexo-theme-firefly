@@ -1,0 +1,148 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+
+<title><%= page.title ? page.title + ' - ' + config.title : config.title %></title>
+
+<% if (page.description || config.description) { %>
+<meta name="description" content="<%= page.description || config.description %>">
+<% } %>
+<% if (page.keywords || config.keywords) { %>
+<meta name="keywords" content="<%= page.keywords || config.keywords %>">
+<% } %>
+<% if (config.author) { %>
+<meta name="author" content="<%= config.author %>">
+<% } %>
+
+<!-- Open Graph -->
+<meta property="og:title" content="<%= page.title ? page.title + ' - ' + config.title : config.title %>">
+<meta property="og:description" content="<%= page.description || config.description || '' %>">
+<meta property="og:type" content="<%= is_post() ? 'article' : 'website' %>">
+<meta property="og:url" content="<%= page.permalink || config.url %>">
+<meta property="og:site_name" content="<%= config.title %>">
+<% if (theme.favicon && theme.favicon.apple_touch_icon) { %>
+<meta property="og:image" content="<%= theme.favicon.apple_touch_icon %>">
+<% } %>
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<%= page.title ? page.title + ' - ' + config.title : config.title %>">
+<meta name="twitter:description" content="<%= page.description || config.description || '' %>">
+<% if (theme.favicon && theme.favicon.apple_touch_icon) { %>
+<meta name="twitter:image" content="<%= theme.favicon.apple_touch_icon %>">
+<% } %>
+
+<!-- Favicon -->
+<% if (theme.favicon) { %>
+  <% if (theme.favicon.favicon_16) { %>
+  <link rel="icon" type="image/png" sizes="16x16" href="<%= theme.favicon.favicon_16 %>">
+  <% } %>
+  <% if (theme.favicon.favicon_32) { %>
+  <link rel="icon" type="image/png" sizes="32x32" href="<%= theme.favicon.favicon_32 %>">
+  <% } %>
+  <% if (theme.favicon.apple_touch_icon) { %>
+  <link rel="apple-touch-icon" href="<%= theme.favicon.apple_touch_icon %>">
+  <% } %>
+  <% if (theme.favicon.favicon_svg) { %>
+  <link rel="icon" type="image/svg+xml" href="<%= theme.favicon.favicon_svg %>">
+  <% } %>
+  <% if (theme.favicon.manifest) { %>
+  <link rel="manifest" href="<%= theme.favicon.manifest %>">
+  <% } %>
+  <% if (theme.favicon.mask_icon) { %>
+  <link rel="mask-icon" href="<%= theme.favicon.mask_icon %>" color="<%= theme.favicon.mask_icon_color || theme.theme_color.hue || '#5bbad5' %>">
+  <% } %>
+<% } %>
+
+<!-- CSS -->
+<link rel="stylesheet" href="<%= url_for('/css/main.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/layout.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/navbar.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/banner.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/cards.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/post.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/markdown.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/code.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/widgets.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/toc.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/search.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/comments.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/effects.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/scrollbar.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/display-settings.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/water-waves.css') %>">
+<link rel="stylesheet" href="<%= url_for('/css/responsive.css') %>">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+<% if (theme.iconfont) { %>
+<link rel="stylesheet" href="<%= theme.iconfont %>">
+<% } %>
+
+<!-- Analytics -->
+<% if (theme.analytics && theme.analytics.google_analytics_id) { %>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=<%= theme.analytics.google_analytics_id %>"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '<%= theme.analytics.google_analytics_id %>');
+</script>
+<% } %>
+
+<% if (theme.analytics && theme.analytics.microsoft_clarity_id) { %>
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "<%= theme.analytics.microsoft_clarity_id %>");
+</script>
+<% } %>
+
+<% if (theme.analytics && theme.analytics.umami && theme.analytics.umami.website_id) { %>
+<!-- Umami Analytics -->
+<script async defer data-website-id="<%= theme.analytics.umami.website_id %>"
+  src="<%= theme.analytics.umami.script_url || 'https://analytics.umami.is/script.js' %>"
+  <% if (theme.analytics.umami.do_not_track) { %>data-do-not-track="true"<% } %>
+  <% if (theme.analytics.umami.domains) { %>data-domains="<%= theme.analytics.umami.domains %>"<% } %>></script>
+<% } %>
+
+<% if (theme.analytics && theme.analytics.bai_du_tong_ji_id) { %>
+<!-- Baidu Tongji -->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?<%= theme.analytics.bai_du_tong_ji_id %>";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+<% } %>
+
+<!-- RSS -->
+<% if (config.feed && config.feed.path) { %>
+<link rel="alternate" href="<%= url_for(config.feed.path) %>" title="<%= config.title %>" type="application/atom+xml">
+<% } else { %>
+<link rel="alternate" href="<%= url_for('/atom.xml') %>" title="<%= config.title %>" type="application/atom+xml">
+<% } %>
+
+<!-- Typewriter CSS -->
+<%- partial('_partials/features/typewriter') %>
+
+<!-- Font Preloading -->
+<% if (theme.font && theme.font.enable && theme.font.urls && theme.font.urls.length > 0) { %>
+  <% theme.font.urls.forEach(function(url) { %>
+  <link rel="preload" href="<%= url %>" as="font" type="font/woff2" crossorigin>
+  <% }); %>
+<% } %>
+
+<!-- Canonical URL -->
+<link rel="canonical" href="<%= page.permalink || config.url %>">
+
+<!-- No-Referrer Domain Script -->
+<% if (theme.image_optimization && theme.image_optimization.no_referrer_domains && theme.image_optimization.no_referrer_domains.length > 0) { %>
+<script>
+  window.__NO_REFERRER_DOMAINS = <%- JSON.stringify(theme.image_optimization.no_referrer_domains) %>;
+</script>
+<% } %>

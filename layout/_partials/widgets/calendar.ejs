@@ -1,0 +1,444 @@
+<%
+var monthNames = [
+  __('calendar_january') || '1月',
+  __('calendar_february') || '2月',
+  __('calendar_march') || '3月',
+  __('calendar_april') || '4月',
+  __('calendar_may') || '5月',
+  __('calendar_june') || '6月',
+  __('calendar_july') || '7月',
+  __('calendar_august') || '8月',
+  __('calendar_september') || '9月',
+  __('calendar_october') || '10月',
+  __('calendar_november') || '11月',
+  __('calendar_december') || '12月'
+];
+var weekDays = [
+  __('calendar_sunday') || '日',
+  __('calendar_monday') || '一',
+  __('calendar_tuesday') || '二',
+  __('calendar_wednesday') || '三',
+  __('calendar_thursday') || '四',
+  __('calendar_friday') || '五',
+  __('calendar_saturday') || '六'
+];
+var yearText = __('calendar_year') || '年';
+var currentLang = config.language || 'zh-CN';
+var calendarDataUrl = url_for('/api/allPostMeta.json');
+var postUrlPrefix = url_for('/');
+%>
+
+<div class="widget calendar-widget">
+  <div class="widget-header"><%= __('calendar') || '日历' %></div>
+  <div class="widget-body">
+    <div class="calendar-container">
+      <div class="flex justify-between items-center mb-4" style="margin-bottom: 1rem;">
+          <button id="prev-month-btn" class="btn-plain rounded-lg w-8 h-8 flex items-center justify-center" style="width: 2rem; height: 2rem; border-radius: var(--radius-medium); border: none; background: none; cursor: pointer;" aria-label="Previous Month">
+              <i class="fa-solid fa-chevron-left text-sm"></i>
+          </button>
+          <div id="current-month-display" class="text-lg font-bold text-neutral-900 dark:text-neutral-100 cursor-pointer hover:text-(--primary) transition-colors select-none" style="font-weight: 700; cursor: pointer; user-select: none;"></div>
+          <div class="flex gap-2" style="display: flex; gap: 0.5rem;">
+              <button id="reset-month-btn" class="btn-plain rounded-lg w-8 h-8 flex items-center justify-center" style="width: 2rem; height: 2rem; border-radius: var(--radius-medium); border: none; background: none; cursor: pointer;" aria-label="Back to Today">
+                  <i class="fa-solid fa-rotate-left text-sm"></i>
+              </button>
+              <button id="next-month-btn" class="btn-plain rounded-lg w-8 h-8 flex items-center justify-center" style="width: 2rem; height: 2rem; border-radius: var(--radius-medium); border: none; background: none; cursor: pointer;" aria-label="Next Month">
+                  <i class="fa-solid fa-chevron-right text-sm"></i>
+              </button>
+          </div>
+      </div>
+      
+      <!-- 日历视图容器 -->
+      <div id="calendar-view-container">
+        <!-- 星期标题 -->
+        <div class="weekdays grid grid-cols-7 gap-1 mb-2" style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.25rem; margin-bottom: 0.5rem;">
+          <% weekDays.forEach(function(day) { %>
+            <div class="text-center text-xs text-neutral-500 dark:text-neutral-400 font-medium" style="text-align: center; font-size: 0.75rem; color: var(--text-tertiary); font-weight: 500;">
+              <%= day %>
+            </div>
+          <% }); %>
+        </div>
+        
+        <!-- 日历格子（由客户端动态生成） -->
+        <div class="calendar-grid grid grid-cols-7 gap-1 pb-1" id="calendar-grid" style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.25rem; padding-bottom: 0.25rem;">
+          <!-- 将由 JavaScript 填充 -->
+        </div>
+      </div>
+
+      <!-- 月份选择视图 -->
+      <div id="month-view-container" class="grid grid-cols-3 gap-2" style="display: none; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem;">
+        <!-- 将由 JavaScript 填充 -->
+      </div>
+
+      <!-- 年份选择视图 -->
+      <div id="year-view-container" class="grid grid-cols-3 gap-2" style="display: none; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem;">
+        <!-- 将由 JavaScript 填充 -->
+      </div>
+      
+      <!-- 文章列表 -->
+      <div id="calendar-posts" class="mt-3" style="margin-top: 0.75rem;">
+        <div class="border-t border-neutral-200 dark:border-neutral-700 mb-2" id="calendar-posts-divider" style="display: none; border-top: 1px solid var(--line-divider); margin: 0.5rem 0;"></div>
+        <div class="flex flex-col gap-1 max-h-48 overflow-y-auto custom-scrollbar" id="calendar-posts-list" style="display: flex; flex-direction: column; gap: 0.25rem; max-height: 12rem; overflow-y: auto;">
+          <!-- 将由 JavaScript 填充 -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const monthNames = <%- JSON.stringify(monthNames) %>;
+  const weekDays = <%- JSON.stringify(weekDays) %>;
+  const yearText = <%- JSON.stringify(yearText) %>;
+  const currentLang = <%- JSON.stringify(currentLang) %>;
+  const calendarDataUrl = <%- JSON.stringify(calendarDataUrl) %>;
+  const postUrlPrefix = <%- JSON.stringify(postUrlPrefix) %>;
+
+  let displayYear = new Date().getFullYear();
+  let displayMonth = new Date().getMonth();
+  let currentView = 'day'; // 'day' | 'month' | 'year'
+  let postDateMap = {};
+  let allPostsData = [];
+  let availableYears = [];
+
+  async function fetchData() {
+    try {
+      if (window.__allPostMetaCache) {
+        allPostsData = window.__allPostMetaCache;
+      } else {
+        const response = await fetch(calendarDataUrl);
+        allPostsData = await response.json();
+        window.__allPostMetaCache = allPostsData;
+      }
+      
+      postDateMap = {};
+      const yearsSet = new Set();
+      allPostsData.forEach(post => {
+        const date = new Date(post.published);
+        const dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+        if (!postDateMap[dateKey]) {
+          postDateMap[dateKey] = [];
+        }
+        postDateMap[dateKey].push({ id: post.id, title: post.title, published: post.published, path: post.path });
+        yearsSet.add(date.getFullYear());
+      });
+      
+      availableYears = Array.from(yearsSet).sort((a, b) => b - a);
+      renderCalendar();
+    } catch (error) {
+      console.error("Failed to fetch calendar data", error);
+    }
+  }
+
+  function renderCalendar() {
+    const container = document.getElementById('calendar-view-container');
+    const monthContainer = document.getElementById('month-view-container');
+    const yearContainer = document.getElementById('year-view-container');
+    const postsContainer = document.getElementById('calendar-posts');
+    
+    if (container) container.style.display = currentView === 'day' ? 'block' : 'none';
+    if (monthContainer) monthContainer.style.display = currentView === 'month' ? 'grid' : 'none';
+    if (yearContainer) yearContainer.style.display = currentView === 'year' ? 'grid' : 'none';
+    if (postsContainer) postsContainer.style.display = currentView === 'day' ? 'block' : 'none';
+
+    updateHeader();
+
+    if (currentView === 'day') {
+      renderDayView();
+    } else if (currentView === 'month') {
+      renderMonthView();
+    } else if (currentView === 'year') {
+      renderYearView();
+    }
+  }
+
+  function updateHeader() {
+    const navDisplay = document.getElementById('current-month-display');
+    const resetBtn = document.getElementById('reset-month-btn');
+    const prevBtn = document.getElementById('prev-month-btn');
+    const nextBtn = document.getElementById('next-month-btn');
+    
+    if (navDisplay) {
+      if (currentView === 'day') {
+        if (currentLang.startsWith('zh') || currentLang.startsWith('ja')) {
+          navDisplay.textContent = `${displayYear}${yearText}${monthNames[displayMonth]}`;
+        } else {
+          navDisplay.textContent = `${monthNames[displayMonth]} ${displayYear}`;
+        }
+      } else if (currentView === 'month') {
+        navDisplay.textContent = `${displayYear}${yearText}`;
+      } else if (currentView === 'year') {
+        navDisplay.textContent = yearText;
+      }
+    }
+
+    if (resetBtn) {
+      const now = new Date();
+      const isCurrent = displayYear === now.getFullYear() && displayMonth === now.getMonth();
+      resetBtn.style.display = (currentView === 'day' && isCurrent) ? 'none' : 'flex';
+    }
+    
+    if (prevBtn) prevBtn.style.visibility = currentView === 'year' ? 'hidden' : 'visible';
+    if (nextBtn) nextBtn.style.visibility = currentView === 'year' ? 'hidden' : 'visible';
+  }
+
+  function renderDayView() {
+    const now = new Date();
+    const currentYear = displayYear;
+    const currentMonth = displayMonth;
+    const currentDate = now.getDate();
+    const isCurrentMonth = currentYear === now.getFullYear() && currentMonth === now.getMonth();
+    
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    
+    const calendarGrid = document.getElementById('calendar-grid');
+    if (!calendarGrid) return;
+    
+    const calendarDays = [];
+    for (let i = 0; i < firstDayOfMonth; i++) {
+      calendarDays.push({ day: null, hasPost: false, count: 0, dateKey: "" });
+    }
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dateKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      const posts = postDateMap[dateKey] || [];
+      const count = posts.length;
+      calendarDays.push({ day, hasPost: count > 0, count, dateKey });
+    }
+    
+    calendarGrid.innerHTML = calendarDays.map(({day, hasPost, count, dateKey}) => {
+      const isToday = day === currentDate && isCurrentMonth;
+      const classes = ["calendar-day aspect-square flex items-center justify-center rounded text-sm relative cursor-pointer"];
+      
+      if (!day) {
+        classes.push("text-neutral-400 dark:text-neutral-600");
+      } else if (!hasPost) {
+        classes.push("text-neutral-700 dark:text-neutral-300");
+      } else {
+        classes.push("text-neutral-900 dark:text-neutral-100 font-bold");
+      }
+      if (isToday) {
+        classes.push("today-highlight");
+      }
+      
+      return `
+        <div class="${classes.join(' ')}" data-date="${dateKey}" data-has-post="${hasPost}">
+          ${day || ''}
+          ${hasPost ? '<span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full" style="background-color: var(--primary);"></span>' : ''}
+          ${hasPost && count > 1 ? `<span class="absolute top-0 right-0 text-[10px] font-bold" style="color: var(--primary);">${count}</span>` : ''}
+        </div>
+      `;
+    }).join('');
+    
+    const currentMonthPosts = allPostsData.filter(post => {
+      const date = new Date(post.published);
+      return date.getFullYear() === currentYear && date.getMonth() === currentMonth;
+    });
+    
+    showMonthlyPosts(currentMonthPosts);
+    setupClickHandlers(currentMonthPosts);
+  }
+
+  function renderMonthView() {
+    const container = document.getElementById('month-view-container');
+    if (!container) return;
+
+    const monthsWithPosts = new Set();
+    allPostsData.forEach(post => {
+      const date = new Date(post.published);
+      if (date.getFullYear() === displayYear) {
+        monthsWithPosts.add(date.getMonth());
+      }
+    });
+
+    container.innerHTML = monthNames.map((name, index) => {
+      const isCurrent = index === displayMonth;
+      const hasPost = monthsWithPosts.has(index);
+      const classes = ["p-2 text-center text-sm rounded cursor-pointer hover:bg-(--btn-plain-bg-hover) transition-colors relative"];
+      if (isCurrent) {
+        classes.push("text-(--primary) font-bold bg-(--btn-plain-bg-hover)");
+      } else {
+        classes.push("text-neutral-700 dark:text-neutral-300");
+      }
+      const dotHtml = hasPost ? '<span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full" style="background-color: var(--primary);"></span>' : '';
+      return `<div class="${classes.join(' ')}" data-month="${index}">${name}${dotHtml}</div>`;
+    }).join('');
+
+    container.querySelectorAll('[data-month]').forEach(el => {
+      el.addEventListener('click', () => {
+        displayMonth = parseInt(el.getAttribute('data-month'));
+        currentView = 'day';
+        renderCalendar();
+      });
+    });
+  }
+
+  function renderYearView() {
+    const container = document.getElementById('year-view-container');
+    if (!container) return;
+
+    container.innerHTML = availableYears.map(year => {
+      const isCurrent = year === displayYear;
+      const classes = ["p-2 text-center text-sm rounded cursor-pointer hover:bg-(--btn-plain-bg-hover) transition-colors relative"];
+      if (isCurrent) {
+        classes.push("text-(--primary) font-bold bg-(--btn-plain-bg-hover)");
+      } else {
+        classes.push("text-neutral-700 dark:text-neutral-300");
+      }
+      return `<div class="${classes.join(' ')}" data-year="${year}">${year}<span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full" style="background-color: var(--primary);"></span></div>`;
+    }).join('');
+
+    container.querySelectorAll('[data-year]').forEach(el => {
+      el.addEventListener('click', () => {
+        displayYear = parseInt(el.getAttribute('data-year'));
+        currentView = 'month';
+        renderCalendar();
+      });
+    });
+  }
+  
+  function showMonthlyPosts(currentMonthPosts) {
+    const postsWrapper = document.getElementById('calendar-posts');
+    const postsList = document.getElementById('calendar-posts-list');
+    const divider = document.getElementById('calendar-posts-divider');
+
+    if (postsWrapper) {
+      postsWrapper.style.display = currentMonthPosts.length > 0 ? 'block' : 'none';
+    }
+    
+    if (postsList) {
+      postsList.innerHTML = currentMonthPosts.map(post => {
+        const date = new Date(post.published);
+        const dateStr = `${date.getMonth() + 1}-${date.getDate()}`;
+        return `
+          <a href="${post.path}" class="flex justify-between items-center text-sm text-neutral-700 dark:text-neutral-300 hover:text-(--primary) dark:hover:text-(--primary) transition-colors px-2 py-1 rounded hover:bg-(--btn-plain-bg-hover)" style="text-decoration: none; padding: 0.25rem 0.5rem; display: flex;">
+            <span class="truncate" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 80%;">${post.title}</span>
+            <span class="text-xs text-neutral-500 dark:text-neutral-400 ml-2 whitespace-nowrap">${dateStr}</span>
+          </a>
+        `}).join('');
+      
+      if (divider) {
+        divider.style.display = currentMonthPosts.length > 0 ? 'block' : 'none';
+      }
+    }
+  }
+  
+  function setupClickHandlers(currentMonthPosts) {
+    const postsWrapper = document.getElementById('calendar-posts');
+    const calendarDays = document.querySelectorAll('.calendar-day[data-date]');
+    const postsList = document.getElementById('calendar-posts-list');
+    const divider = document.getElementById('calendar-posts-divider');
+    
+    let currentSelectedDay = null;
+    
+    calendarDays.forEach(dayElement => {
+      dayElement.addEventListener('click', () => {
+        const dateKey = dayElement.getAttribute('data-date');
+        const hasPost = dayElement.getAttribute('data-has-post') === 'true';
+        
+        if (!hasPost || !dateKey) return;
+        
+        if (currentSelectedDay === dayElement) {
+          dayElement.classList.remove('calendar-day-selected');
+          currentSelectedDay = null;
+          showMonthlyPosts(currentMonthPosts);
+          return;
+        }
+        
+        if (currentSelectedDay) {
+          currentSelectedDay.classList.remove('calendar-day-selected');
+        }
+        
+        dayElement.classList.add('calendar-day-selected');
+        currentSelectedDay = dayElement;
+        
+        const posts = postDateMap[dateKey] || [];
+        
+        if (posts.length > 0 && postsList) {
+          if (postsWrapper) {
+            postsWrapper.style.display = 'block';
+          }
+
+          postsList.innerHTML = posts.map(post => {
+            const date = new Date(post.published);
+            const dateStr = `${date.getMonth() + 1}-${date.getDate()}`;
+            return `
+              <a href="${post.path}" class="flex justify-between items-center text-sm text-neutral-700 dark:text-neutral-300 hover:text-(--primary) dark:hover:text-(--primary) transition-colors px-2 py-1 rounded hover:bg-(--btn-plain-bg-hover)" style="text-decoration: none; padding: 0.25rem 0.5rem; display: flex;">
+                <span class="truncate" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 80%;">${post.title}</span>
+                <span class="text-xs text-neutral-500 dark:text-neutral-400 ml-2 whitespace-nowrap">${dateStr}</span>
+              </a>
+            `}).join('');
+          
+          if (divider) {
+            divider.style.display = 'block';
+          }
+        }
+      });
+    });
+  }
+
+  function changeMonth(delta) {
+    if (currentView === 'day') {
+      displayMonth += delta;
+      if (displayMonth > 11) {
+        displayMonth = 0;
+        displayYear++;
+      } else if (displayMonth < 0) {
+        displayMonth = 11;
+        displayYear--;
+      }
+    } else if (currentView === 'month') {
+      displayYear += delta;
+    }
+    renderCalendar();
+  }
+
+  function resetToToday() {
+    const now = new Date();
+    displayYear = now.getFullYear();
+    displayMonth = now.getMonth();
+    currentView = 'day';
+    renderCalendar();
+  }
+
+  function initCalendar() {
+    const now = new Date();
+    displayYear = now.getFullYear();
+    displayMonth = now.getMonth();
+    currentView = 'day';
+    
+    fetchData();
+    
+    const prevBtn = document.getElementById('prev-month-btn');
+    const nextBtn = document.getElementById('next-month-btn');
+    const resetBtn = document.getElementById('reset-month-btn');
+    const navDisplay = document.getElementById('current-month-display');
+    
+    if (prevBtn) prevBtn.onclick = () => changeMonth(-1);
+    if (nextBtn) nextBtn.onclick = () => changeMonth(1);
+    if (resetBtn) resetBtn.onclick = () => resetToToday();
+    
+    if (navDisplay) {
+      navDisplay.onclick = () => {
+        if (currentView === 'day') {
+          currentView = 'month';
+        } else if (currentView === 'month') {
+          currentView = 'year';
+        }
+        renderCalendar();
+      };
+    }
+  }
+  
+  // Set up initialization
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCalendar);
+  } else {
+    initCalendar();
+  }
+
+  // Swup/Pjax support
+  document.addEventListener("pjax:complete", initCalendar);
+  document.addEventListener("swup:contentReplaced", initCalendar);
+})();
+</script>

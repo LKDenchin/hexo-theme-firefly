@@ -1,0 +1,21 @@
+/* WebKit custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.75 0.02 var(--hue));
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.65 0.03 var(--hue));
+}
+
+/* Firefox custom scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.75 0.02 var(--hue)) transparent;
+}

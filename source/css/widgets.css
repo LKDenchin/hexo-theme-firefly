@@ -1,0 +1,401 @@
+/* ============================================================
+   widgets.css
+   Sidebar widget styles for Firefly Hexo theme
+   ============================================================ */
+
+/* Sidebar widgets container */
+.sidebar-widgets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+/* Widget base */
+.widget {
+  background: var(--card-bg);
+  border-radius: var(--radius-large);
+  border: 1px solid var(--line-divider);
+  overflow: hidden;
+  margin-bottom: 0; /* managed by sidebar-widgets gap */
+  transition: background-color var(--duration-fast), border-color var(--duration-fast), transform var(--duration-fast), box-shadow var(--duration-fast);
+}
+.widget:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+.widget-header {
+  padding: 0.75rem 1rem 0.5rem;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.widget-header::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 0.875rem;
+  background: var(--primary);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.widget-body {
+  padding: 1rem;
+}
+
+/* Profile widget */
+.profile-widget {
+  text-align: center;
+  padding: 1.5rem 1rem;
+}
+.profile-avatar {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-large);
+  overflow: hidden;
+  margin: 0 auto 0.75rem;
+  border: 2px solid var(--line-divider);
+  transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+}
+.profile-avatar:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.profile-avatar:hover img {
+  transform: scale(1.04);
+}
+.profile-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.profile-bio {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+/* Profile social links */
+.profile-social {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.profile-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-medium);
+  background: var(--btn-regular-bg);
+  color: var(--text-tertiary);
+  font-size: 1.15rem;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+.profile-social-link:hover {
+  background: var(--primary);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Categories widget */
+.categories-widget .category-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.375rem 0;
+  font-size: 0.875rem;
+}
+.categories-widget .category-item a {
+  color: var(--text-secondary);
+  transition: all var(--duration-fast);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-small);
+}
+.categories-widget .category-item a:hover {
+  color: var(--primary);
+  background: var(--btn-plain-bg-hover);
+}
+.categories-widget .category-count {
+  color: oklch(0.15 0.02 var(--hue)) !important;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  background: var(--primary) !important;
+  border-radius: var(--radius-small) !important;
+  transition: all var(--duration-fast);
+}
+
+/* Tags widget */
+.tags-widget .tag-item {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  margin: 0.25rem;
+  background: color-mix(in srgb, var(--primary) 12%, var(--card-bg)) !important;
+  color: var(--text-secondary) !important;
+  border-radius: var(--radius-small) !important;
+  font-size: 0.8125rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.tags-widget .tag-item:hover {
+  background: var(--primary) !important;
+  color: oklch(0.15 0.02 var(--hue)) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.tags-widget .tag-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+.tags-widget .tag-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary) !important;
+  text-decoration: none;
+  transition: all var(--duration-fast);
+}
+.tags-widget .tag-more-btn:hover {
+  color: var(--primary-hover) !important;
+  opacity: 0.9;
+}
+
+/* Stats widget */
+.stats-widget .stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  transition: all var(--duration-fast);
+}
+.stats-widget .stat-item:hover {
+  color: var(--text-primary);
+}
+.stats-widget .stat-item + .stat-item { border-top: 1px solid var(--line-divider); }
+.stats-widget .stat-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.stats-widget .stat-icon {
+  color: var(--primary);
+  font-size: 1rem;
+  width: 1.25rem;
+  text-align: center;
+}
+.stats-widget .stat-value { font-weight: 700; color: var(--primary); }
+.stats-widget .stat-suffix {
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+  margin-left: 0.125rem;
+}
+
+/* Calendar widget */
+.calendar-widget { }
+.calendar-container .grid {
+  display: grid;
+}
+.calendar-container .grid-cols-7 {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.calendar-container .grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.calendar-container .gap-1 {
+  gap: 0.25rem;
+}
+.calendar-container .gap-2 {
+  gap: 0.5rem;
+}
+.calendar-container .mb-2 {
+  margin-bottom: 0.5rem;
+}
+.calendar-container .mb-4 {
+  margin-bottom: 1rem;
+}
+.calendar-container .mt-3 {
+  margin-top: 0.75rem;
+}
+.calendar-container .aspect-square {
+  aspect-ratio: 1 / 1;
+}
+.calendar-container .text-center {
+  text-align: center;
+}
+.calendar-container .items-center {
+  align-items: center;
+}
+.calendar-container .justify-center {
+  justify-content: center;
+}
+.calendar-container .justify-between {
+  justify-content: space-between;
+}
+.calendar-container .flex {
+  display: flex;
+}
+.calendar-day {
+  transition: all 0.2s ease;
+  min-height: 32px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-medium);
+  font-size: 0.8125rem;
+}
+.calendar-day:hover {
+  background: var(--btn-plain-bg-hover);
+  transform: translateY(-1px);
+}
+.calendar-day[data-has-post="true"]:hover {
+  transform: translateY(-2px);
+  color: var(--primary) !important;
+  background: var(--btn-plain-bg-hover);
+}
+.calendar-day-selected {
+  background-color: var(--primary) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.today-highlight {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+.calendar-container [data-month],
+.calendar-container [data-year] {
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  border-radius: var(--radius-medium);
+  cursor: pointer;
+  position: relative;
+  transition: all var(--duration-fast);
+  background: var(--btn-regular-bg);
+  border: 1px solid var(--line-divider);
+  color: var(--text-secondary);
+}
+.calendar-container [data-month]:hover,
+.calendar-container [data-year]:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.calendar-container [data-month].font-bold,
+.calendar-container [data-year].font-bold {
+  color: var(--primary);
+  font-weight: 700;
+  border-color: var(--primary);
+}
+
+/* Announcement widget */
+.announcement-widget .announcement-content {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.announcement-widget.announcement-info { border-left: 3px solid oklch(0.65 0.15 230); }
+.announcement-widget.announcement-warning { border-left: 3px solid oklch(0.65 0.15 60); }
+
+/* ---------------------------------------------------------------
+   Music Widget — Bottom-Centered Play Button Layout
+   --------------------------------------------------------------- */
+.music-widget {
+  overflow: visible;
+}
+.music-widget .widget-body {
+  padding: 0.5rem;
+}
+.music-widget .aplayer {
+  margin: 0 !important;
+  background: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+  box-shadow: none !important;
+  border: 1px solid var(--line-divider) !important;
+  border-radius: var(--radius-medium) !important;
+}
+/* APlayer Dark Mode Overrides */
+html.dark .aplayer,
+:root.dark .aplayer {
+  background: var(--card-bg) !important;
+  color: var(--text-secondary) !important;
+  border-color: var(--line-divider) !important;
+}
+html.dark .aplayer .aplayer-info .aplayer-music,
+:root.dark .aplayer .aplayer-info .aplayer-music {
+  color: var(--text-primary) !important;
+}
+html.dark .aplayer .aplayer-info .aplayer-controller .aplayer-time,
+:root.dark .aplayer .aplayer-info .aplayer-controller .aplayer-time {
+  color: var(--text-tertiary) !important;
+}
+html.dark .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon path,
+:root.dark .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon path {
+  fill: var(--text-secondary) !important;
+}
+html.dark .aplayer .aplayer-list ol li,
+:root.dark .aplayer .aplayer-list ol li {
+  background: var(--card-bg) !important;
+  border-top-color: var(--line-divider) !important;
+  color: var(--text-secondary) !important;
+}
+html.dark .aplayer .aplayer-list ol li:hover,
+:root.dark .aplayer .aplayer-list ol li:hover {
+  background: var(--btn-plain-bg-hover) !important;
+}
+html.dark .aplayer .aplayer-list ol li.aplayer-list-light,
+:root.dark .aplayer .aplayer-list ol li.aplayer-list-light {
+  background: var(--btn-regular-bg) !important;
+}
+html.dark .aplayer .aplayer-list ol li .aplayer-list-author,
+:root.dark .aplayer .aplayer-list ol li .aplayer-list-author {
+  color: var(--text-tertiary) !important;
+}
+html.dark .aplayer .aplayer-lrc,
+:root.dark .aplayer .aplayer-lrc {
+  color: var(--text-secondary) !important;
+}
+html.dark .aplayer .aplayer-lrc:before,
+html.dark .aplayer .aplayer-lrc:after,
+:root.dark .aplayer .aplayer-lrc:before,
+:root.dark .aplayer .aplayer-lrc:after {
+  background: linear-gradient(to bottom, var(--card-bg), transparent) !important;
+}
+html.dark .aplayer .aplayer-volume-wrap .aplayer-volume-bar,
+:root.dark .aplayer .aplayer-volume-wrap .aplayer-volume-bar {
+  background: var(--btn-regular-bg) !important;
+}
+html.dark .aplayer .aplayer-pic,
+:root.dark .aplayer .aplayer-pic {
+  background-color: var(--btn-regular-bg) !important;
+}
+html.dark .aplayer .aplayer-bar-wrap .aplayer-bar,
+:root.dark .aplayer .aplayer-bar-wrap .aplayer-bar {
+  background: var(--btn-regular-bg) !important;
+}
+html.dark .aplayer .aplayer-bar-wrap .aplayer-loaded,
+:root.dark .aplayer .aplayer-bar-wrap .aplayer-loaded {
+  background: var(--line-divider) !important;
+}

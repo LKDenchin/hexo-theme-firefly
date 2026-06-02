@@ -1,0 +1,38 @@
+<%
+/**
+ * Single category page.
+ * Shows category name, post count, and lists posts using post-card partial.
+ *
+ * Variables:
+ *   page       - current category page (page.category has the category name)
+ *   site       - Hexo site object
+ *   config     - Hexo site configuration
+ *   theme      - theme _config.yml values
+ */
+var catName = page.category;
+var cat = site.categories.findOne({ name: catName });
+var totalPosts = cat ? cat.posts.length : 0;
+var postListDefault = theme.post_list_layout && theme.post_list_layout.default_mode || 'list';
+%>
+
+<div id="main-grid" class="main-grid-layout has-no-sidebar">
+  <main id="main-content" class="post-list-container category-container full-width" data-layout="<%= postListDefault %>">
+    <%- partial('_partials/post/content-nav') %>
+
+    <div class="post-list" data-mode="<%= postListDefault %>">
+      <% if (page.posts && page.posts.length > 0) { %>
+        <% page.posts.each(function(post) { %>
+          <%- partial('_partials/post/post-card', { post: post }) %>
+        <% }); %>
+      <% } else { %>
+      <div class="post-list-empty">
+        <p><%= __('category.no_posts') %></p>
+      </div>
+      <% } %>
+    </div>
+
+    <%- partial('_partials/paginator') %>
+  </main>
+
+  <%- partial('_partials/footer') %>
+</div>

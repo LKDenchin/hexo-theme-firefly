@@ -1,0 +1,50 @@
+<%
+/**
+ * About page template.
+ * Shows profile widget, custom content, and optionally comments.
+ *
+ * Variables:
+ *   page       - current about page
+ *   config     - Hexo site configuration
+ *   theme      - theme _config.yml values
+ */
+%>
+
+<div id="main-grid" class="main-grid-layout has-no-sidebar">
+  <main id="main-content" class="page-container full-width">
+    <%- partial('_partials/post/content-nav') %>
+    <article class="page-content">
+
+      <!-- Profile widget -->
+      <% if (theme.widgets && theme.widgets.profile && theme.widgets.profile.enable !== false) { %>
+      <div class="page-profile-widget">
+        <%- partial('_partials/widgets/profile') %>
+      </div>
+      <% } %>
+
+      <!-- About content -->
+      <% if (page.content) { %>
+      <div class="markdown-body custom-md">
+        <%- page.content %>
+      </div>
+      <% } %>
+
+      <!-- Site stats widget on about page -->
+      <% if (theme.widgets && theme.widgets.stats && theme.widgets.stats.enable !== false) { %>
+      <div class="page-stats-widget" style="max-width: 400px; margin: 2rem auto 0;">
+        <%- partial('_partials/widgets/stats') %>
+      </div>
+      <% } %>
+
+    </article>
+
+    <!-- Comments -->
+    <% if (theme.comments && theme.comments.type && theme.comments.type !== 'none' && page.comments !== false) { %>
+    <section class="page-comments" aria-label="<%= __('comments') %>">
+      <%- partial('_partials/comments/' + theme.comments.type) %>
+    </section>
+    <% } %>
+  </main>
+
+  <%- partial('_partials/footer') %>
+</div>

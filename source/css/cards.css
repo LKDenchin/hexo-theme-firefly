@@ -1,0 +1,719 @@
+/* ==========================================================================
+   Firefly Hexo Theme - cards.css
+   Post card styles for list / grid / masonry layout modes.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Post List Container
+   -------------------------------------------------------------------------- */
+
+.post-list-container {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Grid Layout
+   -------------------------------------------------------------------------- */
+
+.post-list-container[data-layout="grid"] .post-list {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(var(--grid-column-width, 320px), 1fr)
+  );
+  gap: 0.875rem;
+}
+
+/* --------------------------------------------------------------------------
+   List Layout
+   -------------------------------------------------------------------------- */
+
+.post-list-container[data-layout="list"] .post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem; /* Reduced gap to match other controls */
+}
+
+/* --------------------------------------------------------------------------
+   Post Card Item (shared)
+   -------------------------------------------------------------------------- */
+
+.post-card-item {
+  transition: all var(--duration-medium);
+  position: relative;
+}
+
+/* List mode card hover lift effect */
+.post-list-container[data-layout="list"] .post-card-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   List Mode: Horizontal Card Layout
+   -------------------------------------------------------------------------- */
+
+.post-list-container[data-layout="list"] .post-card-item[data-has-cover="true"] {
+  display: grid;
+  grid-template-columns: 1fr 340px; /* Content left, cover image right */
+  gap: 1.25rem;
+  padding: 1rem;
+  align-items: center;
+}
+
+.post-list-container[data-layout="list"] .post-card-item[data-has-cover="true"] .post-card-content {
+  grid-column: 1;
+  padding: 0;
+}
+
+.post-list-container[data-layout="list"] .post-card-item[data-has-cover="true"] .post-card-cover {
+  grid-column: 2;
+  grid-row: 1;
+  border-radius: var(--radius-large);
+}
+
+.post-list-container[data-layout="list"] .post-card-item[data-has-cover="false"] {
+  display: grid;
+  grid-template-columns: 1fr auto; /* Content left, vertical chevron right */
+  gap: 0;
+  padding: 0;
+  align-items: stretch;
+}
+
+.post-list-container[data-layout="list"] .post-card-item[data-has-cover="false"] .post-card-content {
+  padding: 1rem 0 1rem 1rem;
+}
+
+.post-list-container[data-layout="list"] .post-card-item[data-has-cover="false"] .post-card-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  background: var(--btn-regular-bg);
+  border-left: 1px solid var(--line-divider);
+  transition: all var(--duration-fast);
+  cursor: pointer;
+}
+
+.post-list-container[data-layout="list"] .post-card-item[data-has-cover="false"] .post-card-arrow a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--primary);
+  font-size: 1.25rem;
+  text-decoration: none;
+  transition: all var(--duration-fast);
+}
+
+.post-list-container[data-layout="list"] .post-card-item[data-has-cover="false"]:hover .post-card-arrow {
+  background: var(--primary);
+}
+
+.post-list-container[data-layout="list"] .post-card-item[data-has-cover="false"]:hover .post-card-arrow a {
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   Grid Mode: Vertical Card Layout
+   -------------------------------------------------------------------------- */
+
+.post-list-container[data-layout="grid"] .post-card-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-list-container[data-layout="grid"] .post-card-item:hover {
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   Cover Image
+   -------------------------------------------------------------------------- */
+
+.post-card-cover {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-large);
+  background: var(--btn-regular-bg);
+}
+
+.post-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card-item:hover .post-card-cover img {
+  transform: scale(1.03);
+}
+
+/* Card mode (grid): cover at top, content below */
+.post-list-container[data-layout="grid"] .post-card-cover {
+  border-radius: var(--radius-large) var(--radius-large) 0 0;
+}
+
+/* --------------------------------------------------------------------------
+   Card Content
+   -------------------------------------------------------------------------- */
+
+.post-list-container[data-layout="grid"] .post-card-content {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-list-container[data-layout="list"] .post-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   Title
+   -------------------------------------------------------------------------- */
+
+.post-card-title {
+  margin-top: 0;
+  margin-bottom: 0.375rem;
+  position: relative;
+}
+
+.post-card-title a {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.4;
+  transition: color var(--duration-fast);
+  text-decoration: none;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--primary);
+  border-radius: 2px;
+}
+
+.post-card-title a:hover {
+  color: var(--primary);
+}
+
+/* --------------------------------------------------------------------------
+   Meta (date, reading time, word count)
+   -------------------------------------------------------------------------- */
+
+.post-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+  margin-top: 0;
+  margin-bottom: 0.375rem;
+  flex-wrap: wrap;
+}
+
+.post-card-meta time {
+  white-space: nowrap;
+  padding: 0.2rem 0.5rem;
+  background: var(--btn-regular-bg);
+  color: var(--text-secondary);
+  border-radius: var(--radius-small, 4px);
+  transition: all var(--duration-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.post-card-meta time:hover {
+  background: var(--btn-plain-bg-hover);
+  color: var(--primary);
+}
+
+.post-card-meta .category-badge {
+  padding: 0.2rem 0.5rem;
+  background: color-mix(in srgb, var(--primary) 15%, transparent);
+  color: var(--primary);
+  border-radius: var(--radius-small, 4px);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.post-card-meta .category-badge:hover {
+  background: color-mix(in srgb, var(--primary) 25%, transparent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.post-card-meta .meta-divider {
+  width: 3px;
+  height: 3px;
+  background: var(--meta-divider);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.post-card-meta .meta-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.post-card-meta .meta-icon svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Excerpt
+   -------------------------------------------------------------------------- */
+
+.post-card-excerpt {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin: 0 0 0.5rem 0;
+  /* Line clamp to 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.post-list-container[data-layout="grid"] .post-card-excerpt {
+  flex: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Tags
+   -------------------------------------------------------------------------- */
+
+.post-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  margin-top: 0.5rem;
+}
+
+.post-card-tags a {
+  color: var(--text-tertiary);
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-small);
+  background: var(--btn-regular-bg);
+  transition: all var(--duration-fast);
+  text-decoration: none;
+}
+
+.post-card-tags a:hover {
+  color: var(--primary);
+  background: var(--btn-plain-bg-hover);
+  transform: translateY(-1px);
+}
+
+/* Footer: tags & reading time container */
+.post-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--line-divider);
+}
+.post-card-footer .post-card-tags {
+  margin-top: 0;
+}
+
+/* Reading time badge */
+.post-card-reading-time {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  padding: 0.125rem 0.5rem;
+  background: var(--btn-regular-bg);
+  border-radius: var(--radius-small, 4px);
+  white-space: nowrap;
+  transition: all var(--duration-fast);
+}
+.post-card-reading-time:hover {
+  background: var(--btn-plain-bg-hover);
+  color: var(--primary);
+}
+
+.post-card-meta .pinned-badge-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  background: color-mix(in srgb, var(--primary) 15%, transparent);
+  color: var(--primary);
+  border-radius: var(--radius-small, 4px);
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.post-card-meta .pinned-badge-inline i {
+  font-size: 0.6875rem;
+}
+
+/* --------------------------------------------------------------------------
+   Pinned Badge
+   -------------------------------------------------------------------------- */
+
+.pinned-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: var(--primary);
+  color: white;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-small);
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* For list mode, ensure pinned badge is positioned relative to the card, not the cover */
+.post-list-container[data-layout="list"] .post-card-item .pinned-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Masonry Layout (separate layout mode)
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 769px) {
+  .post-list[data-mode="masonry"] {
+    column-count: 3;
+    column-gap: 1.5rem;
+  }
+
+  .post-list[data-mode="masonry"] .post-card-item {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .post-list[data-mode="masonry"] .post-card-item:hover {
+    transform: translateY(-2px);
+  }
+
+  .post-list[data-mode="masonry"] .post-card-cover {
+    border-radius: var(--radius-large);
+  }
+
+  .post-list[data-mode="masonry"] .post-card-content {
+    padding: 0.75rem 0.25rem;
+  }
+}
+
+/* Tablet masonry: 2 columns */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .post-list[data-mode="masonry"] {
+    column-count: 2;
+  }
+}
+
+/* Mobile masonry: 1 column */
+@media (max-width: 768px) {
+  .post-list[data-mode="masonry"] {
+    column-count: 1;
+  }
+
+  .post-list-container[data-layout="list"] .post-card-item {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .post-list-container[data-layout="list"] .post-card-item[data-has-cover="true"] {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .post-list-container[data-layout="list"] .post-card-item[data-has-cover="true"] .post-card-content {
+    grid-column: auto;
+    order: 2;
+  }
+  .post-list-container[data-layout="list"] .post-card-item[data-has-cover="true"] .post-card-cover {
+    grid-column: auto;
+    order: 1;
+  }
+
+  .post-list-container[data-layout="list"] .post-card-item[data-has-cover="false"] {
+    display: block;
+    padding: 1rem;
+  }
+  .post-list-container[data-layout="list"] .post-card-item[data-has-cover="false"] .post-card-content {
+    padding: 0;
+  }
+  .post-list-container[data-layout="list"] .post-card-item[data-has-cover="false"] .post-card-arrow {
+    display: none;
+  }
+
+  .post-list-container[data-layout="grid"] .post-list {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Post List Layout Switch Toolbar
+   -------------------------------------------------------------------------- */
+
+.post-list-layout-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.875rem;
+  padding: 0.75rem;
+  background: var(--card-bg);
+  border-radius: var(--radius-medium);
+  border: 1px solid var(--line-divider);
+}
+
+.post-list-layout-switch .layout-label {
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+.post-list-layout-switch .layout-buttons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.post-list-layout-switch .layout-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius-small);
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  background: var(--btn-plain-bg-hover);
+  color: var(--text-tertiary);
+  transition: all var(--duration-fast);
+}
+
+.post-list-layout-switch .layout-buttons button:hover {
+  background: var(--btn-plain-bg-active);
+  color: var(--text-secondary);
+}
+
+.post-list-layout-switch .layout-buttons button.active {
+  background: var(--primary);
+  color: white;
+}
+
+.post-list-layout-switch .layout-buttons button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Empty State (no posts)
+   -------------------------------------------------------------------------- */
+
+.post-list-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: var(--text-tertiary);
+}
+
+.post-list-empty .empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.3;
+}
+
+.post-list-empty .empty-text {
+  font-size: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Card Hover Effects
+   -------------------------------------------------------------------------- */
+
+/* All cards always have rounded rect background */
+.post-card-item {
+  border-radius: var(--radius-large);
+  background: var(--card-bg);
+  border: 1px solid var(--line-divider);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* Legacy: card-border class overrides */
+.enable-card-border .post-card-item {
+  border: 1px solid var(--line-divider);
+}
+
+.enable-card-border .post-list-container[data-layout="list"] .post-card-item {
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Archive / Tag Page Card Style Overrides
+   -------------------------------------------------------------------------- */
+
+/* Archive header */
+.archive-container {
+  padding: 2rem 0;
+}
+.archive-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.archive-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.archive-count {
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  margin-top: 0.5rem;
+}
+
+/* Archive year heading */
+.archive-year {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 1.5rem 0 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary);
+}
+
+/* Archive individual item */
+.archive-item,
+.archive-post-item {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--line-divider);
+}
+
+.archive-item-date,
+.archive-post-item .archive-date {
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  min-width: 6rem;
+  font-family: var(--font-mono);
+}
+
+.archive-item-title {
+  font-size: 1rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color var(--duration-fast);
+  flex: 1;
+}
+
+.archive-item-title:hover {
+  color: var(--primary);
+}
+
+.archive-post-item .archive-title {
+  font-size: 1rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color var(--duration-fast);
+  flex: 1;
+}
+
+.archive-post-item .archive-title:hover {
+  color: var(--primary);
+}
+
+.archive-empty {
+  text-align: center;
+  padding: 3rem 0;
+  color: var(--text-tertiary);
+}
+
+/* --------------------------------------------------------------------------
+   Content Navigation Bar (horizontal shortcuts row at top of main content)
+   -------------------------------------------------------------------------- */
+.content-nav-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--card-bg);
+  border: 1px solid var(--line-divider);
+  border-radius: var(--radius-large, 12px);
+  margin-bottom: 0.875rem;
+  flex-wrap: wrap;
+  transition: all var(--duration-fast, 0.2s);
+}
+
+.content-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius-small, 6px);
+  background: var(--btn-regular-bg);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--duration-fast, 0.2s);
+}
+
+.content-nav-item:hover {
+  background: var(--btn-plain-bg-hover);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+/* Active and special states */
+.content-nav-home {
+  padding: 0.375rem 0.625rem;
+  background: var(--btn-regular-bg);
+  color: var(--text-secondary);
+}
+
+.content-nav-home.active,
+.content-nav-home:hover {
+  background: var(--primary) !important;
+  color: white !important;
+}
+
+.content-nav-item.active {
+  background: color-mix(in srgb, var(--primary) 15%, transparent);
+  color: var(--primary);
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+.content-nav-item .nav-item-count {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  opacity: 0.8;
+  margin-left: 0.125rem;
+}
+
+.content-nav-item.active .nav-item-count {
+  color: var(--primary);
+}

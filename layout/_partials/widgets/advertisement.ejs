@@ -1,0 +1,20 @@
+<% if (theme.advertisement && theme.advertisement.enable) { %>
+<div class="widget advertisement-widget">
+  <div class="widget-header"><%= theme.advertisement.title || __('advertisement') %></div>
+  <div class="widget-body">
+    <% if (theme.advertisement.image && theme.advertisement.image.src) { %>
+      <a href="<%= theme.advertisement.image.link || '#' %>" <%= theme.advertisement.image.external ? 'target="_blank"' : '' %>>
+        <img src="<%= theme.advertisement.image.src %>" alt="<%= theme.advertisement.image.alt || '' %>">
+      </a>
+    <% } %>
+    <% if (theme.advertisement.content) { %>
+      <p><%= theme.advertisement.content %></p>
+    <% } %>
+    <% if (theme.advertisement.link && theme.advertisement.link.url) { %>
+      <a href="<%= theme.advertisement.link.url %>" <%= theme.advertisement.link.external ? 'target="_blank"' : '' %>>
+        <%= theme.advertisement.link.text %>
+      </a>
+    <% } %>
+  </div>
+</div>
+<% } %>

@@ -1,0 +1,890 @@
+# ============================================================
+#  Firefly Theme for Hexo - 完整配置文件
+#  从 Astro 版 Firefly 迁移至 Hexo
+#  本文件合并了原 Astro 项目中 28 个 TypeScript 配置文件的全部内容
+# ============================================================
+
+# ============================================================
+#  主题色彩设置 (对应模板中 theme.theme_color.*)
+# ============================================================
+theme_color:
+  # 色相值 (0-360)，主题色将基于此值生成
+  hue: 165
+  # 是否锁定主题色（用户不可切换）
+  fixed: false
+  # 默认色彩模式，可选：light, dark, system
+  default_mode: system
+
+# ============================================================
+#  导航栏设置 (对应模板中 theme.nav.*)
+# ============================================================
+nav:
+  # 是否启用粘性定位（滚动时固定在顶部）
+  sticky: true
+  # 导航栏是否透明
+  transparent: true
+  # 导航栏类型，可选：default, simple, hidden
+  type: default
+  # Logo 配置
+  logo:
+    # Logo 类型：image（图片）或 text（文字）
+    type: "image"
+    # Logo 图片路径（type 为 image 时生效）
+    value: "/img/firefly.png"
+    # Logo 图片的 alt 文本
+    alt: "🍀"
+  # 导航栏标题
+  title: "Firefly"
+  # 是否显示菜单
+  show_menu: true
+  # 导航菜单项
+  menu:
+    - name: "首页"
+      icon: "home"
+      path: "/"
+    - name: "归档"
+      icon: "archive"
+      path: "/archives/"
+    - name: "分类"
+      icon: "category"
+      path: "/categories/"
+    - name: "标签"
+      icon: "tag"
+      path: "/tags/"
+    - name: "关于"
+      icon: "user"
+      path: "/about/"
+    - name: "友链"
+      icon: "link"
+      path: "/friends/"
+  # 导航栏是否跟随主题色变化
+  follow_theme: false
+
+# ============================================================
+#  卡片样式 (对应模板中 theme.cards.*)
+# ============================================================
+cards:
+  # 是否显示卡片边框
+  border: true
+  # 卡片是否跟随主题色变化
+  follow_theme_hue: false
+
+# ============================================================
+#  页面内容最大宽度，单位：rem
+# ============================================================
+page_width: 100
+
+# ============================================================
+#  Favicon 设置 (对应模板中 theme.favicon.*)
+# ============================================================
+favicon:
+  # 16x16 图标
+  favicon_16: "/img/favicon.ico"
+  # 32x32 图标
+  favicon_32: "/img/favicon.ico"
+  # Apple Touch Icon
+  apple_touch_icon: "/img/favicon.ico"
+  # SVG 图标
+  favicon_svg: ""
+  # Web App Manifest
+  manifest: ""
+  # Safari Mask Icon
+  mask_icon: ""
+  mask_icon_color: ""
+
+# ============================================================
+#  独立页面配置 (对应模板中 theme.pages.*)
+# ============================================================
+pages:
+  # 友链页面
+  friends: true
+  # 赞助页面
+  sponsor: true
+  # 留言板页面
+  guestbook: true
+  # 番组页面（追番/追剧列表）
+  bangumi: true
+  # 相册页面
+  gallery: true
+
+# ============================================================
+#  文章分类栏 (对应模板中 theme.category_bar.*)
+# ============================================================
+category_bar:
+  enable: false
+
+# ============================================================
+#  文章设置 (对应模板中 theme.post.*)
+# ============================================================
+post:
+  # 默认封面图
+  default_index_img: ""
+  # 是否在文章页面显示封面
+  show_cover: true
+  # 文章元数据设置
+  meta:
+    author:
+      enable: true
+    date:
+      enable: true
+      format: "YYYY-MM-DD"
+    wordcount:
+      enable: true
+    min2read:
+      enable: true
+      awl: 2
+      wpm: 200
+      language: zh-CN
+    tag:
+      enable: true
+    category:
+      enable: true
+  # 文章目录 (TOC)
+  toc:
+    enable: true
+    placement: right
+    floating: true
+  # 文章分类栏
+  category_bar:
+    enable: true
+    placement: left
+  # 版权声明
+  copyright:
+    enable: true
+    license: "CC BY-NC-SA 4.0"
+    license_url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+  # 分享按钮
+  share:
+    enable: false
+    twitter: true
+    facebook: false
+    weibo: false
+  # 上下篇导航
+  prev_next:
+    enable: true
+  # 相关文章
+  related:
+    enable: false
+    maxCount: 6
+  # 文章最后更新时间
+  updated:
+    enable: true
+    date_format: "YYYY-MM-DD HH:mm"
+
+# ============================================================
+#  文章列表布局 (对应模板中 theme.post_list_layout.*)
+# ============================================================
+post_list_layout:
+  # 桌面端默认布局模式，可选：list, grid
+  default_mode: list
+  # 移动端默认布局模式，可选：list, grid
+  mobile_default_mode: list
+  # 日期格式
+  date_format: "YYYY-MM-DD"
+  # 是否在文章卡片上显示标签
+  show_tags: true
+  # 是否在文章卡片上显示分类
+  show_category: true
+  # 是否在文章卡片上显示阅读时间
+  show_reading_time: true
+  # 文章描述显示行数
+  description_lines: 2
+  # 是否允许用户在列表与网格视图之间切换
+  allow_switch: true
+  # 网格视图设置
+  grid:
+    # 是否启用瀑布流布局
+    masonry: false
+    # 每列宽度，单位：px
+    column_width: 320
+
+# ============================================================
+#  社交链接 (对应模板中 theme.social.*)
+# ============================================================
+social:
+  - name: "GitHub"
+    icon: "github"
+    url: "https://github.com"
+  - name: "Email"
+    icon: "email"
+    url: "mailto:example@email.com"
+  - name: "RSS"
+    icon: "rss"
+    url: "/rss/"
+
+# ============================================================
+#  导航栏 Logo (对应模板中 theme.logo.*)
+# ============================================================
+logo:
+  url: "/img/firefly.png"
+  icon: "🍀"
+
+# ============================================================
+#  首页文字 (对应模板中 theme.home_text.*，banner.ejs 读取)
+# ============================================================
+home_text:
+  title: "Lovely firefly!"
+  subtitle: "In Reddened Chrysalis, I Once Rest"
+  typewriter:
+    enable: true
+    speed: 100
+    delete_speed: 50
+    pause_time: 2000
+
+# ============================================================
+#  版权许可 (对应模板中 theme.license.*)
+# ============================================================
+license:
+  name: "CC BY-NC-SA 4.0"
+  url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+
+# ============================================================
+#  侧边栏组件列表 (对应模板中 theme.widgets)
+#  模板通过 widgets.forEach 遍历加载 widget partials
+# ============================================================
+widgets:
+  - type: "profile"
+    enable: true
+    position: "left"
+  - type: "announcement"
+    enable: true
+    position: "left"
+  - type: "music"
+    enable: true
+    position: "left"
+  - type: "categories"
+    enable: true
+    position: "left"
+  - type: "tags"
+    enable: true
+    position: "left"
+  - type: "stats"
+    enable: true
+    position: "right"
+  - type: "calendar"
+    enable: true
+    position: "right"
+
+# ============================================================
+#  广告 (对应模板中 theme.advertisement.*)
+# ============================================================
+advertisement:
+  enable: false
+  title: ""
+  content: ""
+
+# ============================================================
+#  归档页、分类页、标签页、首页额外配置
+# ============================================================
+archive:
+  description: ""
+
+category: {}
+
+tag: {}
+
+index:
+  show_title: false
+
+# ============================================================
+#  站点基本设置 (siteConfig.ts 其余部分)
+# ============================================================
+site:
+  title: "Firefly"
+  subtitle: "Demo site"
+  # 站点完整 URL，末尾无需斜杠
+  site_url: "https://firefly.example.com"
+  # 站点描述，用于 SEO 和 Open Graph
+  description: "Firefly 是一款基于 Hexo 框架的清新美观且现代化个人博客主题模板，具有丰富的功能和灵活的配置。"
+  # 站点关键词
+  keywords:
+    - Firefly
+    - Hexo
+    - 博客
+    - 技术博客
+    - 静态博客
+  # 站点语言，可选：zh-CN, zh-TW, en, ja, ru
+  lang: zh-CN
+  # 站点成立日期，格式：YYYY-MM-DD
+  site_start_date: "2025-01-01"
+  # 时区设置
+  timezone: "Asia/Shanghai"
+  # 是否在文章末尾显示最后修改时间
+  show_last_modified: true
+  # 文章过期提示阈值，单位：天（超过此天数后文章会显示过期提示）
+  outdated_threshold: 30
+  # Callout 组件主题，可选：github, obsidian, minimal
+  rehype_callouts_theme: github
+  # 分页设置
+  pagination:
+    # 每页显示文章数量
+    posts_per_page: 10
+
+# ============================================================
+#  统计分析设置
+# ============================================================
+analytics:
+  # 不蒜子访客计数
+  busuanzi: true
+  # Google Analytics 测量 ID（留空则禁用）
+  google_analytics_id: ""
+  # Microsoft Clarity 项目 ID（留空则禁用）
+  microsoft_clarity_id: ""
+  # Umami 网站统计
+  umami:
+    # Umami 网站 ID（留空则禁用）
+    website_id: ""
+    # Umami 脚本地址
+    script_url: "https://cloud.umami.is/script.js"
+  # 百度统计 ID（留空则禁用）
+  bai_du_tong_ji_id: ""
+  # LA51 统计（原 51.LA）
+  la51:
+    id: ""
+    # 是否启用自动追踪
+    autoTrack: false
+    # 是否启用屏幕录制回放
+    screenRecord: true
+
+# ============================================================
+#  个人资料设置 (profileConfig.ts)
+# ============================================================
+profile:
+  # 头像图片路径
+  avatar: "/img/avatar.avif"
+  # 显示名称
+  name: "Firefly"
+  # 个人简介
+  bio: "Hello, I'm Firefly."
+  # 社交链接
+  links:
+    - name: "GitHub"
+      icon: "github"
+      url: "https://github.com"
+    - name: "Email"
+      icon: "email"
+      url: "mailto:example@email.com"
+    - name: "RSS"
+      icon: "rss"
+      url: "/rss/"
+
+# ============================================================
+#  壁纸/背景设置 (backgroundWallpaper.ts)
+#  这是原 Astro 配置中最复杂的部分，包含约 80 个字段
+# ============================================================
+wallpaper:
+  # 壁纸模式，可选：banner（横幅）, fullscreen（全屏）, overlay（叠加层）, none（无）
+  mode: banner
+  # 是否允许用户切换壁纸
+  switchable: false
+  # 壁纸图片来源 (模板以数组形式访问，每项含 desktop/mobile 两个尺寸)
+  src:
+    - desktop: "/img/DesktopWallpaper/d1.avif"
+      mobile: "/img/MobileWallpaper/m1.avif"
+    - desktop: "/img/DesktopWallpaper/d2.avif"
+      mobile: "/img/MobileWallpaper/m2.avif"
+    - desktop: "/img/DesktopWallpaper/d3.avif"
+      mobile: "/img/MobileWallpaper/m3.avif"
+    - desktop: "/img/DesktopWallpaper/d4.avif"
+      mobile: "/img/MobileWallpaper/m4.avif"
+    - desktop: "/img/DesktopWallpaper/d5.avif"
+      mobile: "/img/MobileWallpaper/m5.avif"
+    - desktop: "/img/DesktopWallpaper/d6.avif"
+      mobile: "/img/MobileWallpaper/m6.avif"
+  # 全局暗色叠加层透明度 (banner.ejs 从 theme.wallpaper.dim_opacity 读取)
+  dim_opacity: 0.45
+  # Banner 轮播间隔 (banner.ejs 从 theme.wallpaper.banner_switch_interval 读取)
+  banner_switch_interval: 5000
+  # 是否启用轮播 (banner.ejs 从 theme.wallpaper.enable_carousel 读取)
+  enable_carousel: false
+  # 是否显示向下滚动指示器 (banner.ejs 从 theme.wallpaper.show_scroll_down 读取)
+  show_scroll_down: true
+  # 向下滚动指示器文本 (banner.ejs 从 theme.wallpaper.scroll_down_text 读取)
+  scroll_down_text: "Scroll Down"
+  # 通用壁纸设置（所有模式共享）
+  common:
+    # 全局暗色叠加层透明度 (0.0 - 1.0)
+    dim_opacity: 0.45
+    # 首页自定义文字
+    home_text:
+      # 是否启用首页文字
+      enable: true
+      # 是否允许用户开关首页文字
+      switchable: true
+      # 主标题文字
+      title: "Lovely firefly!"
+      # 主标题字号
+      title_size: "3.8rem"
+      # 副标题文字（数组形式，随机显示一条）
+      subtitle:
+        - "In Reddened Chrysalis, I Once Rest"
+        - "From Shattered Sky, I Free Fall"
+      # 副标题字号
+      subtitle_size: "1.5rem"
+      # 打字机效果
+      typewriter:
+        # 是否启用打字机效果
+        enable: true
+        # 打字速度，单位：毫秒/字符
+        speed: 100
+        # 删除速度，单位：毫秒/字符
+        delete_speed: 50
+        # 打完后的暂停时间，单位：毫秒
+        pause_time: 2000
+    # 导航栏在壁纸模式下的样式
+    navbar:
+      # 透明模式，可选：full（全透明）, semi（半透明）, none（不透明）
+      transparent_mode: semi
+      # 是否启用模糊效果
+      enable_blur: true
+      # 模糊程度，单位：px
+      blur: 5
+    # 波浪效果
+    waves:
+      enable:
+        desktop: true
+        mobile: true
+      # 是否允许用户开关波浪效果
+      switchable: true
+    # 渐变效果
+    gradient:
+      enable:
+        desktop: true
+        mobile: true
+      # 渐变高度
+      height: "15vh"
+      # 是否允许用户开关渐变效果
+      switchable: true
+  # Banner 模式专属设置
+  banner:
+    # 背景位置，CSS background-position 值
+    position: "0% 20%"
+    # 轮播设置
+    carousel:
+      # 是否启用轮播
+      enable: false
+      # 轮播间隔，单位：毫秒
+      interval: 5000
+      # 是否允许用户开关轮播
+      switchable: false
+  # Overlay 叠加层模式专属设置
+  overlay:
+    # 用户可切换的项目
+    switchable:
+      opacity: true
+      blur: true
+      card_opacity: true
+    # 叠加层 z-index
+    z_index: -1
+    # 叠加层透明度 (0.0 - 1.0)
+    opacity: 0.8
+    # 叠加层模糊程度，单位：px
+    blur: 10
+    # 卡片透明度 (0.0 - 1.0)
+    card_opacity: 0.5
+  # Fullscreen 全屏模式专属设置
+  fullscreen:
+    # 背景位置，CSS background-position 值
+    position: center
+
+# ============================================================
+#  评论系统设置 (commentConfig.ts)
+# ============================================================
+comments:
+  # 评论系统类型，可选：none, giscus, twikoo, waline, artalk, disqus
+  type: giscus
+  # Giscus 评论（基于 GitHub Discussions）
+  giscus:
+    # GitHub 仓库，格式：username/repo
+    repo: "lkdenchin/hexo-blog-comments"
+    # GitHub 仓库 ID
+    repo_id: "R_kgDORXaOrA"
+    # 讨论分类名称
+    category: "Announcements"
+    # 分类 ID
+    category_id: "DIC_kwDORXaOrM4C3F8Y"
+    # 页面与讨论的映射方式，可选：pathname, url, title, og:title
+    mapping: "pathname"
+    # 是否使用严格匹配模式
+    strict: "0"
+    # 是否启用 Reactions
+    reactions_enabled: "1"
+    # 是否发送元数据
+    emit_metadata: "1"
+    # 评论框位置，可选：top, bottom
+    input_position: "top"
+    # 界面语言
+    lang: "zh-CN"
+    # 加载方式，可选：lazy, eager
+    loading: "lazy"
+  # Twikoo 评论
+  twikoo:
+    # Twikoo 环境 ID（Vercel 部署地址）
+    env_id: ""
+    # 界面语言
+    lang: "zh-CN"
+  # Waline 评论
+  waline:
+    # Waline 服务端地址
+    server_url: ""
+    # 界面语言
+    lang: "zh-CN"
+    # 自定义表情包列表
+    emoji: []
+  # Artalk 评论
+  artalk:
+    # Artalk 服务端地址
+    server: ""
+    # 界面语言
+    locale: "zh-CN"
+  # Disqus 评论
+  disqus:
+    # Disqus 站点短名称
+    shortname: ""
+
+# ============================================================
+#  音乐播放器设置 (musicConfig.ts)
+# ============================================================
+music:
+  # 音乐模式，可选：meting（MetingJS 在线音乐）, local（本地音乐）
+  mode: meting
+  # 默认音量 (0.0 - 1.0)
+  volume: 0.7
+  # 播放模式，可选：list（列表播放）, random（随机播放）, single（单曲循环）
+  play_mode: list
+  # 是否显示歌词
+  show_lyrics: true
+  # 是否在导航栏显示音乐按钮
+  show_in_navbar: true
+  # MetingJS 在线音乐设置
+  meting:
+    # 自定义 API 地址（留空使用默认）
+    api: ""
+    # 音乐平台，可选：netease（网易云）, tencent（QQ音乐）, kugou（酷狗）, xiami, baidu
+    server: "netease"
+    # 类型，可选：playlist（歌单）, album（专辑）, artist（歌手）, song（单曲）
+    type: "playlist"
+    # 对应歌单/专辑/歌手/单曲的 ID
+    id: "10046455237"
+  # 本地音乐设置
+  local:
+    # 本地播放列表，每项包含 name, artist, url, cover, lrc
+    playlist: []
+
+# ============================================================
+#  侧边栏设置 (sidebarConfig.ts)
+# ============================================================
+sidebar:
+  # 是否启用侧边栏
+  enable: true
+  # 侧边栏位置，可选：left（左侧）, right（右侧）, both（两侧）
+  position: both
+  # 平板设备上侧边栏位置，可选：left, right
+  tablet_sidebar: left
+  # 在文章页面是否同时显示左右侧边栏（仅 position 为 both 时生效）
+  show_both_sidebars_on_post: true
+  # ---- 左侧边栏组件 ----
+  left_components:
+    # 个人资料卡片
+    - type: profile
+      enable: true
+      # 固定位置：top（顶部固定）, sticky（粘性定位）, bottom（底部固定）
+      position: top
+      # 是否在文章页面显示
+      show_on_post: true
+    # 公告组件
+    - type: announcement
+      enable: true
+      position: top
+      show_on_post: true
+    # 音乐播放器组件
+    - type: music
+      enable: true
+      position: sticky
+      show_on_post: true
+    # 分类组件
+    - type: categories
+      enable: true
+      position: sticky
+      show_on_post: true
+      # 分类超过此数量后折叠显示
+      collapse_threshold: 5
+    # 标签云组件
+    - type: tags
+      enable: true
+      position: sticky
+      show_on_post: true
+      # 标签超过此数量后折叠显示
+      collapse_threshold: 10
+  # ---- 右侧边栏组件 ----
+  right_components:
+    # 站点统计组件
+    - type: stats
+      enable: true
+      position: top
+      show_on_post: true
+    # 日历组件
+    - type: calendar
+      enable: true
+      position: sticky
+      # 在文章页面不显示
+      show_on_post: false
+    # 文章目录组件
+    - type: sidebar_toc
+      enable: true
+      position: sticky
+      show_on_post: true
+      # 在非文章页面不显示
+      show_on_non_post: false
+  # ---- 移动端底部组件（仅在移动设备显示） ----
+  mobile_bottom_components:
+    - type: stats
+      enable: true
+      position: top
+      show_on_post: true
+    - type: profile
+      enable: true
+      position: top
+      show_on_post: true
+    - type: categories
+      enable: false
+      position: sticky
+      show_on_post: true
+      collapse_threshold: 5
+    - type: tags
+      enable: false
+      position: sticky
+      show_on_post: true
+      collapse_threshold: 10
+
+# ============================================================
+#  特效设置
+# ============================================================
+effects:
+  # 樱花飘落特效
+  sakura:
+    # 是否启用樱花特效
+    enable: true
+    # 是否允许用户开关特效
+    switchable: true
+    # 同时显示的樱花数量
+    num: 21
+    # 掉落次数限制（-1 表示无限循环）
+    limit_times: -1
+    # 樱花尺寸范围
+    size:
+      min: 0.4
+      max: 0.7
+    # 樱花透明度范围
+    opacity:
+      min: 0.3
+      max: 0.8
+    # 樱花移动速度
+    speed:
+      # 水平移动速度范围
+      horizontal:
+        min: 0.1
+        max: 0.3
+      # 垂直下落速度范围
+      vertical:
+        min: 0.5
+        max: 1.5
+      # 旋转速度
+      rotation: 0.01
+      # 淡出速度
+      fade_speed: 0.01
+    # 樱花层级 z-index
+    z_index: 999
+
+# ============================================================
+#  看板娘/角色模型设置 (pio)
+# ============================================================
+pio:
+  # Spine 骨骼动画模型
+  spine:
+    # 是否启用 Spine 模型
+    enable: false
+    model:
+      # Spine 模型 JSON 配置文件路径
+      path: "/pio/models/spine/firefly/1310.json"
+    # 模型位置
+    position:
+      # 停靠角落，可选：bottom-left, bottom-right, top-left, top-right
+      corner: "bottom-left"
+    # 模型尺寸
+    size:
+      width: 280
+      height: 400
+  # Live2D 模型
+  live2d:
+    # 是否启用 Live2D 模型
+    enable: false
+    model:
+      # Live2D 模型配置文件路径
+      path: "/pio/models/live2d/snow_miku/model.json"
+    # 模型停靠位置，可选：bottom-left, bottom-right, top-left, top-right
+    position: "bottom-left"
+
+# ============================================================
+#  页脚设置
+# ============================================================
+footer:
+  # 是否启用页脚
+  enable: true
+  # 是否显示"H仰 Hexo / Theme"信息
+  powered_by: true
+  # 是否显示访客计数器
+  visitor_counter: true
+  # 自定义 HTML（插入到页脚中）
+  custom_html: ""
+  # 自定义文本
+  custom: ""
+  # 主题作者名
+  theme_author: "firefly-theme"
+  # 版权许可
+  license:
+    # 是否显示版权许可信息
+    enable: true
+    # 许可证名称
+    name: "CC BY-NC-SA 4.0"
+    # 许可证链接
+    url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+
+# ============================================================
+#  代码块设置
+# ============================================================
+code:
+  # 是否启用客户端代码高亮 (hljs)
+  highlight: false
+  # 暗色模式下的代码高亮主题
+  theme_dark: "one-dark-pro"
+  # 亮色模式下的代码高亮主题
+  theme_light: "one-light"
+  # 高亮主题 (亮点一致名称)
+  theme: "github-dark"
+  # 代码块折叠设置
+  collapsible:
+    # 是否启用代码块折叠
+    enable: true
+    # 超过此行数的代码块将被折叠
+    line_threshold: 15
+    # 折叠时预览显示行数
+    preview_lines: 5
+    # 默认是否折叠代码块
+    default_collapsed: false
+  # 代码语言标识
+  language_badge:
+    # 是否在代码块顶部显示语言标识
+    enable: true
+
+# ============================================================
+#  PlantUML 图表设置
+# ============================================================
+plantuml:
+  # 是否启用 PlantUML 渲染
+  enable: false
+  # PlantUML 服务器地址
+  server: "https://www.plantuml.com/plantuml"
+  # 亮色模式下使用的 PlantUML 主题（留空则使用默认）
+  light_theme: ""
+  # 暗色模式下使用的 PlantUML 主题（留空则使用默认）
+  dark_theme: ""
+
+# ============================================================
+#  搜索设置（本地搜索，替代原 Astro 的 PageFind）
+# ============================================================
+search:
+  # 是否启用搜索功能
+  enable: true
+  # 本地搜索 JSON 文件路径（由 hexo-generator-search 生成）
+  path: "/local-search.xml"
+
+# ============================================================
+#  公告设置
+# ============================================================
+announcement:
+  # 公告标题
+  title: "Announcement"
+  # 公告内容（支持 Markdown）
+  content: ""
+  # 公告图标（Font Awesome 图标名，留空不显示）
+  icon: ""
+  # 公告类型，可选：info, warning, success, error
+  type: info
+  # 是否允许用户关闭公告
+  closable: true
+
+# ============================================================
+#  字体设置
+# ============================================================
+font:
+  # 是否启用自定义字体
+  enable: false
+  # 字体 CSS 链接列表 (head.ejs 遍历 theme.font.urls)
+  urls: []
+  # 已选字体列表
+  selected: []
+  # 可用字体配置（key 为字体名称，value 为 CSS font-family）
+  fonts: {}
+  # 是否预加载字体文件
+  preload: false
+
+# 图标库 URL (iconfont)
+iconfont: "https://at.alicdn.com/t/c/font_1736178_k526ubmyhba.css"
+
+# ============================================================
+#  赞助页面设置
+# ============================================================
+sponsor:
+  # 赞助页面描述
+  description: ""
+  # 赞助方式列表（每项包含 name, icon, qrcode 等字段）
+  methods: []
+  # 赞助者列表
+  sponsors: []
+
+# ============================================================
+#  相册设置
+# ============================================================
+gallery:
+  # 相册列表
+  albums: []
+  # 相册列宽，单位：px
+  column_width: 240
+
+# ============================================================
+#  友链页面设置
+# ============================================================
+friends_page:
+  # 是否随机排序友链
+  randomize_sort: false
+  # 是否显示友链评论/备注
+  show_comment: false
+  # 是否显示友链自定义内容
+  show_custom_content: false
+
+# ============================================================
+#  图片优化（仅作参考，Hexo 中不启用）
+# ============================================================
+image_optimization:
+  # 不添加 Referrer 的域名列表
+  no_referrer_domains: []
+
+# ============================================================
+#  数学渲染 (KaTeX / MathJax)
+# ============================================================
+math:
+  # 数学引擎：katex, mathjax（留空禁用）
+  engine: ""
+
+# ============================================================
+#  Mermaid 图表
+# ============================================================
+mermaid:
+  # 是否启用 Mermaid 图表渲染
+  enable: false
+
+# ============================================================
+#  Fancybox 图片灯箱
+# ============================================================
+fancybox: true

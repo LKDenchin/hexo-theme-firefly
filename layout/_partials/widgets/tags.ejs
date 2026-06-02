@@ -1,0 +1,24 @@
+<div class="widget tags-widget">
+  <div class="widget-header"><%= __('tags') %></div>
+  <div class="widget-body">
+    <div class="tag-list">
+      <%
+      var tags = site.tags;
+      var collapseThreshold = theme.sidebar.left_components.find(function(c) { return c.type === 'tags'; })?.collapse_threshold || 10;
+      if (tags && tags.length) {
+        var sortedTags = tags.sort('length', -1).toArray();
+        var displayTags = sortedTags.slice(0, collapseThreshold);
+        displayTags.forEach(function(tag) { %>
+      <a href="<%= url_for(tag.path) %>" class="tag-item"><%= tag.name %></a>
+      <% }); %>
+      <% } else { %>
+      <div class="text-50"><%= __('no_tags') %></div>
+      <% } %>
+    </div>
+    <% if (tags && tags.length > collapseThreshold) { %>
+    <div class="tag-more-container">
+      <a href="<%= url_for('/tags/') %>" class="tag-more-btn">••• 更多</a>
+    </div>
+    <% } %>
+  </div>
+</div>

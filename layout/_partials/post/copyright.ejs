@@ -1,0 +1,34 @@
+<%
+var copyrightConfig = (theme.post && theme.post.copyright) || {};
+var author = page.author || config.author || (theme.profile && theme.profile.name) || 'Firefly';
+var postDate = page.date ? full_date(page.date, 'YYYY-MM-DD') : '';
+var licenseName = copyrightConfig.license || (theme.license && theme.license.name) || 'CC BY-NC-SA 4.0';
+var licenseUrl = copyrightConfig.license_url || (theme.license && theme.license.url) || 'https://creativecommons.org/licenses/by-nc-sa/4.0/';
+%>
+
+<div class="post-copyright-box">
+  <div class="copyright-header">
+    <span class="copyright-title"><%= page.title %></span>
+    <a class="copyright-link" href="<%= page.permalink %>" target="_blank" rel="noopener noreferrer">
+      <%= page.permalink %>
+    </a>
+  </div>
+  <div class="copyright-meta">
+    <div class="copyright-meta-item">
+      <span class="meta-label"><%= __('author') || '作者' %></span>
+      <span class="meta-value"><%= author %></span>
+    </div>
+    <div class="copyright-meta-item">
+      <span class="meta-label"><%= __('published') || '发布于' %></span>
+      <span class="meta-value"><%= postDate %></span>
+    </div>
+    <div class="copyright-meta-item">
+      <span class="meta-label"><%= __('license') || '许可协议' %></span>
+      <span class="meta-value">
+        <a href="<%= licenseUrl %>" target="_blank" rel="license noopener noreferrer">
+          <%= licenseName %>
+        </a>
+      </span>
+    </div>
+  </div>
+</div>

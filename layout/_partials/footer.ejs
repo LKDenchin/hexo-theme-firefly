@@ -1,0 +1,66 @@
+<%
+var footerConfig = theme.footer || {};
+var showLicense = footerConfig.license !== false;
+var showPoweredBy = footerConfig.powered_by !== false;
+var showVisitorCounter = footerConfig.visitor_counter !== false;
+var customFooterHTML = footerConfig.custom || '';
+%>
+
+<footer id="site-footer" class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+
+    <% if (showLicense) { %>
+    <div class="footer-license">
+      <span>
+        <i class="fa-brands fa-creative-commons"></i>
+        <i class="fa-brands fa-creative-commons-by"></i>
+        <i class="fa-brands fa-creative-commons-nc"></i>
+        <i class="fa-brands fa-creative-commons-sa"></i>
+      </span>
+      <span class="license-text">
+        <% if (footerConfig.license_text) { %>
+        <%- footerConfig.license_text %>
+        <% } else { %>
+        <%= __('license_text', 'CC BY-NC-SA 4.0') || 'This work is licensed under CC BY-NC-SA 4.0' %>
+        <% } %>
+      </span>
+    </div>
+    <% } %>
+
+    <div class="footer-copyright">
+      <span>&copy; <%= new Date().getFullYear() %> <%= config.title || config.author || 'Firefly' %></span>
+      <% if (config.author && config.author !== config.title) { %>
+      <span class="footer-author"><%= __('by') || 'by' %> <%= config.author %></span>
+      <% } %>
+    </div>
+
+    <% if (customFooterHTML) { %>
+    <div class="footer-custom">
+      <%- customFooterHTML %>
+    </div>
+    <% } %>
+
+    <% if (showPoweredBy) { %>
+    <div class="footer-powered-by">
+      <span><%= __('powered_by') || 'Powered by' %> <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a></span>
+      <span class="footer-separator">|</span>
+      <span><%= __('theme') || 'Theme' %> <a href="https://github.com/LKDenchin/hexo-theme-firefly" target="_blank" rel="noopener noreferrer">Firefly</a></span>
+    </div>
+    <% } %>
+
+    <% if (showVisitorCounter && theme.analytics && theme.analytics.busuanzi !== false) { %>
+    <div class="footer-visitor-counter">
+      <span id="busuanzi_container_site_uv" class="visitor-count-item">
+        <i class="fa-regular fa-user"></i>
+        <span id="busuanzi_value_site_uv">-</span> <%= __('visitors') || 'visitors' %>
+      </span>
+      <span class="footer-separator">|</span>
+      <span id="busuanzi_container_site_pv" class="visitor-count-item">
+        <i class="fa-regular fa-eye"></i>
+        <span id="busuanzi_value_site_pv">-</span> <%= __('views') || 'views' %>
+      </span>
+    </div>
+    <% } %>
+
+  </div>
+</footer>

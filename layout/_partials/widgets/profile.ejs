@@ -1,0 +1,54 @@
+<%
+/**
+ * Profile widget partial.
+ * Displays author avatar, name, bio, and social links.
+ * Used on About pages and in sidebars.
+ *
+ * Variables:
+ *   config  - Hexo site configuration
+ *   theme   - theme configuration
+ */
+var author = config.author;
+var profile = theme.profile || {};
+var social = theme.social || {};
+%>
+
+<div class="widget profile-widget">
+  <!-- Avatar -->
+  <% if (profile.avatar || config.avatar) { %>
+  <div class="profile-avatar">
+    <img
+      src="<%= url_for(profile.avatar || config.avatar) %>"
+      alt="<%= author %>"
+      loading="lazy"
+    >
+  </div>
+  <% } %>
+
+  <!-- Name -->
+  <h2 class="profile-name"><%= author %></h2>
+
+  <!-- Bio / description -->
+  <% if (profile.bio || config.subtitle) { %>
+  <p class="profile-bio"><%= profile.bio || config.subtitle %></p>
+  <% } %>
+
+  <!-- Social links -->
+  <% if (Array.isArray(social) && social.length > 0) { %>
+  <div class="profile-social">
+    <% social.forEach(function(item) { %>
+      <% if (item.url) { %>
+      <a
+        href="<%= item.url %>"
+        class="profile-social-link"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="<%= item.name %>"
+      >
+        <i class="<%- fa_icon(item.icon || item.name) %>"></i>
+      </a>
+      <% } %>
+    <% }); %>
+  </div>
+  <% } %>
+</div>

@@ -1,0 +1,21 @@
+<% if (theme.comments.type === 'waline' && theme.comments.waline) { %>
+<div class="comments-container">
+  <div class="comments-title"><%= __('comments') %></div>
+  <div id="waline"></div>
+  <script>
+    (function() {
+      var waline = document.createElement('script');
+      waline.src = '//unpkg.com/@waline/client@v3/dist/waline.js';
+      waline.onload = function() {
+        Waline.init({
+          el: '#waline',
+          serverURL: '<%= theme.comments.waline.server_url %>',
+          lang: '<%= theme.comments.waline.lang || config.language %>',
+          dark: 'html.dark'
+        });
+      };
+      document.head.appendChild(waline);
+    })();
+  </script>
+</div>
+<% } %>

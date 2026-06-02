@@ -1,0 +1,63 @@
+<%
+/**
+ * Categories list page.
+ * Displays all categories in a grid of cards, each showing:
+ * - Category name
+ * - Post count
+ * - Link to category page
+ *
+ * Variables:
+ *   site       - Hexo site object with site.categories
+ *   config     - Hexo site configuration
+ *   theme      - theme _config.yml values
+ */
+var catConfig = theme.category || {};
+var orderBy = catConfig.order_by || 'name';
+var allCategories = site.categories.find({ parent: { $exists: false } }).sort(orderBy).filter(function(cat) {
+  return cat.length > 0;
+});
+%>
+
+<div id="main-grid" class="main-grid-layout has-no-sidebar">
+  <main id="main-content" class="categories-container full-width">
+    <%- partial('_partials/post/content-nav') %>
+
+
+    <div class="categories-grid">
+      <% if (allCategories.length > 0) { %>
+        <% allCategories.each(function(cat) { %>
+        <article class="category-card">
+          <a href="<%= url_for(cat.path) %>" class="category-card-link">
+            <div class="category-card-icon">
+              <i class="fa-regular fa-folder" aria-hidden="true"></i>
+            </div>
+            <h2 class="category-card-name"><%= cat.name %></h2>
+            <p class="category-card-count">
+              <%- __('category.post_count', cat.posts.length) %>
+            </p>
+          </a>
+
+          <!-- Subcategories -->
+          <% var subCats = site.categories.find({ parent: cat._id }).sort(orderBy).filter(function(sub) { return sub.length > 0; }); %>
+          <% if (subCats.length > 0) { %>
+          <div class="category-card-subcategories">
+            <% subCats.each(function(sub) { %>
+            <a href="<%= url_for(sub.path) %>" class="category-card-subitem">
+              <%= sub.name %>
+              <span class="subitem-count">(<%= sub.posts.length %>)</span>
+            </a>
+            <% }); %>
+          </div>
+          <% } %>
+        </article>
+        <% }); %>
+      <% } else { %>
+      <div class="categories-empty">
+        <p><%= __('category.empty') %></p>
+      </div>
+      <% } %>
+    </div>
+  </main>
+
+  <%- partial('_partials/footer') %>
+</div>

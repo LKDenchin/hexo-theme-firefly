@@ -1,0 +1,52 @@
+<%
+/**
+ * Category bar partial.
+ * Displays a navigation sidebar of categories and their posts.
+ * Used on both index and post pages, placed in left or right sidebar.
+ *
+ * Variables:
+ *   site   - Hexo site object
+ *   theme  - theme configuration
+ *   page   - current page
+ */
+var catBarConfig = theme.category_bar || {};
+var orderBy = catBarConfig.order_by || 'name';
+var categories = site.categories.find({ parent: { $exists: false } }).sort(orderBy).filter(function(cat) {
+  return cat.length > 0;
+});
+%>
+
+<% if (catBarConfig.enable && categories.length > 0) { %>
+<nav class="category-bar" aria-label="<%= __('category.title') %>">
+  <div class="category-bar-header">
+    <i class="fa-regular fa-folder" aria-hidden="true"></i>
+    <span><%= __('category.title') %></span>
+  </div>
+
+  <div class="category-bar-list">
+    <% categories.each(function(cat) { %>
+    <div class="category-bar-group">
+      <div class="category-bar-parent">
+        <a href="<%= url_for(cat.path) %>" class="category-bar-link">
+          <%= cat.name %>
+        </a>
+        <span class="category-bar-count"><%= cat.posts.length %></span>
+      </div>
+
+      <!-- Subcategories -->
+      <% var subCats = site.categories.find({ parent: cat._id }).sort(orderBy).filter(function(sub) { return sub.length > 0; }); %>
+      <% if (subCats.length > 0) { %>
+      <div class="category-bar-children">
+        <% subCats.each(function(sub) { %>
+        <a href="<%= url_for(sub.path) %>" class="category-bar-sublink">
+          <%= sub.name %>
+          <span class="category-bar-subcount"><%= sub.posts.length %></span>
+        </a>
+        <% }); %>
+      </div>
+      <% } %>
+    </div>
+    <% }); %>
+  </div>
+</nav>
+<% } %>

@@ -1,0 +1,16 @@
+<% if (theme.comments.type === 'twikoo' && theme.comments.twikoo) { %>
+<div class="comments-container">
+  <div class="comments-title"><%= __('comments') %></div>
+  <div id="twikoo"></div>
+  <script src="<%= theme.comments.twikoo.js_url || 'https://cdn.jsdelivr.net/npm/twikoo@1.7.9/dist/twikoo.min.js' %>" crossorigin="anonymous"></script>
+  <script>
+    twikoo.init({
+      envId: '<%= theme.comments.twikoo.env_id %>',
+      el: '#twikoo',
+      lang: '<%= theme.comments.twikoo.lang || config.language %>',
+      region: '<%= theme.comments.twikoo.region || '' %>',
+      path: window.location.pathname
+    });
+  </script>
+</div>
+<% } %>

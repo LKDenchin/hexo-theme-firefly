@@ -1,0 +1,186 @@
+# Navigation
+home: Home
+about: About
+archive: Archive
+search: Search
+tags: Tags
+categories: Categories
+friends: Friends
+guestbook: Guestbook
+sponsor: Sponsor
+bangumi: Bangumi
+gallery: Gallery
+links: Links
+
+# Post
+published: Published
+updated: Updated
+read_more: Read More
+word_count: words
+reading_time: min read
+min_read: min
+prev: Previous
+next: Next
+related_posts: Related Posts
+last_modified: Last Modified
+outdated: This post may be outdated
+pinned: Pinned
+draft: Draft
+encrypted: Encrypted
+no_posts: No posts
+
+# Comments
+comments: Comments
+no_comments: No comments yet
+load_comments: Load Comments
+
+# Sidebar & Widgets
+profile: Profile
+announcement: Announcement
+site_stats: Site Stats
+total_posts: Total Posts
+total_categories: Categories
+total_tags: Tags
+running_days: Running Days
+calendar: Calendar
+music: Music
+advertisement: Advertisement
+no_categories: No categories
+no_tags: No tags
+
+# Theme & Display
+theme_color: Theme Color
+hue: Hue
+light: Light
+dark: Dark
+system: System
+wallpaper_mode: Wallpaper Mode
+banner: Banner
+fullscreen: Fullscreen
+overlay: Overlay
+none: None
+overlay_settings: Overlay Settings
+opacity: Wallpaper Opacity
+blur: Background Blur
+card_opacity: Card Opacity
+features: Features
+water_waves: Water Waves
+gradient: Gradient
+banner_title: Banner Title
+sakura: Sakura Effect
+banner_carousel: Banner Carousel
+post_layout: Post Layout
+layout_mode: Layout Mode
+list: List
+grid: Grid
+reset: Reset
+display_settings: Display Settings
+
+# Search
+search_placeholder: Search articles...
+search_hint: Type to search
+no_results: No results found
+search_results: Search Results
+
+# Pagination
+prev_page: Previous
+next_page: Next
+page: Page
+
+# Footer
+copyright: Copyright
+license: License
+powered_by: Powered by
+rss: RSS Feed
+sitemap: Sitemap
+
+# 404
+page_not_found: Page Not Found
+back_home: Back to Home
+not_found_msg: Sorry, the page you are looking for does not exist.
+
+# Misc
+share: Share
+copy_link: Copy Link
+top: Back to Top
+loading: Loading...
+close: Close
+copy_code: Copy code
+confirm: Confirm
+cancel: Cancel
+error: Error
+success: Success
+warning: Warning
+info: Info
+tip: Tip
+note: Note
+danger: Danger
+caution: Caution
+
+# Time
+days: days
+hours: hours
+minutes: minutes
+seconds: seconds
+ago: ago
+
+# Actions
+download: Download
+view_all: View All
+show_more: Show More
+show_less: Show Less
+expand: Expand
+collapse: Collapse
+
+# Archive
+archive_post_total: "Total %d posts"
+archive_empty: "No posts yet"
+
+# Calendar
+calendar_january: "January"
+calendar_february: "February"
+calendar_march: "March"
+calendar_april: "April"
+calendar_may: "May"
+calendar_june: "June"
+calendar_july: "July"
+calendar_august: "August"
+calendar_september: "September"
+calendar_october: "October"
+calendar_november: "November"
+calendar_december: "December"
+calendar_sunday: "Sun"
+calendar_monday: "Mon"
+calendar_tuesday: "Tue"
+calendar_wednesday: "Wed"
+calendar_thursday: "Thu"
+calendar_friday: "Fri"
+calendar_saturday: "Sat"
+calendar_year: "Year"
+
+# Misc text
+license_text: "This work is licensed under CC BY-NC-SA 4.0"
+by: "by"
+visitors: "visitors"
+views: "views"
+
+category:
+  breadcrumb: Category Breadcrumbs
+  title: Category Title
+  post_count: "%d posts"
+  total: "%d categories in total"
+  no_posts: No posts
+  empty: No categories
+
+post:
+  toc: Table of Contents
+  license: License
+  share: Share
+  navigation: Post Navigation
+  prev_post: Previous Post
+  next_post: Next Post
+  related_posts: Related Posts
+  last_modified: Last modified on %s
+  meta:
+    wordcount: "%d words"
+  updated: "Updated on %s"

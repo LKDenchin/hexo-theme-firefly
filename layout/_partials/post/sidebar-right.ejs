@@ -1,0 +1,20 @@
+<%
+/**
+ * Right sidebar partial.
+ * Used on index and post pages when sidebar position is 'both' or 'right'.
+ *
+ * On index pages: displays widgets positioned on the right.
+ * On post pages: displays TOC (unless in left placement) or category bar.
+ */
+%>
+
+<!-- Right sidebar widgets -->
+<div class="sidebar-widgets sidebar-right-widgets">
+  <% if (theme.widgets) { %>
+    <% theme.widgets.forEach(function(widget) { %>
+      <% if (widget.enable !== false && widget.position !== 'left') { %>
+        <%- partial('_partials/widgets/' + widget.type) %>
+      <% } %>
+    <% }); %>
+  <% } %>
+</div>
