@@ -32,8 +32,6 @@ Firefly is a clean, beautiful, and modern Hexo blog theme, ported from the origi
 
 Firefly supports dual sidebars, list/grid article views, and features widgets such as site statistics, calendar, TOC, music player, and category navigation. It also supports share buttons, related post recommendations, and previous/next post navigation.
 
-> **If you reference or use Firefly's component designs and related code, please credit Firefly.**
-
 ---
 
 ## ✨ Features
@@ -137,9 +135,6 @@ Firefly supports dual sidebars, list/grid article views, and features widgets su
    ```bash
    hexo new page about
    hexo new page friends
-   hexo new page guestbook
-   hexo new page sponsor
-   hexo new page gallery
    hexo new page categories
    hexo new page tags
    ```
@@ -265,8 +260,6 @@ Some Firefly-related image assets are copyrighted by [Honkai: Star Rail](https:/
 
 - [Firefly](https://github.com/CuteLeaf/Firefly) - Original Astro theme (CuteLeaf)
 - [fuwari](https://github.com/saicaca/fuwari) - Astro blog template (saicaca)
-- Bilibili creator 公公的日常's [Firefly Spine model](https://www.bilibili.com/video/BV1fuVzzdE5y)
-
 ---
 
 ## 📝 License
@@ -276,7 +269,7 @@ MIT License.
 **Copyright:**
 - Copyright (c) 2024 [saicaca](https://github.com/saicaca) - [fuwari](https://github.com/saicaca/fuwari)
 - Copyright (c) 2025 [CuteLeaf](https://github.com/CuteLeaf) - [Firefly](https://github.com/CuteLeaf/Firefly)
-- Copyright (c) 2025 [LKDenchin](https://github.com/LKDenchin) - [hexo-theme-firefly](https://github.com/LKDenchin/hexo-theme-firefly)
+- Copyright (c) 2026 [LKDenchin](https://github.com/LKDenchin) - [hexo-theme-firefly](https://github.com/LKDenchin/hexo-theme-firefly)
 
 ---
 
