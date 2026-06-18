@@ -11,6 +11,62 @@
 var author = config.author;
 var profile = theme.profile || {};
 var social = theme.social || {};
+
+// Brand icon mapping: config icon name -> Font Awesome 6 brand class
+var brandIcons = {
+  'gite':            'fa-github',
+  'github':          'fa-github',
+  'twitter':         'fa-x-twitter',
+  'x':               'fa-x-twitter',
+  'facebook':        'fa-facebook',
+  'discord':         'fa-discord',
+  'youtube':         'fa-youtube',
+  'instagram':       'fa-instagram',
+  'reddit':          'fa-reddit',
+  'steam':           'fa-steam',
+  'twitch':          'fa-twitch',
+  'tiktok':          'fa-tiktok',
+  'telegram':        'fa-telegram',
+  'spotify':         'fa-spotify',
+  'soundcloud':      'fa-soundcloud',
+  'linkedin':        'fa-linkedin',
+  'mastodon':        'fa-mastodon',
+  'threads':         'fa-threads',
+  'bluesky':         'fa-bluesky',
+  'whatsapp':        'fa-whatsapp',
+  'line':            'fa-line',
+  'weixin':          'fa-weixin',
+  'wechat':          'fa-weixin',
+  'qq':              'fa-qq',
+  'weibo':           'fa-weibo',
+  'medium':          'fa-medium',
+  'pinterest':       'fa-pinterest',
+  'gitlab':          'fa-gitlab',
+  'stack-overflow':  'fa-stack-overflow',
+  'patreon':         'fa-patreon',
+  'paypal':          'fa-paypal',
+  'kofi':            'fa-kofi',
+  'docker':          'fa-docker',
+  'npm':             'fa-npm',
+  'python':          'fa-python',
+  'rust':            'fa-rust',
+  'node-js':         'fa-node-js',
+  'js':              'fa-js',
+  'html5':           'fa-html5',
+  'css3':            'fa-css3',
+  'react':           'fa-react',
+  'vuejs':           'fa-vuejs',
+  'angular':         'fa-angular',
+  'linux':           'fa-linux',
+  'apple':           'fa-apple',
+  'android':         'fa-android',
+  'windows':         'fa-windows',
+};
+
+// Inline SVG icons for brands not covered by Material Symbols or Font Awesome
+var svgIcons = {
+  'bilibili': '<svg class="profile-social-icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor"><path d="M18.5 3.5h-13c-2.5 0-3 1.5-3 3v10c0 2 .5 3 3 3h13c2.5 0 3-1 3-3v-10c0-1.5-.5-3-3-3zM9 13.5c0 .3-.2.5-.5.5s-.5-.2-.5-.5v-4c0-.3.2-.5.5-.5s.5.2.5.5v4zm6 0c0 .3-.2.5-.5.5s-.5-.2-.5-.5v-4c0-.3.2-.5.5-.5s.5.2.5.5v4z"/></svg>'
+};
 %>
 
 <div class="widget profile-widget">
@@ -46,7 +102,14 @@ var social = theme.social || {};
           rel="noopener noreferrer"
           aria-label="<%= item.name %>"
         >
-          <span class="material-symbols-outlined"><%- item.icon || 'link' %></span>
+          <% var iconName = item.icon || 'link'; %>
+          <% if (brandIcons[iconName]) { %>
+            <i class="fa-brands <%= brandIcons[iconName] %> profile-social-icon"></i>
+          <% } else if (svgIcons[iconName]) { %>
+            <%- svgIcons[iconName] %>
+          <% } else { %>
+            <span class="material-symbols-outlined"><%= iconName %></span>
+          <% } %>
         </a>
         <% } %>
       <% }); %>

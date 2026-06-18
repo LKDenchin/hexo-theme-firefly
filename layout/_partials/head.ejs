@@ -53,27 +53,32 @@
   <% } %>
 <% } %>
 
+
 <!-- CSS -->
-<link rel="stylesheet" href="<%= url_for('/css/main.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/layout.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/navbar.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/banner.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/cards.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/post.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/markdown.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/code.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/widgets.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/toc.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/search.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/comments.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/effects.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/scrollbar.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/display-settings.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/water-waves.css') %>">
-<link rel="stylesheet" href="<%= url_for('/css/responsive.css') %>">
+<% var cssVersion = theme.version || '2026061801'; %>
+<link rel="stylesheet" href="<%= url_for('/css/main.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/layout.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/navbar.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/banner.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/cards.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/post.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/markdown.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/code.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/widgets.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/toc.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/search.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/comments.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/effects.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/scrollbar.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/display-settings.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/water-waves.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/responsive.css') %>?v=<%= cssVersion %>">
 <% if (theme.iconfont) { %>
 <link rel="stylesheet" href="<%= theme.iconfont %>">
 <% } %>
+
+<!-- Font Awesome 6 (Brand Icons for social media) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css">
 
 <!-- Analytics -->
 <% if (theme.analytics && theme.analytics.google_analytics_id) { %>

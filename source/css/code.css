@@ -6,9 +6,7 @@
 /* Hexo figure.highlight wrapper */
 figure.highlight {
   margin: 1rem 0;
-  border-radius: var(--radius-large);
-  overflow: hidden;
-  border: 1px solid var(--line-divider);
+  border-left: 3px solid var(--primary);
   background: var(--btn-regular-bg);
   position: relative;
 }

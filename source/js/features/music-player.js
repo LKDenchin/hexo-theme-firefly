@@ -30,12 +30,16 @@
       window.__aplayer = ap;
 
       // Force playlist and lyrics to fold/close on startup
-      if (ap.lrc) {
-        ap.lrc.hide();
-      }
-      if (ap.list) {
-        ap.list.close();
-      }
+      // Use a small delay to ensure APlayer has fully initialized DOM
+      var self = this;
+      setTimeout(function() {
+        if (ap.lrc) {
+          ap.lrc.hide();
+        }
+        if (ap.list) {
+          ap.list.close();
+        }
+      }, 200);
 
       // Handle volume from settings
       var savedVolume = localStorage.getItem('musicVolume');

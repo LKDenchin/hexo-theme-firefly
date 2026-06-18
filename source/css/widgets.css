@@ -108,6 +108,15 @@
     box-shadow var(--md-motion-duration-medium) var(--md-motion-easing-emphasized);
   text-decoration: none;
 }
+.profile-social-link .material-symbols-outlined,
+.profile-social-link .profile-social-icon {
+  font-size: inherit;
+}
+.profile-social-link svg.profile-social-icon {
+  display: block;
+  width: 1.15rem;
+  height: 1.15rem;
+}
 .profile-social-link:hover {
   background: var(--md-sys-color-primary-container);
   color: var(--md-sys-color-on-primary-container);
@@ -556,12 +565,17 @@
 }
 
 .music-widget .aplayer .aplayer-list {
-  display: block !important;
   border-top: 1px solid var(--line-divider) !important;
   background: var(--card-bg) !important;
   max-height: 15rem !important;
   padding-bottom: 0.5rem !important;
   overflow-y: auto !important;
+}
+.music-widget .aplayer .aplayer-list:not(.aplayer-list-hide) {
+  display: block !important;
+}
+.music-widget .aplayer .aplayer-list.aplayer-list-hide {
+  display: none !important;
 }
 
 .music-widget .aplayer .aplayer-list ol {
