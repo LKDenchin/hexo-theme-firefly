@@ -16,7 +16,7 @@
    -------------------------------------------------------------------------- */
 
 .post-list-container[data-layout="grid"] .post-list {
-  display: grid;
+  display: grid !important;
   grid-template-columns: repeat(
     auto-fill,
     minmax(var(--grid-column-width, 320px), 1fr)
@@ -29,9 +29,9 @@
    -------------------------------------------------------------------------- */
 
 .post-list-container[data-layout="list"] .post-list {
-  display: flex;
+  display: flex !important;
   flex-direction: column;
-  gap: 0.875rem; /* Reduced gap to match other controls */
+  gap: 0.875rem;
 }
 
 /* --------------------------------------------------------------------------
@@ -43,10 +43,9 @@
   position: relative;
 }
 
-/* List mode card hover lift effect */
+/* List mode card hover — M3 tonal elevation */
 .post-list-container[data-layout="list"] .post-card-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border-color: oklch(0.65 0.18 var(--hue) / 0.25);
   z-index: 1;
 }
 
@@ -56,10 +55,10 @@
 
 .post-list-container[data-layout="list"] .post-card-item[data-has-cover="true"] {
   display: grid;
-  grid-template-columns: 1fr 340px; /* Content left, cover image right */
+  grid-template-columns: 1fr minmax(160px, 300px);
   gap: 1.25rem;
   padding: 1rem;
-  align-items: center;
+  align-items: stretch;
 }
 
 .post-list-container[data-layout="list"] .post-card-item[data-has-cover="true"] .post-card-content {
@@ -71,29 +70,33 @@
   grid-column: 2;
   grid-row: 1;
   border-radius: var(--radius-large);
+  aspect-ratio: auto;
+  height: 100%;
+  min-height: 140px;
 }
 
 .post-list-container[data-layout="list"] .post-card-item[data-has-cover="false"] {
   display: grid;
   grid-template-columns: 1fr auto; /* Content left, vertical chevron right */
-  gap: 0;
-  padding: 0;
+  gap: 0.75rem;
+  padding: 1rem;
   align-items: stretch;
 }
 
 .post-list-container[data-layout="list"] .post-card-item[data-has-cover="false"] .post-card-content {
-  padding: 1rem 0 1rem 1rem;
+  padding: 0;
 }
 
 .post-list-container[data-layout="list"] .post-card-item[data-has-cover="false"] .post-card-arrow {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  background: var(--btn-regular-bg);
-  border-left: 1px solid var(--line-divider);
+  width: 48px;
+  border-radius: var(--md-shape-corner-medium);
+  background: var(--md-sys-color-primary-container);
   transition: all var(--duration-fast);
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .post-list-container[data-layout="list"] .post-card-item[data-has-cover="false"] .post-card-arrow a {
@@ -102,8 +105,8 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  color: var(--primary);
-  font-size: 1.25rem;
+  color: var(--md-sys-color-on-primary-container);
+  font-size: 1.5rem;
   text-decoration: none;
   transition: all var(--duration-fast);
 }
@@ -126,7 +129,16 @@
 }
 
 .post-list-container[data-layout="grid"] .post-card-item:hover {
-  transform: translateY(-2px);
+  border-color: oklch(0.65 0.18 var(--hue) / 0.25);
+}
+
+/* Grid mode: hide chevron arrow for coverless cards */
+.post-list-container[data-layout="grid"] .post-card-item[data-has-cover="false"] .post-card-arrow {
+  display: none;
+}
+
+.post-list-container[data-layout="grid"] .post-card-item[data-has-cover="false"] .post-card-content {
+  padding: 1rem;
 }
 
 /* --------------------------------------------------------------------------
@@ -219,37 +231,39 @@
 
 .post-card-meta time {
   white-space: nowrap;
-  padding: 0.2rem 0.5rem;
-  background: var(--btn-regular-bg);
-  color: var(--text-secondary);
-  border-radius: var(--radius-small, 4px);
-  transition: all var(--duration-fast);
+  padding: 0.25rem 0.625rem;
+  background: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
+  border-radius: var(--md-shape-corner-small);
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition:
+    background-color var(--md-motion-duration-short) var(--md-motion-easing-standard),
+    color var(--md-motion-duration-short) var(--md-motion-easing-standard);
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
 }
 .post-card-meta time:hover {
-  background: var(--btn-plain-bg-hover);
-  color: var(--primary);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
 }
 
 .post-card-meta .category-badge {
-  padding: 0.2rem 0.5rem;
-  background: color-mix(in srgb, var(--primary) 15%, transparent);
-  color: var(--primary);
-  border-radius: var(--radius-small, 4px);
+  padding: 0.25rem 0.625rem;
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  border-radius: var(--md-shape-corner-small);
   font-size: 0.75rem;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: filter var(--md-motion-duration-short) var(--md-motion-easing-standard);
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
 }
 .post-card-meta .category-badge:hover {
-  background: color-mix(in srgb, var(--primary) 25%, transparent);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  filter: brightness(0.92);
 }
 
 .post-card-meta .meta-divider {
@@ -305,18 +319,24 @@
 }
 
 .post-card-tags a {
-  color: var(--text-tertiary);
-  padding: 0.125rem 0.5rem;
-  border-radius: var(--radius-small);
-  background: var(--btn-regular-bg);
-  transition: all var(--duration-fast);
+  color: var(--md-sys-color-on-surface-variant);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--md-shape-corner-small);
+  background: var(--md-sys-color-surface-variant);
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  transition:
+    background-color var(--md-motion-duration-short) var(--md-motion-easing-standard),
+    color var(--md-motion-duration-short) var(--md-motion-easing-standard),
+    border-color var(--md-motion-duration-short) var(--md-motion-easing-standard);
   text-decoration: none;
 }
 
 .post-card-tags a:hover {
-  color: var(--primary);
-  background: var(--btn-plain-bg-hover);
-  transform: translateY(-1px);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  border-color: var(--primary);
 }
 
 /* Footer: tags & reading time container */
@@ -334,29 +354,32 @@
   margin-top: 0;
 }
 
-/* Reading time badge */
+/* Reading time badge — M3 chip */
 .post-card-reading-time {
   font-size: 0.75rem;
-  color: var(--text-tertiary);
-  padding: 0.125rem 0.5rem;
-  background: var(--btn-regular-bg);
-  border-radius: var(--radius-small, 4px);
+  color: var(--md-sys-color-on-surface-variant);
+  padding: 0.2rem 0.6rem;
+  background: var(--md-sys-color-surface-variant);
+  border-radius: var(--md-shape-corner-small);
+  font-weight: 500;
   white-space: nowrap;
-  transition: all var(--duration-fast);
+  transition:
+    background-color var(--md-motion-duration-short) var(--md-motion-easing-standard),
+    color var(--md-motion-duration-short) var(--md-motion-easing-standard);
 }
 .post-card-reading-time:hover {
-  background: var(--btn-plain-bg-hover);
-  color: var(--primary);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
 }
 
 .post-card-meta .pinned-badge-inline {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.125rem 0.5rem;
-  background: color-mix(in srgb, var(--primary) 15%, transparent);
-  color: var(--primary);
-  border-radius: var(--radius-small, 4px);
+  padding: 0.2rem 0.625rem;
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  border-radius: var(--md-shape-corner-small);
   font-size: 0.75rem;
   font-weight: 700;
   white-space: nowrap;
@@ -407,7 +430,7 @@
   }
 
   .post-list[data-mode="masonry"] .post-card-item:hover {
-    transform: translateY(-2px);
+    border-color: oklch(0.65 0.18 var(--hue) / 0.25);
   }
 
   .post-list[data-mode="masonry"] .post-card-cover {
@@ -464,9 +487,55 @@
   }
 
   .post-list-container[data-layout="grid"] .post-list {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
   }
+}
+
+/* --------------------------------------------------------------------------
+   Content Nav Layout Toggle
+   -------------------------------------------------------------------------- */
+
+.content-nav-bar .content-nav-spacer {
+  flex: 1;
+}
+
+.content-nav-bar .layout-buttons {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.content-nav-bar .layout-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.25rem;
+  border-radius: var(--md-shape-corner-full);
+  cursor: pointer;
+  border: none;
+  background: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
+  transition:
+    background-color var(--md-motion-duration-short) var(--md-motion-easing-standard),
+    color var(--md-motion-duration-short) var(--md-motion-easing-standard),
+    border-color var(--md-motion-duration-short) var(--md-motion-easing-standard);
+}
+
+.content-nav-bar .layout-buttons button .material-symbols-outlined {
+  font-size: 1.125rem;
+}
+
+.content-nav-bar .layout-buttons button.active {
+  border-color: var(--primary);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+.content-nav-bar .layout-buttons button:hover:not(.active) {
+  border-color: var(--primary);
 }
 
 /* --------------------------------------------------------------------------
@@ -481,7 +550,6 @@
   padding: 0.75rem;
   background: var(--card-bg);
   border-radius: var(--radius-medium);
-  border: 1px solid var(--line-divider);
 }
 
 .post-list-layout-switch .layout-label {
@@ -500,23 +568,26 @@
   align-items: center;
   justify-content: center;
   padding: 0.375rem 0.75rem;
-  border-radius: var(--radius-small);
-  border: none;
+  border-radius: var(--md-shape-corner-full);
   cursor: pointer;
   font-size: 0.875rem;
-  background: var(--btn-plain-bg-hover);
-  color: var(--text-tertiary);
-  transition: all var(--duration-fast);
+  border: none;
+  background: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
+  transition:
+    background-color var(--md-motion-duration-short) var(--md-motion-easing-standard),
+    color var(--md-motion-duration-short) var(--md-motion-easing-standard);
 }
 
 .post-list-layout-switch .layout-buttons button:hover {
-  background: var(--btn-plain-bg-active);
-  color: var(--text-secondary);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
 }
 
 .post-list-layout-switch .layout-buttons button.active {
-  background: var(--primary);
-  color: white;
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  border-color: var(--primary);
 }
 
 .post-list-layout-switch .layout-buttons button svg {
@@ -556,14 +627,12 @@
 .post-card-item {
   border-radius: var(--radius-large);
   background: var(--card-bg);
-  border: 1px solid var(--line-divider);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 
 /* Legacy: card-border class overrides */
 .enable-card-border .post-card-item {
-  border: 1px solid var(--line-divider);
 }
 
 .enable-card-border .post-list-container[data-layout="list"] .post-card-item {
@@ -661,7 +730,6 @@
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   background: var(--card-bg);
-  border: 1px solid var(--line-divider);
   border-radius: var(--radius-large, 12px);
   margin-bottom: 0.875rem;
   flex-wrap: wrap;
@@ -673,47 +741,50 @@
   align-items: center;
   gap: 0.375rem;
   padding: 0.375rem 0.75rem;
-  border-radius: var(--radius-small, 6px);
-  background: var(--btn-regular-bg);
-  color: var(--text-secondary);
+  border-radius: var(--md-shape-corner-full);
+  background: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
   font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
-  transition: all var(--duration-fast, 0.2s);
+  transition:
+    background-color var(--md-motion-duration-short) var(--md-motion-easing-standard),
+    color var(--md-motion-duration-short) var(--md-motion-easing-standard);
 }
 
 .content-nav-item:hover {
-  background: var(--btn-plain-bg-hover);
-  color: var(--primary);
-  transform: translateY(-1px);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
 }
 
 /* Active and special states */
 .content-nav-home {
   padding: 0.375rem 0.625rem;
-  background: var(--btn-regular-bg);
-  color: var(--text-secondary);
+  background: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
 }
 
 .content-nav-home.active,
 .content-nav-home:hover {
-  background: var(--primary) !important;
-  color: white !important;
+  background: var(--md-sys-color-primary-container) !important;
+  color: var(--md-sys-color-on-primary-container) !important;
 }
 
 .content-nav-item.active {
-  background: color-mix(in srgb, var(--primary) 15%, transparent);
-  color: var(--primary);
-  border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+.content-nav-item.active .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
 }
 
 .content-nav-item .nav-item-count {
   font-size: 0.75rem;
-  color: var(--text-tertiary);
-  opacity: 0.8;
+  color: var(--md-sys-color-on-surface-variant);
+  opacity: 0.7;
   margin-left: 0.125rem;
 }
 
 .content-nav-item.active .nav-item-count {
-  color: var(--primary);
+  color: var(--md-sys-color-on-primary-container);
 }

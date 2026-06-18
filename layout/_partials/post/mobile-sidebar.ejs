@@ -1,0 +1,32 @@
+<%
+/**
+ * Mobile bottom sidebar partial.
+ * Renders widgets below articles on mobile devices.
+ * Reads from theme.sidebar.mobile_bottom_components or falls back to theme.widgets.
+ */
+var mobileComponents = (theme.sidebar && theme.sidebar.mobile_bottom_components) || [];
+var widgets = theme.widgets || [];
+%>
+
+<% if (mobileComponents.length > 0) { %>
+<div class="mobile-bottom-sidebar">
+  <% mobileComponents.forEach(function(comp) { %>
+    <% if (comp.enable !== false) { %>
+      <%- partial('_partials/widgets/' + comp.type) %>
+    <% } %>
+  <% }); %>
+</div>
+<% } else if (widgets.length > 0) { %>
+<!-- Fallback: use theme.widgets when mobile_bottom_components not configured -->
+<div class="mobile-bottom-sidebar">
+  <%
+  var mobileTypes = ['profile', 'music', 'tags', 'stats', 'site-info'];
+  widgets.forEach(function(widget) {
+    if (widget.enable !== false && mobileTypes.indexOf(widget.type) !== -1) {
+  %>
+    <%- partial('_partials/widgets/' + widget.type) %>
+  <%  }
+  });
+  %>
+</div>
+<% } %>

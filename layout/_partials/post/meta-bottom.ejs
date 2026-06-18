@@ -14,7 +14,7 @@ var tags = page.tags || [];
   <!-- Tags list -->
   <% if (theme.post.meta && theme.post.meta.tag && theme.post.meta.tag.enable !== false && tags.length > 0) { %>
   <div class="post-meta-tags">
-    <i class="fa-solid fa-tags" aria-hidden="true"></i>
+    <span class="material-symbols-outlined" aria-hidden="true">sell</span>
     <% tags.each(function(tag) { %>
       <a href="<%= url_for(tag.path) %>" class="post-tag-link">
         <%- tag.name %>
@@ -26,7 +26,7 @@ var tags = page.tags || [];
   <!-- Categories list at bottom -->
   <% if (theme.post.meta && theme.post.meta.category && theme.post.meta.category.enable !== false && page.categories && page.categories.length > 0) { %>
   <div class="post-meta-categories-bottom">
-    <i class="fa-regular fa-folder" aria-hidden="true"></i>
+    <span class="material-symbols-outlined" aria-hidden="true">folder</span>
     <% page.categories.each(function(cat) { %>
       <a href="<%= url_for(cat.path) %>" class="post-category-link">
         <%- cat.name %>
@@ -38,7 +38,7 @@ var tags = page.tags || [];
   <!-- Last modified date -->
   <% if (theme.post.updated && theme.post.updated.enable && page.updated && compare_date(page.date, page.updated)) { %>
   <div class="post-last-modified">
-    <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+    <span class="material-symbols-outlined" aria-hidden="true">edit</span>
     <%- __('post.last_modified', date(page.updated, theme.post.updated.date_format || config.date_format)) %>
   </div>
   <% } %>

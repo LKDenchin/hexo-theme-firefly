@@ -38,6 +38,14 @@ load_comments: Load Comments
 profile: Profile
 announcement: Announcement
 site_stats: Site Stats
+site_info: Site Info
+build_platform: Build Platform
+blog_version: Blog Version
+site_domain: Site Domain
+expand_site_info: Expand Site Info
+collapse_site_info: Collapse Site Info
+build_time: Build Time
+system_info: System Info
 total_posts: Total Posts
 total_categories: Categories
 total_tags: Tags
@@ -63,6 +71,10 @@ overlay_settings: Overlay Settings
 opacity: Wallpaper Opacity
 blur: Background Blur
 card_opacity: Card Opacity
+transparency: Transparency
+wallpaper_opacity: Wallpaper Opacity
+background_blur: Background Blur
+card_transparency: Card Transparency
 features: Features
 water_waves: Water Waves
 gradient: Gradient

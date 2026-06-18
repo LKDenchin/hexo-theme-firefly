@@ -104,19 +104,19 @@ if (actualLeft && actualRight) {
           <% if (theme.post.share.twitter !== false) { %>
           <a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(post.title) %>&url=<%= encodeURIComponent(post.permalink) %>"
              target="_blank" rel="noopener noreferrer" class="share-btn share-twitter" aria-label="Share on Twitter">
-            <i class="fa-brands fa-twitter"></i>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           </a>
           <% } %>
           <% if (theme.post.share.facebook !== false) { %>
           <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(post.permalink) %>"
              target="_blank" rel="noopener noreferrer" class="share-btn share-facebook" aria-label="Share on Facebook">
-            <i class="fa-brands fa-facebook"></i>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
           </a>
           <% } %>
           <% if (theme.post.share.weibo !== false) { %>
           <a href="https://service.weibo.com/share/share.php?title=<%= encodeURIComponent(post.title) %>&url=<%= encodeURIComponent(post.permalink) %>"
              target="_blank" rel="noopener noreferrer" class="share-btn share-weibo" aria-label="Share on Weibo">
-            <i class="fa-brands fa-weibo"></i>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10.098 20.323c-3.977.391-7.414-1.406-7.672-4.02-.259-2.609 2.759-5.047 6.74-5.441 3.979-.394 7.413 1.404 7.671 4.018.259 2.6-2.759 5.049-6.739 5.443zm-4.33-7.284c-1.053.258-1.79.938-1.691 1.532.095.592.967.862 2.02.603 1.056-.259 1.79-.939 1.69-1.533-.096-.593-.968-.863-2.019-.602zm3.614 4.426c-2.545 1.158-4.669.751-5.089-.515-.42-1.266 1.223-2.98 3.768-4.138 2.544-1.159 4.668-.753 5.088.515.419 1.266-1.223 2.979-3.767 4.138zm2.88-2.655c-.343.108-.567-.217-.496-.725.067-.506.437-.993.82-1.087.382-.094.606.23.539.737-.067.506-.437.993-.863 1.075zM20.604 6.5c-.217-.652-1.308-.919-2.366-.589-1.057.33-1.722 1.13-1.481 1.781.241.651 1.331.917 2.388.588 1.057-.329 1.722-1.129 1.459-1.78zm-2.435-2.932c-.693-.457-2.02-.142-3.119.716-1.1.859-1.478 1.937-.786 2.394.693.457 2.068.135 3.168-.724 1.1-.86 1.479-1.937.737-2.386zm4.584 6.14c-.115-.531-1.015-.825-1.948-.641-.93.183-1.632.821-1.517 1.353.117.531 1.016.825 1.947.64.932-.183 1.633-.821 1.518-1.352zm-1.015-1.576c-.465-.204-1.179.019-1.531.479-.355.462-.226 1.025.241 1.229.464.204 1.179-.019 1.534-.48.352-.461.224-1.025-.244-1.228z"/></svg>
           </a>
           <% } %>
         </div>
@@ -178,6 +178,9 @@ if (actualLeft && actualRight) {
     <% } %>
   </aside>
   <% } %>
+
+  <!-- ===== Mobile Bottom Sidebar (visible only on mobile) ===== -->
+  <%- partial('_partials/post/mobile-sidebar') %>
 
   <!-- Floating TOC (always available via JS, appears as a floating widget on scroll) -->
   <% if (tocFloating && !tocInLeft && !tocInRight) { %>

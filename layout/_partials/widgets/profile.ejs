@@ -25,30 +25,32 @@ var social = theme.social || {};
   </div>
   <% } %>
 
-  <!-- Name -->
-  <h2 class="profile-name"><%= author %></h2>
+  <div class="profile-info">
+    <!-- Name -->
+    <h2 class="profile-name"><%= author %></h2>
 
-  <!-- Bio / description -->
-  <% if (profile.bio || config.subtitle) { %>
-  <p class="profile-bio"><%= profile.bio || config.subtitle %></p>
-  <% } %>
+    <!-- Bio / description -->
+    <% if (profile.bio || config.subtitle) { %>
+    <p class="profile-bio"><%= profile.bio || config.subtitle %></p>
+    <% } %>
 
-  <!-- Social links -->
-  <% if (Array.isArray(social) && social.length > 0) { %>
-  <div class="profile-social">
-    <% social.forEach(function(item) { %>
-      <% if (item.url) { %>
-      <a
-        href="<%= item.url %>"
-        class="profile-social-link"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="<%= item.name %>"
-      >
-        <i class="<%- fa_icon(item.icon || item.name) %>"></i>
-      </a>
-      <% } %>
-    <% }); %>
+    <!-- Social links -->
+    <% if (Array.isArray(social) && social.length > 0) { %>
+    <div class="profile-social">
+      <% social.forEach(function(item) { %>
+        <% if (item.url) { %>
+        <a
+          href="<%= item.url %>"
+          class="profile-social-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="<%= item.name %>"
+        >
+          <span class="material-symbols-outlined"><%- item.icon || 'link' %></span>
+        </a>
+        <% } %>
+      <% }); %>
+    </div>
+    <% } %>
   </div>
-  <% } %>
 </div>

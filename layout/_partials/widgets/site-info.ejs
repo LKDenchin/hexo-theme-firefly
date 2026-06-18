@@ -1,0 +1,150 @@
+<%
+/**
+ * Site Info widget — shows build / runtime information with expandable sections.
+ * Uses Hexo & Node.js environment data.
+ */
+var hexoVersion = (function() {
+  try {
+    return require('hexo/package.json').version;
+  } catch (e) {
+    return '8.1.2';
+  }
+})();
+var nodeVersion = process.version || 'v22.17.1';
+var osInfo = process.platform + ' / ' + process.arch;
+var buildTime = (new Date()).toLocaleString('zh-CN', { hour12: false }) || '';
+var siteUrl = config.url || 'firefly.cuteleaf.cn';
+var licenseName = (theme.license && theme.license.name) || 'CC BY-NC-SA 4.0';
+var fireflyVersion = theme.version || 'v6.12.2';
+%>
+
+<div class="widget site-info-widget">
+  <div class="widget-header">
+    <span class="material-symbols-outlined">info</span>
+    <span><%= __('site_info') || '站点信息' %></span>
+  </div>
+  <div class="widget-body">
+    <div class="site-info-content">
+      <!-- Basic Info Section -->
+      <div class="site-info-section">
+        <div class="site-info-row">
+          <span class="site-info-icon">
+            <span class="material-symbols-outlined">cloud</span>
+          </span>
+          <span class="site-info-label"><%= __('build_platform') || '构建平台' %></span>
+          <span class="site-info-value">Unknown CI</span>
+        </div>
+        <div class="site-info-row">
+          <span class="site-info-icon">
+            <span class="material-symbols-outlined">auto_awesome</span>
+          </span>
+          <span class="site-info-label"><%= __('blog_version') || '博客版本' %></span>
+          <span class="site-info-value">Firefly <%= fireflyVersion %></span>
+        </div>
+        <div class="site-info-row">
+          <span class="site-info-icon">
+            <span class="material-symbols-outlined">shield</span>
+          </span>
+          <span class="site-info-label"><%= __('license') || '文章许可' %></span>
+          <span class="site-info-value"><%= licenseName %></span>
+        </div>
+      </div>
+
+      <!-- Domain Card -->
+      <div class="site-info-card">
+        <div class="site-info-card-icon">
+          <span class="material-symbols-outlined">globe</span>
+        </div>
+        <div class="site-info-card-label"><%= __('site_domain') || '站点域名' %></div>
+        <div class="site-info-card-value"><%= siteUrl.replace(/^https?:\/\//, '') %></div>
+      </div>
+
+      <!-- Expandable Section Toggle -->
+      <div class="site-info-toggle">
+        <span class="toggle-icon">
+          <span class="material-symbols-outlined">expand_more</span>
+        </span>
+        <span class="toggle-text"><%= __('expand_site_info') || '展开站点信息' %></span>
+      </div>
+
+      <!-- Expandable Details Section -->
+      <div class="site-info-details">
+        <!-- Version Grid -->
+        <div class="site-info-grid">
+          <div class="site-info-grid-item">
+            <span class="grid-item-icon">
+              <span class="material-symbols-outlined">auto_awesome</span>
+            </span>
+            <span class="grid-item-name">Firefly</span>
+            <span class="grid-item-value"><%= fireflyVersion %></span>
+          </div>
+          <div class="site-info-grid-item">
+            <span class="grid-item-icon">
+              <span class="material-symbols-outlined">code</span>
+            </span>
+            <span class="grid-item-name">Hexo</span>
+            <span class="grid-item-value">v<%= hexoVersion %></span>
+          </div>
+          <div class="site-info-grid-item">
+            <span class="grid-item-icon">
+              <span class="material-symbols-outlined">dns</span>
+            </span>
+            <span class="grid-item-name">Node</span>
+            <span class="grid-item-value"><%= nodeVersion %></span>
+          </div>
+          <div class="site-info-grid-item">
+            <span class="grid-item-icon">
+              <span class="material-symbols-outlined">deployed_code</span>
+            </span>
+            <span class="grid-item-name">pnpm</span>
+            <span class="grid-item-value">v9.14.4</span>
+          </div>
+        </div>
+
+        <!-- Build Time -->
+        <div class="site-info-card">
+          <div class="site-info-card-icon">
+            <span class="material-symbols-outlined">schedule</span>
+          </div>
+          <div class="site-info-card-label"><%= __('build_time') || '构建时间' %></div>
+          <div class="site-info-card-value"><%= buildTime %></div>
+        </div>
+
+        <!-- System Info -->
+        <div class="site-info-card">
+          <div class="site-info-card-icon">
+            <span class="material-symbols-outlined">computer</span>
+          </div>
+          <div class="site-info-card-label"><%= __('system_info') || '系统信息' %></div>
+          <div class="site-info-card-value"><%= osInfo %></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.site-info-toggle').forEach(function(toggle) {
+    if (toggle.dataset.siteInfoInited) return;
+    toggle.dataset.siteInfoInited = '1';
+
+    var details = toggle.nextElementSibling;
+    if (!details || !details.classList.contains('site-info-details')) return;
+
+    toggle.addEventListener('click', function() {
+      details.classList.toggle('expanded');
+      var icon = toggle.querySelector('.material-symbols-outlined');
+      var text = toggle.querySelector('.toggle-text');
+
+      if (details.classList.contains('expanded')) {
+        if (icon) icon.textContent = 'expand_less';
+        if (text) text.textContent = '<%= __("collapse_site_info") || "收起站点信息" %>';
+      } else {
+        if (icon) icon.textContent = 'expand_more';
+        if (text) text.textContent = '<%= __("expand_site_info") || "展开站点信息" %>';
+      }
+    });
+  });
+});
+</script>

@@ -49,16 +49,43 @@
     </div>
   </div>
 
+  <!-- Transparency Section (shown only in overlay mode) -->
+  <div class="settings-section transparency-section">
+    <div class="settings-section-title"><%= __('transparency') || 'Transparency' %></div>
+    <div class="settings-label">
+      <span><%= __('wallpaper_opacity') || 'Wallpaper Opacity' %></span>
+      <span class="range-value" id="val-wallpaper-opacity">80%</span>
+    </div>
+    <input type="range" id="slider-wallpaper-opacity" min="10" max="100" value="80" step="5" class="rounded-range">
+    <div class="settings-label">
+      <span><%= __('background_blur') || 'Background Blur' %></span>
+      <span class="range-value" id="val-background-blur">10px</span>
+    </div>
+    <input type="range" id="slider-background-blur" min="0" max="30" value="10" step="1" class="rounded-range">
+    <div class="settings-label">
+      <span><%= __('card_transparency') || 'Card Transparency' %></span>
+      <span class="range-value" id="val-card-transparency">50%</span>
+    </div>
+    <input type="range" id="slider-card-transparency" min="10" max="100" value="50" step="5" class="rounded-range">
+  </div>
+
+  <!-- Wallpaper Mode Section -->
+  <div class="settings-section">
+    <div class="settings-section-title"><%= __('wallpaper_mode') %></div>
+    <div class="wallpaper-mode-buttons">
+      <button data-wallpaper="banner" class="active"><%= __('banner') %></button>
+      <button data-wallpaper="fullscreen"><%= __('fullscreen') %></button>
+      <button data-wallpaper="overlay"><%= __('overlay') %></button>
+      <button data-wallpaper="none"><%= __('none') %></button>
+    </div>
+  </div>
+
   <!-- Post List Layout Section -->
   <div class="settings-section">
     <div class="settings-section-title"><%= __('post_layout') %></div>
-    <div class="settings-label">
-      <span><%= __('layout_mode') %></span>
-      <button class="settings-reset-btn" data-reset-section="layout"><%= __('reset') %></button>
-    </div>
     <div class="layout-buttons" style="display:flex;gap:0.5rem;">
-      <button data-layout="list" class="active" style="flex:1;padding:0.375rem 0.75rem;border:1px solid var(--line-divider);border-radius:var(--radius-medium);background:var(--btn-regular-bg);color:var(--text-secondary);cursor:pointer;"><%= __('list') %></button>
-      <button data-layout="grid" style="flex:1;padding:0.375rem 0.75rem;border:1px solid var(--line-divider);border-radius:var(--radius-medium);background:var(--btn-regular-bg);color:var(--text-secondary);cursor:pointer;"><%= __('grid') %></button>
+      <button data-layout="list" class="active"><%= __('list') %></button>
+      <button data-layout="grid"><%= __('grid') %></button>
     </div>
   </div>
 </div>

@@ -41,20 +41,20 @@ var tags = post.tags || [];
     <div class="post-card-meta">
       <% if (isPinned) { %>
       <span class="pinned-badge-inline">
-        <i class="fa-solid fa-thumbtack"></i>
+        <span class="material-symbols-outlined md-18">push_pin</span>
         <span><%= __('pinned') %></span>
       </span>
       <% } %>
       <% if (post.date) { %>
       <time datetime="<%= date(post.date, 'YYYY-MM-DD') %>" pubdate>
-        <i class="fa-regular fa-calendar"></i>
+        <span class="material-symbols-outlined md-18">calendar_today</span>
         <span><%- date(post.date, (theme.post_list_layout && theme.post_list_layout.date_format) || 'YYYY-MM-DD') %></span>
       </time>
       <% } %>
       <% if ((!theme.post_list_layout || theme.post_list_layout.show_category !== false) && categories.length > 0) { %>
         <% var firstCat = categories.first(); %>
         <a class="category-badge" href="<%= url_for(firstCat.path) %>">
-          <i class="fa-regular fa-folder"></i>
+          <span class="material-symbols-outlined md-18">folder</span>
           <span><%= firstCat.name %></span>
         </a>
       <% } %>
@@ -88,7 +88,7 @@ var tags = post.tags || [];
   <% if (!coverImg) { %>
   <div class="post-card-arrow">
     <a href="<%= postUrl %>" aria-hidden="true" tabindex="-1">
-      <i class="fa-solid fa-chevron-right"></i>
+      <span class="material-symbols-outlined">chevron_right</span>
     </a>
   </div>
   <% } %>

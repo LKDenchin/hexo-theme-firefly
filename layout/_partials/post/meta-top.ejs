@@ -17,14 +17,14 @@ var isBannerMode = theme.wallpaper && theme.wallpaper.mode === 'banner';
     <div class="post-header-badges-top">
       <% if (meta.wordcount && meta.wordcount.enable) { %>
       <span class="post-meta-badge badge-wordcount">
-        <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+        <span class="material-symbols-outlined" aria-hidden="true">trending_up</span>
         <span><%- __('post.meta.wordcount', wordcount(page)) %></span>
       </span>
       <% } %>
 
       <% if (meta.min2read && meta.min2read.enable) { %>
       <span class="post-meta-badge badge-reading-time">
-        <i class="fa-regular fa-clock" aria-hidden="true"></i>
+        <span class="material-symbols-outlined" aria-hidden="true">schedule</span>
         <span>
           <% var awl = parseInt(meta.min2read.awl, 10) || 0; %>
           <% var wpm = parseInt(meta.min2read.wpm, 10) || 0; %>
@@ -43,7 +43,7 @@ var isBannerMode = theme.wallpaper && theme.wallpaper.mode === 'banner';
     <div class="post-header-badges-bottom">
       <% if (meta.date && meta.date.enable !== false) { %>
       <span class="post-meta-badge badge-date">
-        <i class="fa-regular fa-calendar-days" aria-hidden="true"></i>
+        <span class="material-symbols-outlined" aria-hidden="true">calendar_month</span>
         <time datetime="<%= full_date(page.date, 'YYYY-MM-DD HH:mm') %>" pubdate>
           <%- full_date(page.date, (meta.date.format || config.date_format)) %>
         </time>
@@ -66,7 +66,7 @@ var isBannerMode = theme.wallpaper && theme.wallpaper.mode === 'banner';
       %>
       <% if (pathItems.length > 0) { %>
       <span class="post-meta-badge badge-taxonomy">
-        <i class="fa-solid fa-tags" aria-hidden="true"></i>
+        <span class="material-symbols-outlined" aria-hidden="true">sell</span>
         <span class="taxonomy-path">
           <% pathItems.forEach(function(item, idx) { %>
             <% if (idx > 0) { %>
@@ -84,6 +84,7 @@ var isBannerMode = theme.wallpaper && theme.wallpaper.mode === 'banner';
     <!-- Post updated notice -->
     <% if (theme.post && theme.post.updated && theme.post.updated.enable && page.updated && compare_date(page.date, page.updated)) { %>
     <div class="post-updated-note">
+      <span class="material-symbols-outlined" aria-hidden="true">update</span>
       <%- __('post.updated', date(page.updated, theme.post.updated.date_format || config.date_format)) %>
     </div>
     <% } %>

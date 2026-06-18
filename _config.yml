@@ -203,13 +203,13 @@ post_list_layout:
 # ============================================================
 social:
   - name: "GitHub"
-    icon: "github"
+    icon: "gite"
     url: "https://github.com"
   - name: "Email"
-    icon: "email"
+    icon: "mail"
     url: "mailto:example@email.com"
   - name: "RSS"
-    icon: "rss"
+    icon: "rss_feed"
     url: "/rss/"
 
 # ============================================================
@@ -259,6 +259,9 @@ widgets:
     enable: true
     position: "left"
   - type: "stats"
+    enable: true
+    position: "right"
+  - type: "site-info"
     enable: true
     position: "right"
   - type: "calendar"
@@ -359,13 +362,13 @@ profile:
   # 社交链接
   links:
     - name: "GitHub"
-      icon: "github"
+      icon: "gite"
       url: "https://github.com"
     - name: "Email"
-      icon: "email"
+      icon: "mail"
       url: "mailto:example@email.com"
     - name: "RSS"
-      icon: "rss"
+      icon: "rss_feed"
       url: "/rss/"
 
 # ============================================================
@@ -638,24 +641,27 @@ sidebar:
       show_on_non_post: false
   # ---- 移动端底部组件（仅在移动设备显示） ----
   mobile_bottom_components:
-    - type: stats
-      enable: true
-      position: top
-      show_on_post: true
     - type: profile
       enable: true
       position: top
       show_on_post: true
-    - type: categories
-      enable: false
-      position: sticky
+    - type: music
+      enable: true
+      position: top
       show_on_post: true
-      collapse_threshold: 5
+    - type: stats
+      enable: true
+      position: top
+      show_on_post: true
     - type: tags
-      enable: false
-      position: sticky
+      enable: true
+      position: top
       show_on_post: true
       collapse_threshold: 10
+    - type: site-info
+      enable: true
+      position: top
+      show_on_post: true
 
 # ============================================================
 #  特效设置
@@ -807,7 +813,7 @@ announcement:
   title: "Announcement"
   # 公告内容（支持 Markdown）
   content: ""
-  # 公告图标（Font Awesome 图标名，留空不显示）
+  # 公告图标（Material Symbols 图标名，留空不显示）
   icon: ""
   # 公告类型，可选：info, warning, success, error
   type: info
@@ -829,8 +835,8 @@ font:
   # 是否预加载字体文件
   preload: false
 
-# 图标库 URL (iconfont)
-iconfont: "https://at.alicdn.com/t/c/font_1736178_k526ubmyhba.css"
+# 图标库 URL (iconfont) — 留空则使用 Material Symbols
+iconfont: ""
 
 # ============================================================
 #  赞助页面设置

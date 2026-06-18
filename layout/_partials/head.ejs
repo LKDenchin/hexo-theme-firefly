@@ -71,7 +71,6 @@
 <link rel="stylesheet" href="<%= url_for('/css/display-settings.css') %>">
 <link rel="stylesheet" href="<%= url_for('/css/water-waves.css') %>">
 <link rel="stylesheet" href="<%= url_for('/css/responsive.css') %>">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
 <% if (theme.iconfont) { %>
 <link rel="stylesheet" href="<%= theme.iconfont %>">
 <% } %>
@@ -130,7 +129,10 @@
 <!-- Typewriter CSS -->
 <%- partial('_partials/features/typewriter') %>
 
-<!-- Font Preloading -->
+<!-- Material Symbols Font Preloading -->
+<link rel="preload" href="<%= url_for('/fonts/MaterialSymbolsOutlined.woff2') %>" as="font" type="font/woff2" crossorigin>
+
+<!-- Additional Font Preloading -->
 <% if (theme.font && theme.font.enable && theme.font.urls && theme.font.urls.length > 0) { %>
   <% theme.font.urls.forEach(function(url) { %>
   <link rel="preload" href="<%= url %>" as="font" type="font/woff2" crossorigin>

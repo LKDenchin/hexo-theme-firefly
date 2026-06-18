@@ -29,7 +29,7 @@ var allCategories = site.categories.find({ parent: { $exists: false } }).sort(or
         <article class="category-card">
           <a href="<%= url_for(cat.path) %>" class="category-card-link">
             <div class="category-card-icon">
-              <i class="fa-regular fa-folder" aria-hidden="true"></i>
+              <span class="material-symbols-outlined md-28">folder</span>
             </div>
             <h2 class="category-card-name"><%= cat.name %></h2>
             <p class="category-card-count">

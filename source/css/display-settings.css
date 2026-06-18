@@ -12,10 +12,8 @@
   z-index: 45;
   padding: 1.25rem;
   background: var(--card-bg);
-  border-radius: var(--radius-large);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  border: 1px solid var(--line-divider);
-  transition: all 0.25s ease;
+  border-radius: var(--md-shape-corner-large);
+  transition: all var(--md-motion-duration-medium) var(--md-motion-easing-standard);
 }
 
 .display-settings-panel.closed {
@@ -51,10 +49,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.625rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0.75rem;
   font-size: 0.8125rem;
   color: var(--text-secondary);
   font-weight: 400;
+  background: var(--md-sys-color-surface-variant);
+  border-radius: var(--md-shape-corner-full);
+  transition: background-color var(--md-motion-duration-short) var(--md-motion-easing-standard);
+}
+.settings-label:hover {
+  background: var(--md-sys-color-primary-container);
 }
 
 /* ---- Hue Color Slider ---- */
@@ -101,6 +106,47 @@
   cursor: pointer;
 }
 
+/* ---- Transparency / general range sliders (rounded rectangle) ---- */
+.settings-section input[type="range"].rounded-range {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--md-sys-color-surface-variant);
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 0.75rem;
+}
+.settings-section input[type="range"].rounded-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.settings-section input[type="range"].rounded-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--primary);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+/* Transparency section: hidden except in overlay wallpaper mode */
+html:not([data-wallpaper-mode="overlay"]) .transparency-section {
+  display: none;
+}
+.range-value {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--primary);
+}
+
 /* ---- Toggle Switch ---- */
 .settings-toggle {
   position: relative;
@@ -121,7 +167,6 @@
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: 1px solid var(--line-divider);
 }
 .settings-toggle .slider::before {
   content: '';
@@ -137,13 +182,12 @@
 }
 .settings-toggle input:checked + .slider {
   background: var(--primary);
-  border-color: var(--primary);
 }
 .settings-toggle input:checked + .slider::before {
   transform: translateX(18px);
 }
 
-/* ---- Wallpaper Mode Buttons ---- */
+/* ---- Wallpaper Mode Buttons — M3 segmented buttons ---- */
 .wallpaper-mode-buttons {
   display: flex;
   gap: 0.5rem;
@@ -151,66 +195,69 @@
 .wallpaper-mode-buttons button {
   flex: 1;
   padding: 0.5rem;
-  border: 1px solid var(--line-divider);
-  border-radius: var(--radius-medium);
-  background: var(--btn-regular-bg);
-  color: var(--text-secondary);
+  border-radius: var(--md-shape-corner-full);
+  background: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
   font-size: 0.8125rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  border: none;
+  transition:
+    background-color var(--md-motion-duration-short) var(--md-motion-easing-standard),
+    color var(--md-motion-duration-short) var(--md-motion-easing-standard);
 }
 .wallpaper-mode-buttons button.active {
-  border-color: var(--primary);
-  background: var(--primary);
-  color: #fff;
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
   font-weight: 600;
 }
 .wallpaper-mode-buttons button:hover:not(.active) {
-  border-color: var(--primary);
-  color: var(--primary);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
 }
 
-/* ---- Layout Buttons ---- */
+/* ---- Layout Buttons — M3 toggle buttons ---- */
 .layout-buttons button {
   flex: 1;
   padding: 0.5rem 0.75rem;
-  border: 1px solid var(--line-divider);
-  border-radius: var(--radius-medium);
-  background: var(--btn-regular-bg);
-  color: var(--text-secondary);
+  border-radius: var(--md-shape-corner-full);
+  background: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
   font-size: 0.8125rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  border: none;
+  transition:
+    background-color var(--md-motion-duration-short) var(--md-motion-easing-standard),
+    color var(--md-motion-duration-short) var(--md-motion-easing-standard);
 }
 .layout-buttons button.active {
-  border-color: var(--primary);
-  background: var(--primary);
-  color: #fff;
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
   font-weight: 600;
 }
 .layout-buttons button:hover:not(.active) {
-  border-color: var(--primary);
-  color: var(--primary);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
 }
 
-/* ---- Reset Button ---- */
+/* ---- Reset Button — M3 text button ---- */
 .settings-reset-btn {
-  padding: 0.2rem 0.55rem;
-  border: 1px solid var(--line-divider);
-  border-radius: var(--radius-small);
-  background: var(--btn-regular-bg);
-  color: var(--text-tertiary);
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--md-shape-corner-full);
+  background: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
   font-size: 0.6875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  border: none;
+  transition:
+    background-color var(--md-motion-duration-short) var(--md-motion-easing-standard),
+    color var(--md-motion-duration-short) var(--md-motion-easing-standard);
 }
 .settings-reset-btn:hover {
-  border-color: oklch(0.65 0.15 20);
-  color: oklch(0.60 0.15 20);
-  background: var(--btn-plain-bg-hover);
+  background: oklch(0.65 0.15 20 / 0.15);
+  color: oklch(0.55 0.18 20);
 }
 
 /* ---- Display Settings Toggle (navbar button) ---- */

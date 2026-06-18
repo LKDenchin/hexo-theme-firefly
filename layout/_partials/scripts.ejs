@@ -38,9 +38,7 @@ var busuanziEnable = themeConfig.analytics && themeConfig.analytics.busuanzi !==
 <script src="<%= url_for('/js/ui/toc.js') %>"></script>
 <script src="<%= url_for('/js/ui/scroll.js') %>"></script>
 <script src="<%= url_for('/js/ui/back-to-top.js') %>"></script>
-<% if (is_post()) { %>
 <script src="<%= url_for('/js/ui/post-layout.js') %>"></script>
-<% } %>
 
 <!-- Feature Scripts -->
 <% if (musicEnable || metingApi) { %>
@@ -184,7 +182,7 @@ var busuanziEnable = themeConfig.analytics && themeConfig.analytics.busuanzi !==
     document.querySelectorAll('.post-content figure.highlight').forEach(function(fig) {
       var btn = document.createElement('button');
       btn.className = 'code-copy-btn';
-      btn.innerHTML = '<i class="fa-regular fa-copy"></i>';
+      btn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
       btn.title = '<%= __("copy_code") || "Copy" %>';
       fig.appendChild(btn);
       
@@ -193,10 +191,10 @@ var busuanziEnable = themeConfig.analytics && themeConfig.analytics.busuanzi !==
         var codeEl = fig.querySelector('.code pre code') || fig.querySelector('.code pre') || fig.querySelector('pre');
         var text = codeEl ? codeEl.textContent : '';
         navigator.clipboard.writeText(text).then(function() {
-          btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+          btn.innerHTML = '<span class="material-symbols-outlined">check</span>';
           btn.classList.add('copied');
           setTimeout(function() {
-            btn.innerHTML = '<i class="fa-regular fa-copy"></i>';
+            btn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
             btn.classList.remove('copied');
           }, 2000);
         });
@@ -213,17 +211,17 @@ var busuanziEnable = themeConfig.analytics && themeConfig.analytics.busuanzi !==
       
       var btn = document.createElement('button');
       btn.className = 'code-copy-btn';
-      btn.innerHTML = '<i class="fa-regular fa-copy"></i>';
+      btn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
       btn.title = '<%= __("copy_code") || "Copy" %>';
       wrapper.appendChild(btn);
       
       btn.addEventListener('click', function() {
         var code = pre.querySelector('code') || pre;
         navigator.clipboard.writeText(code.textContent).then(function() {
-          btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+          btn.innerHTML = '<span class="material-symbols-outlined">check</span>';
           btn.classList.add('copied');
           setTimeout(function() {
-            btn.innerHTML = '<i class="fa-regular fa-copy"></i>';
+            btn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
             btn.classList.remove('copied');
           }, 2000);
         });

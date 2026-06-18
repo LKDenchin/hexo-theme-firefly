@@ -12,6 +12,8 @@
       
       this.bindToggle();
       this.bindHueSlider();
+      this.bindTransparencySliders();
+      this.bindWallpaperButtons();
       this.bindToggles();
       this.bindResetButtons();
     },
@@ -61,6 +63,53 @@
       });
     },
     
+    bindTransparencySliders() {
+      const self = this;
+      // Show/hide based on current wallpaper mode
+      this.updateTransparencySection();
+      document.addEventListener('wallpaperchange', () => this.updateTransparencySection());
+
+      const bindSlider = (id, getter, setter, valueSuffix, elId) => {
+        const slider = this.panel.querySelector(id);
+        if (!slider) return;
+        // Convert stored decimal (0.0-1.0) to percentage for display
+        var storedDecimal = getter();
+        var percentVal = Math.round(storedDecimal * 100);
+        slider.value = percentVal;
+        const display = document.getElementById(elId);
+        if (display) display.textContent = percentVal + valueSuffix;
+        slider.addEventListener('input', (e) => {
+          const percent = parseInt(e.target.value, 10);
+          const decimal = percent / 100;
+          setter(decimal);
+          if (display) display.textContent = percent + valueSuffix;
+        });
+      };
+      bindSlider('#slider-wallpaper-opacity', () => window.Settings.getOverlayOpacity(), (v) => window.Settings.setOverlayOpacity(v), '%', 'val-wallpaper-opacity');
+      bindSlider('#slider-card-transparency', () => window.Settings.getOverlayCardOpacity(), (v) => window.Settings.setOverlayCardOpacity(v), '%', 'val-card-transparency');
+
+      // Background blur slider — uses integer pixel values, not 0-1 decimals
+      const blurSlider = this.panel.querySelector('#slider-background-blur');
+      if (blurSlider) {
+        const blurDisplay = document.getElementById('val-background-blur');
+        var storedBlur = window.Settings.getOverlayBlur();
+        blurSlider.value = storedBlur;
+        if (blurDisplay) blurDisplay.textContent = storedBlur + 'px';
+        blurSlider.addEventListener('input', (e) => {
+          const px = parseInt(e.target.value, 10);
+          window.Settings.setOverlayBlur(px);
+          if (blurDisplay) blurDisplay.textContent = px + 'px';
+        });
+      }
+    },
+
+    updateTransparencySection() {
+      const section = this.panel ? this.panel.querySelector('.transparency-section') : null;
+      if (!section) return;
+      const mode = window.Settings ? window.Settings.getWallpaperMode() : 'banner';
+      section.style.display = (mode === 'overlay') ? '' : 'none';
+    },
+    
     bindRangeSlider(id, callback) {
       const slider = this.panel.querySelector(`#${id}`);
       if (!slider) return;
@@ -72,6 +121,20 @@
       }
     },
     
+    // Wallpaper mode buttons
+    bindWallpaperButtons() {
+      const self = this;
+      this.panel.querySelectorAll('.wallpaper-mode-buttons button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mode = btn.dataset.wallpaper;
+          if (!mode) return;
+          window.Settings.setWallpaperMode(mode);
+          btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+    },
+
     // Toggle switches
     bindToggles() {
       this.bindCheckboxToggle('toggle-waves', (checked) => window.Settings.setWavesEnabled(checked));
@@ -117,7 +180,19 @@
       // Sync hue slider
       const hueSlider = this.panel.querySelector('.hue-slider');
       if (hueSlider) hueSlider.value = window.Settings.getHue();
-      
+
+      // Sync wallpaper mode buttons
+      const currentWallpaper = window.Settings.getWallpaperMode();
+      this.panel.querySelectorAll('.wallpaper-mode-buttons button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.wallpaper === currentWallpaper);
+      });
+
+      // Sync layout buttons
+      const currentLayout = window.Settings.getPostListLayout();
+      this.panel.querySelectorAll('.layout-buttons button[data-layout]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.layout === currentLayout);
+      });
+
       // Sync toggle switches
       const syncCheckbox = (id, key) => {
         const cb = this.panel.querySelector(`#${id}`);

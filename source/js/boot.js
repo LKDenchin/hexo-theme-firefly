@@ -28,10 +28,8 @@
     // Initialize post layout switcher
     if (window.PostLayoutManager) PostLayoutManager.init();
 
-    // Initialize typewriter effects
-    document.querySelectorAll('.typewriter').forEach(function(el) {
-      if (window.TypewriterEffect) new TypewriterEffect(el);
-    });
+    // Initialize typewriter effects (typewriter.js handles its own init)
+    // No need to re-init here — typewriter.js registers DOMContentLoaded internally
 
     // Initialize sakura
     if (window.Sakura) Sakura.init();

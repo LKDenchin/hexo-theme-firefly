@@ -158,19 +158,11 @@
 
 /* --------------------------------------------------------------------------
    Mobile Bottom Sidebar
+   (Main styles in responsive.css — this is the base/desktop default)
    -------------------------------------------------------------------------- */
 
 .mobile-bottom-sidebar {
   display: none;
-}
-
-@media (max-width: 767px) {
-  .mobile-bottom-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem 0;
-  }
 }
 
 /* --------------------------------------------------------------------------
@@ -190,7 +182,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   Pagination inside main-content
+   Pagination inside main-content — M3 pill buttons
    -------------------------------------------------------------------------- */
 
 .pagination-wrapper {
@@ -199,6 +191,64 @@
   justify-content: center;
   gap: 0.75rem;
   padding: 2rem 1rem;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--md-shape-corner-full);
+  background: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--line-divider);
+  transition:
+    background-color var(--md-motion-duration-short) var(--md-motion-easing-standard),
+    color var(--md-motion-duration-short) var(--md-motion-easing-standard);
+}
+
+.pagination-item:hover {
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  border-color: var(--primary);
+}
+
+.pagination-item .material-symbols-outlined {
+  font-size: 1.125rem;
+}
+
+.pagination-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.pagination-info {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.pagination-info .page-number {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.pagination-info .page-divider {
+  color: var(--text-tertiary);
 }
 
 /* --------------------------------------------------------------------------
@@ -224,30 +274,23 @@
 }
 
 /* Default / Banner mode positioning (desktop home & non-home) */
-html[data-wallpaper-mode="banner"] #main-content-wrapper:not(.mobile-main-no-banner) {
-  /* On both home and non-home on desktop, top overlaps banner */
+html[data-wallpaper-mode="banner"] #main-content-wrapper {
   top: calc(var(--banner-height) - 4rem);
 }
 
 /* Fullscreen wallpaper mode positioning (desktop) */
-html[data-wallpaper-mode="fullscreen"] #main-content-wrapper:not(.mobile-main-no-banner) {
-  position: relative !important;
-  top: 0 !important;
-  margin-top: 1rem !important;
+html[data-wallpaper-mode="fullscreen"] #main-content-wrapper {
+  position: absolute !important;
+  top: 100vh !important;
+  margin-top: 0 !important;
 }
 
-/* Overlay & None wallpaper modes positioning (desktop) */
-html[data-wallpaper-mode="overlay"] #main-content-wrapper:not(.mobile-main-no-banner),
-html[data-wallpaper-mode="none"] #main-content-wrapper:not(.mobile-main-no-banner) {
-  position: relative !important;
+/* Overlay wallpaper mode — content below navbar */
+html[data-wallpaper-mode="overlay"] #main-content-wrapper {
   top: 5.5rem !important;
 }
 
-/* Mobile non-homepage banner/fullscreen hidden default positioning */
-@media (max-width: 1023px) {
-  #main-content-wrapper.mobile-main-no-banner {
-    top: 5.5rem !important;
-    position: absolute !important;
-    margin-top: 0 !important;
-  }
+/* None wallpaper mode — solid background, content below navbar */
+html[data-wallpaper-mode="none"] #main-content-wrapper {
+  top: 5.5rem !important;
 }

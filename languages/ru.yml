@@ -38,6 +38,14 @@ load_comments: Загрузить комментарии
 profile: Профиль
 announcement: Объявление
 site_stats: Статистика сайта
+site_info: Информация о сайте
+build_platform: Платформа сборки
+blog_version: Версия блога
+site_domain: Домен сайта
+expand_site_info: Развернуть информацию
+collapse_site_info: Свернуть информацию
+build_time: Время сборки
+system_info: Информация о системе
 total_posts: Всего записей
 total_categories: Категорий
 total_tags: Тегов
@@ -63,6 +71,10 @@ overlay_settings: Настройки наложения
 opacity: Прозрачность обоев
 blur: Размытие фона
 card_opacity: Прозрачность карточек
+transparency: Прозрачность
+wallpaper_opacity: Прозрачность обоев
+background_blur: Размытие фона
+card_transparency: Прозрачность карточек
 features: Функции
 water_waves: Водяные волны
 gradient: Градиент

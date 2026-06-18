@@ -1,7 +1,7 @@
 <% if (theme.announcement && theme.announcement.content) { %>
 <div class="widget announcement-widget announcement-<%= theme.announcement.type || 'info' %>">
   <div class="widget-header">
-    <% if (theme.announcement.icon) { %><span data-icon="<%= theme.announcement.icon %>"></span><% } %>
+    <% if (theme.announcement.icon) { %><span class="material-symbols-outlined"><%= theme.announcement.icon %></span><% } %>
     <%= theme.announcement.title || __('announcement') %>
   </div>
   <div class="widget-body">

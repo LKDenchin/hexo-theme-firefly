@@ -107,68 +107,12 @@ hexo.extend.helper.register('related_posts', function(opts) {
   }
 });
 
-// fa_icon(name) - Maps icon name to FontAwesome 6 class names
+// fa_icon(name) - Maps icon name to Material Symbols ligature name
 hexo.extend.helper.register('fa_icon', function(name) {
   if (!name) return '';
   name = name.toLowerCase().trim();
-  const mapping = {
-    'home': 'fa-solid fa-house',
-    'archive': 'fa-solid fa-box-archive',
-    'category': 'fa-regular fa-folder',
-    'categories': 'fa-regular fa-folder',
-    'tag': 'fa-solid fa-tag',
-    'tags': 'fa-solid fa-tags',
-    'about': 'fa-regular fa-user',
-    'user': 'fa-regular fa-user',
-    'users': 'fa-solid fa-users',
-    'friends': 'fa-solid fa-users',
-    'guestbook': 'fa-regular fa-comment-dots',
-    'message-square': 'fa-regular fa-comment-dots',
-    'bangumi': 'fa-solid fa-tv',
-    'tv': 'fa-solid fa-tv',
-    'gallery': 'fa-regular fa-image',
-    'image': 'fa-regular fa-image',
-    'images': 'fa-regular fa-images',
-    'settings': 'fa-solid fa-gear',
-    'search': 'fa-solid fa-magnifying-glass',
-    'x': 'fa-solid fa-xmark',
-    'close': 'fa-solid fa-xmark',
-    'chevron-down': 'fa-solid fa-chevron-down',
-    'chevron-up': 'fa-solid fa-chevron-up',
-    'chevron-left': 'fa-solid fa-chevron-left',
-    'chevron-right': 'fa-solid fa-chevron-right',
-    'sun': 'fa-solid fa-sun',
-    'moon': 'fa-solid fa-moon',
-    'calendar': 'fa-regular fa-calendar',
-    'calendar-days': 'fa-regular fa-calendar-days',
-    'date-fill': 'fa-regular fa-calendar-days',
-    'edit': 'fa-regular fa-pen-to-square',
-    'clock': 'fa-regular fa-clock',
-    'clock-fill': 'fa-regular fa-clock',
-    'chart': 'fa-solid fa-chart-line',
-    'list': 'fa-solid fa-list-ul',
-    'file-text': 'fa-regular fa-file-lines',
-    'eye': 'fa-regular fa-eye',
-    'github': 'fa-brands fa-github',
-    'email': 'fa-regular fa-envelope',
-    'envelope': 'fa-regular fa-envelope',
-    'rss': 'fa-solid fa-rss',
-    'twitter': 'fa-brands fa-twitter',
-    'facebook': 'fa-brands fa-facebook',
-    'weibo': 'fa-brands fa-weibo',
-    'cc': 'fa-brands fa-creative-commons',
-    'cc-by': 'fa-brands fa-creative-commons-by',
-    'cc-nc': 'fa-brands fa-creative-commons-nc',
-    'cc-sa': 'fa-brands fa-creative-commons-sa',
-    'alipay': 'fa-solid fa-credit-card',
-    'wechat': 'fa-brands fa-weixin',
-    'weixin': 'fa-brands fa-weixin',
-    'music': 'fa-solid fa-music',
-    'book': 'fa-solid fa-book'
-  };
-  if (name.startsWith('fa-') || name.includes(' fa-')) {
-    return name;
-  }
-  return mapping[name] || `fa-solid fa-${name}`;
+  // Return the name directly as a Material Symbols ligature
+  // All templates now use <span class="material-symbols-outlined">icon_name</span>
+  return name;
 });
 

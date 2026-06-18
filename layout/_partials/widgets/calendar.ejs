@@ -34,15 +34,15 @@ var postUrlPrefix = url_for('/');
     <div class="calendar-container">
       <div class="flex justify-between items-center mb-4" style="margin-bottom: 1rem;">
           <button id="prev-month-btn" class="btn-plain rounded-lg w-8 h-8 flex items-center justify-center" style="width: 2rem; height: 2rem; border-radius: var(--radius-medium); border: none; background: none; cursor: pointer;" aria-label="Previous Month">
-              <i class="fa-solid fa-chevron-left text-sm"></i>
+              <span class="material-symbols-outlined">chevron_left</span>
           </button>
           <div id="current-month-display" class="text-lg font-bold text-neutral-900 dark:text-neutral-100 cursor-pointer hover:text-(--primary) transition-colors select-none" style="font-weight: 700; cursor: pointer; user-select: none;"></div>
           <div class="flex gap-2" style="display: flex; gap: 0.5rem;">
               <button id="reset-month-btn" class="btn-plain rounded-lg w-8 h-8 flex items-center justify-center" style="width: 2rem; height: 2rem; border-radius: var(--radius-medium); border: none; background: none; cursor: pointer;" aria-label="Back to Today">
-                  <i class="fa-solid fa-rotate-left text-sm"></i>
+                  <span class="material-symbols-outlined">refresh</span>
               </button>
               <button id="next-month-btn" class="btn-plain rounded-lg w-8 h-8 flex items-center justify-center" style="width: 2rem; height: 2rem; border-radius: var(--radius-medium); border: none; background: none; cursor: pointer;" aria-label="Next Month">
-                  <i class="fa-solid fa-chevron-right text-sm"></i>
+                  <span class="material-symbols-outlined">chevron_right</span>
               </button>
           </div>
       </div>

@@ -1,6 +1,9 @@
 <% if (theme.music && theme.music.mode !== 'none') { %>
 <div class="widget music-widget">
-  <div class="widget-header"><%= __('music') %></div>
+  <div class="widget-header">
+    <span class="material-symbols-outlined">library_music</span>
+    <span><%= __('music') %></span>
+  </div>
   <div class="widget-body">
     <% if (theme.music.mode === 'meting' && theme.music.meting) { %>
       <meting-js
@@ -26,4 +29,64 @@
     <% } %>
   </div>
 </div>
+
+<% if (theme.music.mode === 'meting' && theme.music.meting) { %>
+<script>
+(function() {
+  function setupMarquee(container) {
+    var titles = container.querySelectorAll('.aplayer-title');
+    var authors = container.querySelectorAll('.aplayer-author');
+    function check(el) {
+      if (!el) return;
+      var overflow = el.scrollWidth > el.clientWidth;
+      if (overflow) {
+        el.style.setProperty('--marquee-offset', '-' + (el.scrollWidth - el.clientWidth) + 'px');
+        el.classList.add('marquee-animate');
+      } else {
+        el.classList.remove('marquee-animate');
+      }
+    }
+    titles.forEach(check);
+    authors.forEach(check);
+  }
+
+  function initMarquee(widgetBody) {
+    // Observe for APlayer creation
+    var observer = new MutationObserver(function(muts) {
+      muts.forEach(function(mut) {
+        mut.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.classList && node.classList.contains('aplayer')) {
+              setupMarquee(node);
+              // Also observe music section for text changes (song switch)
+              var music = node.querySelector('.aplayer-music');
+              if (music) {
+                var textObserver = new MutationObserver(function() { setupMarquee(node); });
+                textObserver.observe(music, { childList: true, subtree: true, characterData: true });
+              }
+            } else if (node.querySelectorAll) {
+              node.querySelectorAll('.aplayer').forEach(function(ap) { setupMarquee(ap); });
+            }
+          }
+        });
+      });
+    });
+    observer.observe(widgetBody, { childList: true, subtree: true });
+
+    // Also handle click on list items (song switching)
+    widgetBody.addEventListener('click', function(e) {
+      var li = e.target.closest('.aplayer-list li');
+      if (li) {
+        setTimeout(function() {
+          var ap = widgetBody.querySelector('.aplayer');
+          if (ap) setupMarquee(ap);
+        }, 100);
+      }
+    });
+  }
+
+  document.querySelectorAll('.music-widget .widget-body').forEach(initMarquee);
+})();
+</script>
+<% } %>
 <% } %>

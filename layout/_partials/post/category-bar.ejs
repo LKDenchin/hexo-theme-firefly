@@ -19,7 +19,7 @@ var categories = site.categories.find({ parent: { $exists: false } }).sort(order
 <% if (catBarConfig.enable && categories.length > 0) { %>
 <nav class="category-bar" aria-label="<%= __('category.title') %>">
   <div class="category-bar-header">
-    <i class="fa-regular fa-folder" aria-hidden="true"></i>
+    <span class="material-symbols-outlined">folder</span>
     <span><%= __('category.title') %></span>
   </div>
 

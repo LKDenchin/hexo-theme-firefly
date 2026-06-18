@@ -19,12 +19,12 @@
     rel="prev"
     aria-label="<%= __('prev_page') %>"
   >
-    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+    <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
     <span><%= __('prev') %></span>
   </a>
   <% } else { %>
   <span class="pagination-item pagination-prev pagination-disabled" aria-disabled="true">
-    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+    <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
     <span><%= __('prev') %></span>
   </span>
   <% } %>
@@ -43,12 +43,12 @@
     aria-label="<%= __('next_page') %>"
   >
     <span><%= __('next') %></span>
-    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+    <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
   </a>
   <% } else { %>
   <span class="pagination-item pagination-next pagination-disabled" aria-disabled="true">
     <span><%= __('next') %></span>
-    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+    <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
   </span>
   <% } %>
 </nav>

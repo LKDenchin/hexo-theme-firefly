@@ -151,15 +151,18 @@
      * Returns null if nothing has been saved yet.
      */
     getWallpaperMode: function() {
-      return this.WALLPAPER_BANNER;
+      return localStorage.getItem(this.KEYS.wallpaperMode) || this.WALLPAPER_BANNER;
     },
 
     /**
      * Persist and apply a wallpaper mode.
      */
     setWallpaperMode: function(mode) {
-      this.applyWallpaperMode(this.WALLPAPER_BANNER);
-      document.dispatchEvent(new CustomEvent('wallpaperchange', { detail: { mode: this.WALLPAPER_BANNER } }));
+      var validModes = [this.WALLPAPER_BANNER, this.WALLPAPER_FULLSCREEN, this.WALLPAPER_OVERLAY, this.WALLPAPER_NONE];
+      var actualMode = validModes.indexOf(mode) !== -1 ? mode : this.WALLPAPER_BANNER;
+      localStorage.setItem(this.KEYS.wallpaperMode, actualMode);
+      this.applyWallpaperMode(actualMode);
+      document.dispatchEvent(new CustomEvent('wallpaperchange', { detail: { mode: actualMode } }));
     },
 
     /**
@@ -168,78 +171,66 @@
      * to restore the previously-saved mode.
      */
     applyWallpaperMode: function(mode) {
-      var actualMode = this.WALLPAPER_BANNER;
+      var actualMode = mode || this.getWallpaperMode();
       document.documentElement.setAttribute('data-wallpaper-mode', actualMode);
       var body = document.body;
       var wrapper = document.getElementById('wallpaper-wrapper');
-      var isHome = document.body.classList.contains('is-home');
-      var isMobile = window.innerWidth < 1024;
-      var isMobileNonHome = isMobile && !isHome;
+      var mainContentWrapper = document.querySelector('#main-content-wrapper');
+      var overlayContainer = document.getElementById('banner-overlay-container');
 
-      // Reset every wallpaper-related class first
+      // Reset all classes
       body.classList.remove('enable-banner', 'no-banner-layout', 'wallpaper-transparent');
-
-      // Default: banner-style wallpaper at top of page
-      body.classList.add('enable-banner');
       if (wrapper) {
         wrapper.classList.remove('wallpaper-overlay', 'wallpaper-fullscreen');
-        if (isMobileNonHome) {
-          wrapper.style.display = 'none';
-          wrapper.classList.add('mobile-hide-banner');
-        } else {
-          wrapper.style.display = 'block';
-          wrapper.classList.remove('mobile-hide-banner');
-        }
       }
-
-      // Apply main content positioning
-      var mainContentWrapper = document.querySelector('.z-30.pointer-events-none');
       if (mainContentWrapper) {
-        mainContentWrapper.style.setProperty("transition", "none", "important");
-
-        if (isMobileNonHome) {
-          mainContentWrapper.classList.add('mobile-main-no-banner');
-        } else {
-          mainContentWrapper.classList.remove('mobile-main-no-banner');
-        }
-
-        if (isMobile && isHome) {
-          mainContentWrapper.style.removeProperty('top');
-          mainContentWrapper.style.position = '';
-          mainContentWrapper.style.zIndex = '';
-          mainContentWrapper.style.setProperty('margin-top', '0', 'important');
-        } else if (isMobileNonHome) {
-          mainContentWrapper.style.setProperty('top', '5.5rem', 'important');
-          mainContentWrapper.style.position = '';
-          mainContentWrapper.style.zIndex = '';
-          mainContentWrapper.style.setProperty('margin-top', '0', 'important');
-        } else if (!isHome) {
-          mainContentWrapper.style.setProperty('top', 'calc(var(--banner-height) - 3rem)', 'important');
-          mainContentWrapper.style.position = '';
-          mainContentWrapper.style.zIndex = '';
-          mainContentWrapper.style.setProperty('margin-top', '0', 'important');
-        } else {
-          mainContentWrapper.style.removeProperty('top');
-          mainContentWrapper.style.position = '';
-          mainContentWrapper.style.zIndex = '';
-          mainContentWrapper.style.removeProperty('margin-top');
-        }
-
-        mainContentWrapper.style.visibility = 'visible';
-
-        requestAnimationFrame(function() {
-          mainContentWrapper.style.removeProperty('transition');
-        });
+        mainContentWrapper.classList.remove('mobile-main-no-banner');
       }
 
-      // Banner title overlay visibility
-      var bannerTextOverlay = document.querySelector('.home-text-overlay');
-      if (bannerTextOverlay) {
-        if (isHome) {
-          bannerTextOverlay.classList.remove('hidden');
-        } else {
-          bannerTextOverlay.classList.add('hidden');
-        }
+      switch (actualMode) {
+        case this.WALLPAPER_BANNER:
+          body.classList.add('enable-banner');
+          if (wrapper) wrapper.style.display = 'block';
+          if (overlayContainer) overlayContainer.style.display = '';
+          if (mainContentWrapper) mainContentWrapper.style.removeProperty('top');
+          break;
+
+        case this.WALLPAPER_FULLSCREEN:
+          body.classList.add('enable-banner');
+          if (wrapper) {
+            wrapper.style.display = 'block';
+            wrapper.classList.add('wallpaper-fullscreen');
+          }
+          if (overlayContainer) overlayContainer.style.display = '';
+          if (mainContentWrapper) mainContentWrapper.style.removeProperty('top');
+          break;
+
+        case this.WALLPAPER_OVERLAY:
+          body.classList.add('wallpaper-transparent');
+          if (wrapper) {
+            wrapper.style.display = 'block';
+            wrapper.classList.add('wallpaper-overlay');
+          }
+          if (overlayContainer) overlayContainer.style.display = 'none';
+          if (mainContentWrapper) {
+            mainContentWrapper.style.setProperty('top', '5.5rem', 'important');
+            mainContentWrapper.style.position = '';
+          }
+          break;
+
+        case this.WALLPAPER_NONE:
+          body.classList.add('no-banner-layout');
+          if (wrapper) wrapper.style.display = 'none';
+          if (overlayContainer) overlayContainer.style.display = 'none';
+          if (mainContentWrapper) {
+            mainContentWrapper.style.setProperty('top', '5.5rem', 'important');
+            mainContentWrapper.style.position = '';
+          }
+          break;
+      }
+
+      if (mainContentWrapper) {
+        mainContentWrapper.style.visibility = 'visible';
       }
     },
 
@@ -390,6 +381,7 @@
      */
     setSakuraEnabled: function(enabled) {
       localStorage.setItem(this.KEYS.sakuraEnabled, String(enabled));
+      document.dispatchEvent(new CustomEvent('sakuratoggle', { detail: { enabled: enabled } }));
     },
 
     /**

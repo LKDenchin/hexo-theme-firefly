@@ -135,23 +135,23 @@ if (isPost && (page.cover || page.thumbnail || page.index_img || page.banner_img
       <div class="post-meta-info meta-info">
         <% if (page.date) { %>
         <span class="post-meta-date">
-          <i class="fa-regular fa-calendar"></i>
+          <span class="material-symbols-outlined md-18">calendar_today</span>
           <%= __('published') %>: <%= date(page.date, 'YYYY-MM-DD') %>
         </span>
         <% } %>
         <% if (page.updated && page.updated !== page.date) { %>
         <span class="post-meta-updated">
-          <i class="fa-regular fa-pen-to-square"></i>
+          <span class="material-symbols-outlined md-18">edit</span>
           <%= __('updated') %>: <%= date(page.updated, theme.post.updated.date_format || config.date_format || 'YYYY-MM-DD HH:mm') %>
         </span>
         <% } %>
         <% if (page.content && page.content.length > 0) { %>
         <span class="post-meta-word-count">
-          <i class="fa-regular fa-file-lines"></i>
+          <span class="material-symbols-outlined md-18">description</span>
           <%= wordcount(page) %> <%= __('word_count') %>
         </span>
         <span class="post-meta-reading-time">
-          <i class="fa-regular fa-clock"></i>
+          <span class="material-symbols-outlined md-18">schedule</span>
           <%= readingTime(page.content, config.language || 'zh-CN') %>
         </span>
         <% } %>

@@ -5,11 +5,12 @@ var isPost = is_post();
 var isArchive = is_archive();
 var isCategory = is_category();
 var isTag = is_tag();
+var postListDefault = theme.post_list_layout && theme.post_list_layout.default_mode || 'list';
 %>
 <div class="content-nav-bar card-base">
   <!-- Home button -->
   <a href="<%= url_for('/') %>" class="content-nav-item content-nav-home<%= isHome ? ' active' : '' %>" aria-label="Home" title="<%= __('home') %>">
-    <i class="fa-solid fa-house"></i>
+    <span class="material-symbols-outlined">home</span>
   </a>
   
   <!-- Archive button -->
@@ -45,4 +46,17 @@ var isTag = is_tag();
     });
   }
   %>
+
+  <!-- Layout Toggle (right-aligned spacer + buttons) -->
+  <% if (isHome || isArchive || page.layout === 'archive' || isCategory || isTag) { %>
+  <span class="content-nav-spacer"></span>
+  <div class="layout-buttons" style="display:flex;gap:0.25rem;">
+    <button data-layout="list" class="<%= postListDefault === 'list' ? 'active' : '' %>" title="<%= __('list') %>">
+      <span class="material-symbols-outlined">view_list</span>
+    </button>
+    <button data-layout="grid" class="<%= postListDefault === 'grid' ? 'active' : '' %>" title="<%= __('grid') %>">
+      <span class="material-symbols-outlined">grid_view</span>
+    </button>
+  </div>
+  <% } %>
 </div>

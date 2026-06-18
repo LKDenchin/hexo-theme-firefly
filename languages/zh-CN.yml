@@ -38,6 +38,14 @@ load_comments: 加载评论
 profile: 个人资料
 announcement: 公告栏
 site_stats: 站点统计
+site_info: 站点信息
+build_platform: 构建平台
+blog_version: 博客版本
+site_domain: 站点域名
+expand_site_info: 展开站点信息
+collapse_site_info: 收起站点信息
+build_time: 构建时间
+system_info: 系统信息
 total_posts: 文章
 total_categories: 分类
 total_tags: 标签
@@ -70,6 +78,10 @@ overlay_settings: 透明模式设置
 opacity: 壁纸透明度
 blur: 背景模糊度
 card_opacity: 卡片透明度
+transparency: 透明度
+wallpaper_opacity: 壁纸透明度
+background_blur: 背景模糊
+card_transparency: 卡片透明度
 features: 功能开关
 water_waves: 水波纹动画
 gradient: 渐变过渡

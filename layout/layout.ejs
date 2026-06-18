@@ -8,11 +8,11 @@ const wallSwitchable = theme.wallpaper.switchable !== false;
 const cardTransparentOpacity = theme.wallpaper.overlay && theme.wallpaper.overlay.card_opacity ? theme.wallpaper.overlay.card_opacity : 0.6;
 %>
 <!DOCTYPE html>
-<html lang="<%= config.language %>" data-wallpaper-mode="<%= theme.wallpaper.mode %>" style="--bannerOffset: 15vh; --banner-height-home: 55vh; --banner-height: 50vh; --configHue: <%= configHue %>; --page-width: <%= PAGE_WIDTH %>rem;">
+<html lang="<%= config.language %>" data-wallpaper-mode="<%= theme.wallpaper.mode %>" style="--bannerOffset: 15vh; --banner-height-home: 73vh; --banner-height: 67vh; --configHue: <%= configHue %>; --page-width: <%= PAGE_WIDTH %>rem;">
 <head>
   <%- partial('_partials/head') %>
 </head>
-<body class="min-h-screen <%- is_home() ? 'is-home' : '' %> <%- theme.wallpaper.mode === 'banner' ? 'enable-banner' : '' %> <%- theme.nav && theme.nav.sticky !== false ? 'sticky-navbar' : '' %> <%- theme.cards && theme.cards.border !== false ? 'enable-card-border' : '' %> <%- theme.cards && theme.cards.follow_theme_hue ? 'card-follow-theme-hue' : '' %>" style="--bannerOffset: 15vh; --banner-height-home: 55vh; --banner-height: 50vh; --configHue: <%= configHue %>; --page-width: <%= PAGE_WIDTH %>rem;">
+<body class="min-h-screen <%- is_home() ? 'is-home' : '' %> <%- theme.nav && theme.nav.sticky !== false ? 'sticky-navbar' : '' %> <%- theme.cards && theme.cards.border !== false ? 'enable-card-border' : '' %> <%- theme.cards && theme.cards.follow_theme_hue ? 'card-follow-theme-hue' : '' %>" style="--bannerOffset: 15vh; --banner-height-home: 73vh; --banner-height: 67vh; --configHue: <%= configHue %>; --page-width: <%= PAGE_WIDTH %>rem;">
   <script>
     (function() {
       var BANNER_HEIGHT_EXTEND = <%- BANNER_HEIGHT_EXTEND %>;
@@ -40,90 +40,64 @@ const cardTransparentOpacity = theme.wallpaper.overlay && theme.wallpaper.overla
       var hueToApply = storedHue !== null ? storedHue : configHue;
       document.documentElement.style.setProperty('--hue', hueToApply);
 
-      // 3. Set wallpaper mode
-      var wallpaperModeToApply = 'banner';
+      // 3. Set wallpaper mode from localStorage or default
+      var storedWallpaper = localStorage.getItem('wallpaperMode');
+      var validModes = ['banner', 'fullscreen', 'overlay', 'none'];
+      var wallpaperModeToApply = validModes.indexOf(storedWallpaper) !== -1 ? storedWallpaper : 'banner';
       document.documentElement.setAttribute('data-wallpaper-mode', wallpaperModeToApply);
 
-      // 4. Set card opacity (no longer needed for overlay but keeping var)
-      
-      // 5. Calculate --banner-height-extend
+      // 4. Calculate --banner-height-extend
       var vh = window.innerHeight;
       var extend = BANNER_HEIGHT_EXTEND * 4;
       var bannerHeightExtend = extend > vh ? Math.floor(vh / 4) * 4 : extend;
       if (bannerHeightExtend === 0) bannerHeightExtend = 4;
       document.documentElement.style.setProperty('--banner-height-extend', bannerHeightExtend + 'px');
 
-      // 6. Apply wallpaper and content positioning when DOM is ready
-      requestAnimationFrame(function() {
-        var isHomePage = <%- is_home() %>;
+      // 5. Apply wallpaper positioning immediately
+      (function applyPos() {
         var body = document.body;
         var wrapper = document.getElementById('wallpaper-wrapper');
-        var mainContentWrapper = document.querySelector('.z-30.pointer-events-none');
-        var isMobile = window.innerWidth < 1024;
-        var isMobileNonHome = isMobile && !isHomePage;
+        var mainContentWrapper = document.getElementById('main-content-wrapper');
+        var overlayContainer = document.getElementById('banner-overlay-container');
 
-        // Reset wallpaper classes on body
         body.classList.remove('enable-banner', 'no-banner-layout', 'wallpaper-transparent');
+        if (wrapper) wrapper.classList.remove('wallpaper-overlay', 'wallpaper-fullscreen');
+        if (mainContentWrapper) mainContentWrapper.classList.remove('mobile-main-no-banner');
 
-        // Always apply banner mode
-        body.classList.add('enable-banner');
-        if (wrapper) {
-          wrapper.classList.remove('wallpaper-overlay', 'wallpaper-fullscreen');
-          if (isMobileNonHome) {
-            wrapper.style.display = 'none';
-            wrapper.classList.add('mobile-hide-banner');
-          } else {
-            wrapper.style.display = 'block';
-            wrapper.classList.remove('mobile-hide-banner');
-          }
+        switch (wallpaperModeToApply) {
+          case 'banner':
+            body.classList.add('enable-banner');
+            if (wrapper) wrapper.style.display = 'block';
+            if (overlayContainer) overlayContainer.style.display = '';
+            if (mainContentWrapper) mainContentWrapper.style.removeProperty('top');
+            break;
+          case 'fullscreen':
+            body.classList.add('enable-banner');
+            if (wrapper) { wrapper.style.display = 'block'; wrapper.classList.add('wallpaper-fullscreen'); }
+            if (overlayContainer) overlayContainer.style.display = '';
+            if (mainContentWrapper) mainContentWrapper.style.removeProperty('top');
+            break;
+          case 'overlay':
+            body.classList.add('wallpaper-transparent');
+            if (wrapper) { wrapper.style.display = 'block'; wrapper.classList.add('wallpaper-overlay'); }
+            if (overlayContainer) overlayContainer.style.display = 'none';
+            if (mainContentWrapper) {
+              mainContentWrapper.style.setProperty('top', '5.5rem', 'important');
+              mainContentWrapper.style.position = '';
+            }
+            break;
+          case 'none':
+            body.classList.add('no-banner-layout');
+            if (wrapper) wrapper.style.display = 'none';
+            if (overlayContainer) overlayContainer.style.display = 'none';
+            if (mainContentWrapper) {
+              mainContentWrapper.style.setProperty('top', '5.5rem', 'important');
+              mainContentWrapper.style.position = '';
+            }
+            break;
         }
-
-        // Apply main content positioning
-        if (mainContentWrapper) {
-          mainContentWrapper.style.setProperty("transition", "none", "important");
-
-          if (isMobileNonHome) {
-            mainContentWrapper.classList.add('mobile-main-no-banner');
-          } else {
-            mainContentWrapper.classList.remove('mobile-main-no-banner');
-          }
-
-          if (isMobile && isHomePage) {
-            mainContentWrapper.style.removeProperty('top');
-            mainContentWrapper.style.position = '';
-            mainContentWrapper.style.zIndex = '';
-            mainContentWrapper.style.setProperty('margin-top', '0', 'important');
-          } else if (isMobileNonHome) {
-            mainContentWrapper.style.setProperty('top', '5.5rem', 'important');
-            mainContentWrapper.style.position = '';
-            mainContentWrapper.style.zIndex = '';
-            mainContentWrapper.style.setProperty('margin-top', '0', 'important');
-          } else {
-            var targetTop = isHomePage ? 'calc(var(--banner-height-home) - 7.5rem)' : 'calc(var(--banner-height) - 4rem)';
-            mainContentWrapper.style.setProperty('top', targetTop, 'important');
-            mainContentWrapper.style.position = '';
-            mainContentWrapper.style.zIndex = '';
-            mainContentWrapper.style.setProperty('margin-top', '0', 'important');
-          }
-
-          // Make page visible now that positions are set
-          mainContentWrapper.style.visibility = 'visible';
-
-          requestAnimationFrame(function() {
-            mainContentWrapper.style.removeProperty('transition');
-          });
-        }
-
-        // Banner title overlay visibility
-        var bannerTextOverlay = document.querySelector('.home-text-overlay');
-        if (bannerTextOverlay) {
-          if (isHomePage) {
-            bannerTextOverlay.classList.remove('hidden');
-          } else {
-            bannerTextOverlay.classList.add('hidden');
-          }
-        }
-      });
+        if (mainContentWrapper) mainContentWrapper.style.visibility = 'visible';
+      })();
 
       // 7. Set additional data attributes from localStorage
       if (localStorage.getItem('wavesEnabled') !== null) {
@@ -142,8 +116,8 @@ const cardTransparentOpacity = theme.wallpaper.overlay && theme.wallpaper.overla
   </script>
 
   <!-- Navbar -->
-  <div id="top-row" class="z-50 pointer-events-none relative transition-all duration-700 mx-auto w-full xl:w-[92vw] max-w-[var(--page-width)] px-3 md:px-4">
-    <div id="navbar-wrapper" class="pointer-events-auto transition-all sticky top-0">
+  <div id="top-row" class="z-50 pointer-events-none relative mx-auto w-full xl:w-[92vw] max-w-[var(--page-width)] px-3 md:px-4">
+    <div id="navbar-wrapper" class="pointer-events-auto">
       <%- partial('_partials/header/navigation') %>
     </div>
   </div>
@@ -163,10 +137,10 @@ const cardTransparentOpacity = theme.wallpaper.overlay && theme.wallpaper.overla
     <div class="search-modal-backdrop search-backdrop"></div>
     <div class="search-modal-content">
       <div class="search-input-wrapper">
-        <i class="fa-solid fa-magnifying-glass search-input-icon"></i>
+        <span class="material-symbols-outlined search-input-icon">search</span>
         <input type="text" id="search-input" class="search-input" placeholder="<%= __('search_placeholder') || 'Search...' %>" autocomplete="off">
         <button id="search-close" class="search-close-btn close-btn" aria-label="<%= __('close') || 'Close' %>">
-          <i class="fa-solid fa-xmark"></i>
+          <span class="material-symbols-outlined">close</span>
         </button>
       </div>
       <div id="search-results" class="search-results">

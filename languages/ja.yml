@@ -38,6 +38,14 @@ load_comments: コメントを読み込む
 profile: プロフィール
 announcement: お知らせ
 site_stats: サイト統計
+site_info: サイト情報
+build_platform: ビルドプラットフォーム
+blog_version: ブログバージョン
+site_domain: サイトドメイン
+expand_site_info: サイト情報を展開
+collapse_site_info: サイト情報を收起
+build_time: ビルド時間
+system_info: システム情報
 total_posts: 記事総数
 total_categories: カテゴリ数
 total_tags: タグ数
@@ -63,6 +71,10 @@ overlay_settings: オーバーレイ設定
 opacity: 壁紙の不透明度
 blur: 背景のぼかし
 card_opacity: カードの不透明度
+transparency: 透明度
+wallpaper_opacity: 壁紙の不透明度
+background_blur: 背景のぼかし
+card_transparency: カードの透明度
 features: 機能
 water_waves: 水波アニメーション
 gradient: グラデーション

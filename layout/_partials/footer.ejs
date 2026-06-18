@@ -11,11 +11,11 @@ var customFooterHTML = footerConfig.custom || '';
 
     <% if (showLicense) { %>
     <div class="footer-license">
-      <span>
-        <i class="fa-brands fa-creative-commons"></i>
-        <i class="fa-brands fa-creative-commons-by"></i>
-        <i class="fa-brands fa-creative-commons-nc"></i>
-        <i class="fa-brands fa-creative-commons-sa"></i>
+      <span class="footer-license-icons">
+        <span class="material-symbols-outlined md-18">copyright</span>
+        <span class="material-symbols-outlined md-18">person</span>
+        <span class="material-symbols-outlined md-18">money_off</span>
+        <span class="material-symbols-outlined md-18">share</span>
       </span>
       <span class="license-text">
         <% if (footerConfig.license_text) { %>
@@ -51,12 +51,12 @@ var customFooterHTML = footerConfig.custom || '';
     <% if (showVisitorCounter && theme.analytics && theme.analytics.busuanzi !== false) { %>
     <div class="footer-visitor-counter">
       <span id="busuanzi_container_site_uv" class="visitor-count-item">
-        <i class="fa-regular fa-user"></i>
+        <span class="material-symbols-outlined md-18">person</span>
         <span id="busuanzi_value_site_uv">-</span> <%= __('visitors') || 'visitors' %>
       </span>
       <span class="footer-separator">|</span>
       <span id="busuanzi_container_site_pv" class="visitor-count-item">
-        <i class="fa-regular fa-eye"></i>
+        <span class="material-symbols-outlined md-18">visibility</span>
         <span id="busuanzi_value_site_pv">-</span> <%= __('views') || 'views' %>
       </span>
     </div>

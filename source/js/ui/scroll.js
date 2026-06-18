@@ -38,7 +38,7 @@
       this.lastScrollY = scrollY;
     },
     
-    // Mobile menu toggle
+    // Mobile menu toggle with backdrop overlay
     initMobileMenu() {
       const toggleBtn = document.getElementById('mobile-menu-toggle');
       const menu = document.getElementById('navbar-menu');
@@ -46,6 +46,34 @@
       
       const links = menu.querySelector('.navbar-links');
       if (!links) return;
+
+      // Create backdrop element for mobile menu overlay
+      let backdrop = document.querySelector('.mobile-menu-backdrop');
+      if (!backdrop) {
+        backdrop = document.createElement('div');
+        backdrop.className = 'mobile-menu-backdrop';
+        document.body.appendChild(backdrop);
+      }
+
+      const closeMenu = () => {
+        links.classList.remove('open');
+        backdrop.classList.remove('open');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        // Toggle icon back to menu
+        var icon = toggleBtn.querySelector('.material-symbols-outlined');
+        if (icon) icon.textContent = 'menu';
+      };
+
+      const openMenu = () => {
+        links.classList.add('open');
+        backdrop.classList.add('open');
+        toggleBtn.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+        // Toggle icon to close
+        var icon = toggleBtn.querySelector('.material-symbols-outlined');
+        if (icon) icon.textContent = 'close';
+      };
 
       // Show toggle only when navbar links overflow
       const checkOverflow = () => {
@@ -61,8 +89,7 @@
         } else {
           toggleBtn.classList.remove('visible');
           navbar.classList.remove('mobile-nav');
-          links.classList.remove('open');
-          toggleBtn.setAttribute('aria-expanded', 'false');
+          closeMenu();
         }
       };
       
@@ -71,23 +98,27 @@
       
       toggleBtn.addEventListener('click', function(e) {
         e.stopPropagation();
-        const isOpen = links.classList.toggle('open');
-        this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (links.classList.contains('open')) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
       });
+
+      // Close when clicking backdrop
+      backdrop.addEventListener('click', closeMenu);
       
       // Close menu when clicking a link
       menu.addEventListener('click', function(e) {
         if (e.target.closest('a')) {
-          links.classList.remove('open');
-          toggleBtn.setAttribute('aria-expanded', 'false');
+          closeMenu();
         }
       });
-      
-      // Close menu when clicking outside
-      document.addEventListener('click', function(e) {
-        if (!menu.contains(e.target) && !toggleBtn.contains(e.target)) {
-          links.classList.remove('open');
-          toggleBtn.setAttribute('aria-expanded', 'false');
+
+      // Close on Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && links.classList.contains('open')) {
+          closeMenu();
         }
       });
     },
