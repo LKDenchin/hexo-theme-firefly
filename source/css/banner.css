@@ -97,6 +97,7 @@
    -------------------------------------------------------------------------- */
 
 .home-text-title {
+  font-family: 'Quicksand', var(--font-sans);
   font-size: var(--home-text-title-size, 3.8rem);
   font-weight: 700;
   margin-bottom: 0.5rem;
@@ -106,8 +107,9 @@
 }
 
 .home-text-subtitle {
+  font-family: 'Quicksand', var(--font-sans);
   font-size: var(--home-text-subtitle-size, 1.5rem);
-  font-weight: 400;
+  font-weight: 700;
   min-height: 1.2em;
   opacity: 0.9;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);

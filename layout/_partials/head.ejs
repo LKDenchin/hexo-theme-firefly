@@ -53,6 +53,10 @@
   <% } %>
 <% } %>
 
+<!-- Local Fonts Preload -->
+<link rel="preload" href="<%= url_for('/fonts/JetBrainsMono-Regular.woff2') %>" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="<%= url_for('/fonts/JetBrainsMono-Bold.woff2') %>" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="<%= url_for('/fonts/Quicksand-Bold.woff2') %>" as="font" type="font/woff2" crossorigin>
 
 <!-- CSS -->
 <% var cssVersion = theme.version || '2026061801'; %>
@@ -71,6 +75,7 @@
 <link rel="stylesheet" href="<%= url_for('/css/effects.css') %>?v=<%= cssVersion %>">
 <link rel="stylesheet" href="<%= url_for('/css/scrollbar.css') %>?v=<%= cssVersion %>">
 <link rel="stylesheet" href="<%= url_for('/css/display-settings.css') %>?v=<%= cssVersion %>">
+<link rel="stylesheet" href="<%= url_for('/css/dynamic.css') %>?v=<%= cssVersion %>">
 <link rel="stylesheet" href="<%= url_for('/css/water-waves.css') %>?v=<%= cssVersion %>">
 <link rel="stylesheet" href="<%= url_for('/css/responsive.css') %>?v=<%= cssVersion %>">
 <% if (theme.iconfont) { %>

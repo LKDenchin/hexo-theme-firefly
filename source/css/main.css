@@ -5,6 +5,38 @@
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
+   Local Font-Face Definitions
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../fonts/JetBrainsMono-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../fonts/JetBrainsMono-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Quicksand';
+  src: url('../fonts/Quicksand-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------------------
    CSS Custom Properties (OKLCH Color Space)
    -------------------------------------------------------------------------- */
 
@@ -78,7 +110,7 @@
 
   /* --- Font stack --- */
   --font-sans: 'Roboto', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'Fira Code', ui-monospace, monospace;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 
   /* ====================================================================
      Material You (Material 3) Design Tokens
@@ -1413,3 +1445,16 @@ html.dark .top-gradient-highlight {
   padding: 3rem 0;
   color: var(--text-tertiary);
 }
+
+/* Card Follow Theme Hue Disabled overrides */
+body:not(.card-follow-theme-hue) {
+  --card-bg: oklch(0.99 0 0);
+  --card-bg-transparent: oklch(0.99 0 0 / var(--card-transparent-opacity, 0.5));
+}
+.dark body:not(.card-follow-theme-hue),
+:root.dark body:not(.card-follow-theme-hue),
+html.dark body:not(.card-follow-theme-hue) {
+  --card-bg: oklch(0.20 0 0);
+  --card-bg-transparent: oklch(0.20 0 0 / var(--card-transparent-opacity, 0.5));
+}
+
