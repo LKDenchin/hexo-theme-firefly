@@ -20,7 +20,7 @@
           });
           ticking = true;
         }
-      });
+      }, { passive: true });
     },
     
     handleScroll() {

@@ -94,6 +94,17 @@ list: 列表
 grid: 网格
 reset: 重置
 display_settings: 显示设置
+appearance: 外观
+wallpaper: 壁纸
+effects: 特效
+card_style: 卡片样式
+card_border_shadow: 卡片边框和阴影
+card_follow_hue: 卡片跟随主题色
+latest_dynamics: 最新动态
+theme_light: 亮色
+theme_dark: 暗色
+theme_system: 跟随系统
+
 
 # Search
 search_placeholder: 搜索文章...

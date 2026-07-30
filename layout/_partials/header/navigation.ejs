@@ -141,12 +141,28 @@ var logoIcon = theme.logo ? theme.logo.icon : null;
     </div>
 
     <!-- Right Side Buttons -->
-    <div class="navbar-actions">
+    <div class="navbar-actions" style="position: relative;">
       <!-- Theme Toggle (Light/Dark/System) -->
       <button id="theme-toggle" class="navbar-action-btn theme-switch-btn" aria-label="<%= __('toggle_theme') || 'Toggle theme' %>" title="<%= __('toggle_theme') || 'Toggle theme' %>">
         <span class="material-symbols-outlined theme-icon-light sun-icon">light_mode</span>
         <span class="material-symbols-outlined theme-icon-dark moon-icon">dark_mode</span>
       </button>
+
+      <!-- Theme Popover Modal -->
+      <div id="theme-popover" class="theme-popover float-panel closed">
+        <button class="theme-popover-item" data-theme-mode="light">
+          <span class="material-symbols-outlined">light_mode</span>
+          <span><%= __('theme_light') || '亮色' %></span>
+        </button>
+        <button class="theme-popover-item" data-theme-mode="dark">
+          <span class="material-symbols-outlined">dark_mode</span>
+          <span><%= __('theme_dark') || '暗色' %></span>
+        </button>
+        <button class="theme-popover-item" data-theme-mode="system">
+          <span class="material-symbols-outlined">brightness_auto</span>
+          <span><%= __('theme_system') || '跟随系统' %></span>
+        </button>
+      </div>
 
       <!-- Display Settings Toggle -->
       <button id="display-settings-toggle" class="navbar-action-btn display-settings-toggle" aria-label="<%= __('display_settings') || 'Display settings' %>" title="<%= __('display_settings') || 'Display settings' %>">

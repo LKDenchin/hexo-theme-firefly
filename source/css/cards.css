@@ -39,7 +39,7 @@
    -------------------------------------------------------------------------- */
 
 .post-card-item {
-  transition: all var(--duration-medium);
+  transition: border-color var(--duration-medium), box-shadow var(--duration-medium), transform var(--duration-medium), background-color var(--duration-medium);
   position: relative;
 }
 

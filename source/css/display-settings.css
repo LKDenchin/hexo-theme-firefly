@@ -264,3 +264,81 @@ html:not([data-wallpaper-mode="overlay"]) .transparency-section {
 .display-settings-toggle {
   position: relative;
 }
+
+/* ---- Tabs Layout ---- */
+.settings-tabs {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--line-divider);
+  margin-bottom: 1rem;
+  padding-bottom: 0.25rem;
+}
+
+.settings-tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  background: none;
+  border: none;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem 0.25rem;
+  position: relative;
+  transition: color var(--duration-fast);
+  border-radius: var(--md-shape-corner-small);
+}
+
+.settings-tab-btn .material-symbols-outlined {
+  font-size: 1.1rem;
+  pointer-events: none;
+}
+
+.settings-tab-btn:hover {
+  color: var(--primary);
+  background: var(--btn-plain-bg-hover);
+}
+
+.settings-tab-btn.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.settings-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -0.25rem;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 1px;
+}
+
+.settings-tab-content {
+  display: none;
+}
+
+.settings-tab-content.active {
+  display: block;
+}
+
+/* Card Border & Shadow (Dark Mode Only) */
+.dark.enable-card-border .post-card-item,
+.dark.enable-card-border .widget,
+.dark.enable-card-border .post-content-card,
+.dark.enable-card-border .display-settings-panel,
+.dark.enable-card-border .post-footer-alert,
+.dark.enable-card-border .post-nav-card,
+.dark.enable-card-border .recommendations-column,
+.dark.enable-card-border .code-block-wrapper,
+.dark.enable-card-border .post-comments,
+.dark.enable-card-border .search-modal-content {
+  border: 1.5px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+}
+

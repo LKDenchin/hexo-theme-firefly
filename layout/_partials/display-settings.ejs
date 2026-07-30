@@ -1,91 +1,132 @@
 <div id="display-settings-panel" class="display-settings-panel float-panel closed">
-  <!-- Theme Color Section -->
-  <div class="settings-section">
-    <div class="settings-section-title"><%= __('theme_color') %></div>
-    <div class="settings-label">
-      <span><%= __('hue') %></span>
-      <button class="settings-reset-btn" data-reset-section="theme"><%= __('reset') %></button>
-    </div>
-    <input type="range" class="hue-slider" min="0" max="360" value="165">
+  <!-- Tabs Header -->
+  <div class="settings-tabs">
+    <button class="settings-tab-btn active" data-tab="appearance">
+      <span class="material-symbols-outlined">palette</span><%= __('appearance') || '外观' %>
+    </button>
+    <button class="settings-tab-btn" data-tab="wallpaper">
+      <span class="material-symbols-outlined">wallpaper</span><%= __('wallpaper') || '壁纸' %>
+    </button>
+    <button class="settings-tab-btn" data-tab="effects">
+      <span class="material-symbols-outlined">filter_vintage</span><%= __('effects') || '特效' %>
+    </button>
   </div>
 
-  <!-- Feature Toggles Section -->
-  <div class="settings-section">
-    <div class="settings-section-title"><%= __('features') %></div>
-    <div class="settings-label">
-      <span><%= __('water_waves') %></span>
-      <label class="settings-toggle">
-        <input type="checkbox" id="toggle-waves" checked>
-        <span class="slider"></span>
-      </label>
+  <!-- Tab Content: Appearance -->
+  <div class="settings-tab-content active" id="tab-appearance">
+    <!-- Theme Color Section -->
+    <div class="settings-section">
+      <div class="settings-section-title"><%= __('theme_color') %></div>
+      <div class="settings-label">
+        <span><%= __('hue') %></span>
+        <button class="settings-reset-btn" data-reset-section="theme"><%= __('reset') %></button>
+      </div>
+      <input type="range" class="hue-slider" min="0" max="360" value="165">
     </div>
-    <div class="settings-label">
-      <span><%= __('gradient') %></span>
-      <label class="settings-toggle">
-        <input type="checkbox" id="toggle-gradient" checked>
-        <span class="slider"></span>
-      </label>
-    </div>
-    <div class="settings-label">
-      <span><%= __('banner_title') %></span>
-      <label class="settings-toggle">
-        <input type="checkbox" id="toggle-banner-title" checked>
-        <span class="slider"></span>
-      </label>
-    </div>
-    <div class="settings-label">
-      <span><%= __('sakura') %></span>
-      <label class="settings-toggle">
-        <input type="checkbox" id="toggle-sakura" checked>
-        <span class="slider"></span>
-      </label>
-    </div>
-    <div class="settings-label">
-      <span><%= __('banner_carousel') %></span>
-      <label class="settings-toggle">
-        <input type="checkbox" id="toggle-banner-carousel">
-        <span class="slider"></span>
-      </label>
-    </div>
-  </div>
 
-  <!-- Transparency Section (shown only in overlay mode) -->
-  <div class="settings-section transparency-section">
-    <div class="settings-section-title"><%= __('transparency') || 'Transparency' %></div>
-    <div class="settings-label">
-      <span><%= __('wallpaper_opacity') || 'Wallpaper Opacity' %></span>
-      <span class="range-value" id="val-wallpaper-opacity">80%</span>
+    <!-- Post List Layout Section -->
+    <div class="settings-section">
+      <div class="settings-section-title"><%= __('post_layout') %></div>
+      <div class="layout-buttons" style="display:flex;gap:0.5rem;">
+        <button data-layout="list" class="active"><%= __('list') %></button>
+        <button data-layout="grid"><%= __('grid') %></button>
+      </div>
     </div>
-    <input type="range" id="slider-wallpaper-opacity" min="10" max="100" value="80" step="5" class="rounded-range">
-    <div class="settings-label">
-      <span><%= __('background_blur') || 'Background Blur' %></span>
-      <span class="range-value" id="val-background-blur">10px</span>
-    </div>
-    <input type="range" id="slider-background-blur" min="0" max="30" value="10" step="1" class="rounded-range">
-    <div class="settings-label">
-      <span><%= __('card_transparency') || 'Card Transparency' %></span>
-      <span class="range-value" id="val-card-transparency">50%</span>
-    </div>
-    <input type="range" id="slider-card-transparency" min="10" max="100" value="50" step="5" class="rounded-range">
-  </div>
 
-  <!-- Wallpaper Mode Section -->
-  <div class="settings-section">
-    <div class="settings-section-title"><%= __('wallpaper_mode') %></div>
-    <div class="wallpaper-mode-buttons">
-      <button data-wallpaper="banner" class="active"><%= __('banner') %></button>
-      <button data-wallpaper="fullscreen"><%= __('fullscreen') %></button>
-      <button data-wallpaper="overlay"><%= __('overlay') %></button>
-      <button data-wallpaper="none"><%= __('none') %></button>
+    <!-- Card Style Section -->
+    <div class="settings-section">
+      <div class="settings-section-title"><%= __('card_style') || '卡片样式' %></div>
+      <div class="settings-label">
+        <span><%= __('card_border_shadow') || '卡片边框和阴影' %></span>
+        <label class="settings-toggle">
+          <input type="checkbox" id="toggle-card-border" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="settings-label">
+        <span><%= __('card_follow_hue') || '卡片跟随主题色' %></span>
+        <label class="settings-toggle">
+          <input type="checkbox" id="toggle-card-follow-hue">
+          <span class="slider"></span>
+        </label>
+      </div>
     </div>
   </div>
 
-  <!-- Post List Layout Section -->
-  <div class="settings-section">
-    <div class="settings-section-title"><%= __('post_layout') %></div>
-    <div class="layout-buttons" style="display:flex;gap:0.5rem;">
-      <button data-layout="list" class="active"><%= __('list') %></button>
-      <button data-layout="grid"><%= __('grid') %></button>
+  <!-- Tab Content: Wallpaper -->
+  <div class="settings-tab-content" id="tab-wallpaper" style="display: none;">
+    <!-- Wallpaper Mode Section -->
+    <div class="settings-section">
+      <div class="settings-section-title"><%= __('wallpaper_mode') %></div>
+      <div class="wallpaper-mode-buttons">
+        <button data-wallpaper="banner" class="active"><%= __('banner') %></button>
+        <button data-wallpaper="fullscreen"><%= __('fullscreen') %></button>
+        <button data-wallpaper="overlay"><%= __('overlay') %></button>
+        <button data-wallpaper="none"><%= __('none') %></button>
+      </div>
+    </div>
+
+    <!-- Transparency Section (shown only in overlay mode) -->
+    <div class="settings-section transparency-section">
+      <div class="settings-section-title"><%= __('transparency') || 'Transparency' %></div>
+      <div class="settings-label">
+        <span><%= __('wallpaper_opacity') || 'Wallpaper Opacity' %></span>
+        <span class="range-value" id="val-wallpaper-opacity">80%</span>
+      </div>
+      <input type="range" id="slider-wallpaper-opacity" min="10" max="100" value="80" step="5" class="rounded-range">
+      <div class="settings-label">
+        <span><%= __('background_blur') || 'Background Blur' %></span>
+        <span class="range-value" id="val-background-blur">10px</span>
+      </div>
+      <input type="range" id="slider-background-blur" min="0" max="30" value="10" step="1" class="rounded-range">
+      <div class="settings-label">
+        <span><%= __('card_transparency') || 'Card Transparency' %></span>
+        <span class="range-value" id="val-card-transparency">50%</span>
+      </div>
+      <input type="range" id="slider-card-transparency" min="10" max="100" value="50" step="5" class="rounded-range">
+    </div>
+  </div>
+
+  <!-- Tab Content: Effects -->
+  <div class="settings-tab-content" id="tab-effects" style="display: none;">
+    <!-- Feature Toggles Section -->
+    <div class="settings-section">
+      <div class="settings-section-title"><%= __('features') %></div>
+      <div class="settings-label">
+        <span><%= __('water_waves') %></span>
+        <label class="settings-toggle">
+          <input type="checkbox" id="toggle-waves" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="settings-label">
+        <span><%= __('gradient') %></span>
+        <label class="settings-toggle">
+          <input type="checkbox" id="toggle-gradient" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="settings-label">
+        <span><%= __('banner_title') %></span>
+        <label class="settings-toggle">
+          <input type="checkbox" id="toggle-banner-title" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="settings-label">
+        <span><%= __('sakura') %></span>
+        <label class="settings-toggle">
+          <input type="checkbox" id="toggle-sakura" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="settings-label">
+        <span><%= __('banner_carousel') %></span>
+        <label class="settings-toggle">
+          <input type="checkbox" id="toggle-banner-carousel">
+          <span class="slider"></span>
+        </label>
+      </div>
     </div>
   </div>
 </div>

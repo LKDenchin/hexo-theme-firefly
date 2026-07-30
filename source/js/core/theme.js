@@ -1,40 +1,44 @@
 (function() {
   var ThemeManager = {
+    popover: null,
+    initialized: false,
+    
     /**
      * Initialize the theme manager.
-     * Binds click handlers to all theme-switch buttons and dropdown
-     * items, then updates the icon state to reflect the current theme.
      */
     init: function() {
       if (this.initialized) return;
       this.initialized = true;
+      this.popover = document.getElementById('theme-popover');
       this.bindThemeToggles();
       this.initSystemListener();
+      // Set initial active state of icons
+      if (window.Settings) {
+        var current = window.Settings.getStoredTheme() || window.Settings.getDefaultTheme();
+        this.updateToggleIcons(current);
+      }
     },
 
     /**
-     * Find every element that can toggle the theme (inline buttons
-     * and dropdown menu items) and attach click handlers.
+     * Bind click handlers to theme toggle buttons and popover items.
      */
     bindThemeToggles: function() {
       var self = this;
 
-      // --- Inline theme-switch buttons (e.g. in navbar) ---
+      // Theme toggle button clicks: toggle popover open/closed
       document.querySelectorAll('.theme-switch-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          if (!window.Settings) {
-            console.warn('[ThemeManager] window.Settings not available; skipping theme toggle.');
-            return;
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (self.popover) {
+            self.popover.classList.toggle('closed');
           }
-          var nextMode = window.Settings.cycleTheme();
-          window.Settings.setTheme(nextMode);
-          self.updateToggleIcons(nextMode);
         });
       });
 
-      // --- Theme dropdown items (data-theme-mode attribute) ---
+      // Theme choices click
       document.querySelectorAll('[data-theme-mode]').forEach(function(item) {
         item.addEventListener('click', function(e) {
+          e.stopPropagation();
           var mode = e.currentTarget.dataset.themeMode;
           if (!mode) return;
           if (!window.Settings) {
@@ -43,18 +47,32 @@
           }
           window.Settings.setTheme(mode);
           self.updateToggleIcons(mode);
+          // Close popover
+          if (self.popover) {
+            self.popover.classList.add('closed');
+          }
         });
+      });
+
+      // Close popover when clicking outside
+      document.addEventListener('click', function(e) {
+        if (self.popover && !self.popover.classList.contains('closed')) {
+          if (!self.popover.contains(e.target) && !e.target.closest('.theme-switch-btn')) {
+            self.popover.classList.add('closed');
+          }
+        }
+      });
+
+      // Close on Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && self.popover && !self.popover.classList.contains('closed')) {
+          self.popover.classList.add('closed');
+        }
       });
     },
 
     /**
      * Refresh the visual state of all theme-related UI elements.
-     *
-     * For .theme-switch-btn elements it shows/hides the sun/moon
-     * child icons depending on whether dark mode is active.
-     *
-     * For [data-theme-mode] items it adds/removes the 'active' class
-     * so the user can see which mode is currently selected.
      */
     updateToggleIcons: function(mode) {
       var current = window.Settings
@@ -71,17 +89,15 @@
         var moonIcon = btn.querySelector('.moon-icon');
 
         if (resolved === 'dark') {
-          // Dark theme: show sun (switch to light), hide moon
           if (sunIcon) sunIcon.style.display = '';
           if (moonIcon) moonIcon.style.display = 'none';
         } else {
-          // Light theme: show moon (switch to dark), hide sun
           if (sunIcon) sunIcon.style.display = 'none';
           if (moonIcon) moonIcon.style.display = '';
         }
       });
 
-      // --- Dropdown items ---
+      // --- Dropdown/popover items ---
       document.querySelectorAll('[data-theme-mode]').forEach(function(item) {
         if (item.dataset.themeMode === current) {
           item.classList.add('active');
@@ -92,9 +108,7 @@
     },
 
     /**
-     * Listen for the custom 'themechange' event dispatched by
-     * window.Settings so the UI stays in sync even when the theme
-     * is changed from outside (e.g. programmatically).
+     * Listen for the custom 'themechange' event.
      */
     initSystemListener: function() {
       var self = this;
@@ -106,9 +120,7 @@
     }
   };
 
-  // ============================================================
   // Expose to global scope
-  // ============================================================
   window.ThemeManager = ThemeManager;
   document.addEventListener('DOMContentLoaded', function() {
     ThemeManager.init();

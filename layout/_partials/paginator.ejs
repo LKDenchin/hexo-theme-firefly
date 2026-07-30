@@ -11,45 +11,47 @@
 %>
 
 <% if (page.total > 1) { %>
-<nav class="pagination" aria-label="<%= __('pagination') %>">
-  <% if (page.prev) { %>
-  <a
-    href="<%= url_for(page.prev_link) %>"
-    class="pagination-item pagination-prev"
-    rel="prev"
-    aria-label="<%= __('prev_page') %>"
-  >
-    <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
-    <span><%= __('prev') %></span>
-  </a>
-  <% } else { %>
-  <span class="pagination-item pagination-prev pagination-disabled" aria-disabled="true">
-    <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
-    <span><%= __('prev') %></span>
-  </span>
-  <% } %>
+<div class="pagination-wrapper">
+  <nav class="pagination" aria-label="<%= __('pagination') %>">
+    <% if (page.prev) { %>
+    <a
+      href="<%= url_for(page.prev_link) %>"
+      class="pagination-item pagination-prev"
+      rel="prev"
+      aria-label="<%= __('prev_page') %>"
+    >
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+      <span><%= __('prev_page') %></span>
+    </a>
+    <% } else { %>
+    <span class="pagination-item pagination-prev pagination-disabled" aria-disabled="true">
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+      <span><%= __('prev_page') %></span>
+    </span>
+    <% } %>
 
-  <span class="pagination-info">
-    <span class="page-number"><%= page.current %></span>
-    <span class="page-divider">/</span>
-    <span class="page-total"><%= page.total %></span>
-  </span>
+    <span class="pagination-info">
+      <span class="page-number"><%= page.current %></span>
+      <span class="page-divider">/</span>
+      <span class="page-total"><%= page.total %></span>
+    </span>
 
-  <% if (page.next) { %>
-  <a
-    href="<%= url_for(page.next_link) %>"
-    class="pagination-item pagination-next"
-    rel="next"
-    aria-label="<%= __('next_page') %>"
-  >
-    <span><%= __('next') %></span>
-    <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
-  </a>
-  <% } else { %>
-  <span class="pagination-item pagination-next pagination-disabled" aria-disabled="true">
-    <span><%= __('next') %></span>
-    <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
-  </span>
-  <% } %>
-</nav>
+    <% if (page.next) { %>
+    <a
+      href="<%= url_for(page.next_link) %>"
+      class="pagination-item pagination-next"
+      rel="next"
+      aria-label="<%= __('next_page') %>"
+    >
+      <span><%= __('next_page') %></span>
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+    </a>
+    <% } else { %>
+    <span class="pagination-item pagination-next pagination-disabled" aria-disabled="true">
+      <span><%= __('next_page') %></span>
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+    </span>
+    <% } %>
+  </nav>
+</div>
 <% } %>

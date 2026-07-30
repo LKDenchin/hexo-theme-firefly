@@ -202,6 +202,7 @@
 .pagination-item {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.375rem;
   padding: 0.5rem 1rem;
   border-radius: var(--md-shape-corner-full);
@@ -214,6 +215,8 @@
   transition:
     background-color var(--md-motion-duration-short) var(--md-motion-easing-standard),
     color var(--md-motion-duration-short) var(--md-motion-easing-standard);
+  line-height: 1.2rem;
+  box-sizing: border-box;
 }
 
 .pagination-item:hover {
@@ -224,6 +227,7 @@
 
 .pagination-item .material-symbols-outlined {
   font-size: 1.125rem;
+  line-height: 1;
 }
 
 .pagination-disabled {
@@ -233,22 +237,27 @@
 }
 
 .pagination-info {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.25rem;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-secondary);
+  line-height: 1.2rem;
+  box-sizing: border-box;
 }
 
 .pagination-info .page-number {
   color: var(--primary);
   font-weight: 700;
+  line-height: 1.2rem;
 }
 
 .pagination-info .page-divider {
   color: var(--text-tertiary);
+  line-height: 1.2rem;
 }
 
 /* --------------------------------------------------------------------------

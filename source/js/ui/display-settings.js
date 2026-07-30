@@ -11,10 +11,13 @@
       if (!this.panel) return;
       
       this.bindToggle();
+      this.bindTabs();
       this.bindHueSlider();
       this.bindTransparencySliders();
       this.bindWallpaperButtons();
+      this.bindLayoutButtons();
       this.bindToggles();
+      this.bindCardToggles();
       this.bindResetButtons();
     },
     
@@ -33,7 +36,10 @@
     bindToggle() {
       const toggleBtn = document.querySelector('.display-settings-toggle');
       if (toggleBtn) {
-        toggleBtn.addEventListener('click', () => this.toggle());
+        toggleBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.toggle();
+        });
       }
       
       // Close when clicking outside
@@ -50,6 +56,26 @@
         if (e.key === 'Escape' && this.panel && !this.panel.classList.contains('closed')) {
           this.toggle();
         }
+      });
+    },
+
+    bindTabs() {
+      const tabBtns = this.panel.querySelectorAll('.settings-tab-btn');
+      const tabContents = this.panel.querySelectorAll('.settings-tab-content');
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tabName = btn.dataset.tab;
+          tabBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          
+          tabContents.forEach(content => {
+            if (content.id === `tab-${tabName}`) {
+              content.style.display = 'block';
+            } else {
+              content.style.display = 'none';
+            }
+          });
+        });
       });
     },
     
@@ -107,28 +133,29 @@
       const section = this.panel ? this.panel.querySelector('.transparency-section') : null;
       if (!section) return;
       const mode = window.Settings ? window.Settings.getWallpaperMode() : 'banner';
-      section.style.display = (mode === 'overlay') ? '' : 'none';
-    },
-    
-    bindRangeSlider(id, callback) {
-      const slider = this.panel.querySelector(`#${id}`);
-      if (!slider) return;
-      slider.addEventListener('input', (e) => callback(parseFloat(e.target.value)));
-      // Update display value
-      const display = slider.parentElement.querySelector('.range-value');
-      if (display) {
-        slider.addEventListener('input', (e) => { display.textContent = e.target.value; });
-      }
+      section.style.display = (mode === 'overlay') ? 'block' : 'none';
     },
     
     // Wallpaper mode buttons
     bindWallpaperButtons() {
-      const self = this;
       this.panel.querySelectorAll('.wallpaper-mode-buttons button').forEach(btn => {
         btn.addEventListener('click', () => {
           const mode = btn.dataset.wallpaper;
           if (!mode) return;
           window.Settings.setWallpaperMode(mode);
+          btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+    },
+
+    // Layout buttons
+    bindLayoutButtons() {
+      this.panel.querySelectorAll('.layout-buttons button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const layout = btn.dataset.layout;
+          if (!layout) return;
+          window.Settings.setPostListLayout(layout);
           btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
         });
@@ -148,6 +175,19 @@
       const checkbox = this.panel.querySelector(`#${id}`);
       if (!checkbox) return;
       checkbox.addEventListener('change', (e) => callback(e.target.checked));
+    },
+
+    bindCardToggles() {
+      this.bindCheckboxToggle('toggle-card-border', (checked) => {
+        if (window.Settings && window.Settings.setCardBorderEnabled) {
+          window.Settings.setCardBorderEnabled(checked);
+        }
+      });
+      this.bindCheckboxToggle('toggle-card-follow-hue', (checked) => {
+        if (window.Settings && window.Settings.setCardFollowHueEnabled) {
+          window.Settings.setCardFollowHueEnabled(checked);
+        }
+      });
     },
     
     // Reset buttons
@@ -194,16 +234,30 @@
       });
 
       // Sync toggle switches
-      const syncCheckbox = (id, key) => {
+      const syncCheckbox = (id, key, getter) => {
         const cb = this.panel.querySelector(`#${id}`);
-        const val = localStorage.getItem(key);
-        if (cb && val !== null) cb.checked = val === 'true';
+        if (cb) {
+          if (getter) {
+            cb.checked = getter();
+          } else {
+            const val = localStorage.getItem(key);
+            if (val !== null) cb.checked = val === 'true';
+          }
+        }
       };
       syncCheckbox('toggle-waves', 'wavesEnabled');
       syncCheckbox('toggle-gradient', 'gradientEnabled');
       syncCheckbox('toggle-banner-title', 'bannerTitleEnabled');
       syncCheckbox('toggle-sakura', 'sakuraEnabled');
       syncCheckbox('toggle-banner-carousel', 'bannerCarouselEnabled');
+
+      // Sync card toggles
+      if (window.Settings.isCardBorderEnabled) {
+        syncCheckbox('toggle-card-border', null, () => window.Settings.isCardBorderEnabled());
+      }
+      if (window.Settings.isCardFollowHueEnabled) {
+        syncCheckbox('toggle-card-follow-hue', null, () => window.Settings.isCardFollowHueEnabled());
+      }
     }
   };
   

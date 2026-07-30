@@ -5,6 +5,7 @@
     petals: [],
     animationId: null,
     enabled: true,
+    sakuraImg: null,
 
     config: {
       num: 21,
@@ -26,6 +27,9 @@
       // Only init if sakura is enabled (check localStorage)
       var stored = localStorage.getItem('sakuraEnabled');
       if (stored === 'false') return;
+
+      this.sakuraImg = new Image();
+      this.sakuraImg.src = '/img/sakura.png';
 
       this.canvas = document.createElement('canvas');
       this.canvas.id = 'sakura-canvas';
@@ -79,8 +83,6 @@
     },
 
     createPetal: function() {
-      var img = new Image();
-      img.src = '/img/sakura.png';
       return {
         x: Math.random() * this.canvas.width,
         y: Math.random() * this.canvas.height * -1,
@@ -91,7 +93,7 @@
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * this.config.rotationSpeed,
         limitCross: 0,
-        img: img
+        img: this.sakuraImg
       };
     },
 

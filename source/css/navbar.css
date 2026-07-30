@@ -671,3 +671,77 @@ html.dark .enable-banner #navbar:not(.scrolled) .navbar-brand {
   margin: 0 auto;
   height: 100%;
 }
+
+/* ---- Theme Popover ---- */
+.theme-popover {
+  position: absolute;
+  top: calc(var(--navbar-height) + 0.1rem);
+  right: 0;
+  width: 140px;
+  background: var(--card-bg);
+  border-radius: var(--md-shape-corner-medium, 12px);
+  box-shadow: var(--shadow-lg, 0 4px 20px rgba(0,0,0,0.15));
+  padding: 0.5rem;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border: 1px solid var(--line-divider);
+  transition: all var(--md-motion-duration-medium) var(--md-motion-easing-standard);
+}
+
+.theme-popover.closed {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem) scale(0.95);
+  pointer-events: none;
+}
+
+.theme-popover-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: var(--md-shape-corner-full, 9999px);
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: all var(--duration-fast);
+}
+
+.theme-popover-item .material-symbols-outlined {
+  font-size: 1.1rem;
+  pointer-events: none;
+}
+
+.theme-popover-item:hover {
+  background: var(--btn-regular-bg-hover);
+  color: var(--text-primary);
+}
+
+.theme-popover-item.active {
+  background: var(--md-sys-color-primary-container) !important;
+  color: var(--md-sys-color-on-primary-container) !important;
+  font-weight: 600;
+}
+
+/* ---- Mobile Title Adaptations ---- */
+@media (max-width: 480px) {
+  .navbar-title {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+@media (max-width: 375px) {
+  .navbar-title {
+    display: none;
+  }
+}
+

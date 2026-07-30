@@ -87,6 +87,17 @@ list: List
 grid: Grid
 reset: Reset
 display_settings: Display Settings
+appearance: Appearance
+wallpaper: Wallpaper
+effects: Effects
+card_style: Card Style
+card_border_shadow: Card Border & Shadow
+card_follow_hue: Card Follows Theme Hue
+latest_dynamics: Latest Updates
+theme_light: Light
+theme_dark: Dark
+theme_system: System
+
 
 # Search
 search_placeholder: Search articles...

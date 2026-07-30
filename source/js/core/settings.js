@@ -27,6 +27,8 @@
       bannerCarouselEnabled: 'bannerCarouselEnabled',
       sakuraEnabled: 'sakuraEnabled',
       postListLayout: 'postListLayout',
+      cardBorderEnabled: 'cardBorderEnabled',
+      cardFollowHueEnabled: 'cardFollowHueEnabled',
     },
 
     // ============================================================
@@ -421,6 +423,48 @@
       return localStorage.getItem(this.KEYS.postListLayout) || 'list';
     },
 
+    /**
+     * Enable or disable card border and shadow.
+     */
+    setCardBorderEnabled: function(enabled) {
+      localStorage.setItem(this.KEYS.cardBorderEnabled, String(enabled));
+      if (enabled) {
+        document.body.classList.add('enable-card-border');
+      } else {
+        document.body.classList.remove('enable-card-border');
+      }
+    },
+
+    /**
+     * Check if card border and shadow are enabled.
+     */
+    isCardBorderEnabled: function() {
+      var stored = localStorage.getItem(this.KEYS.cardBorderEnabled);
+      if (stored !== null) return stored === 'true';
+      return document.body.classList.contains('enable-card-border');
+    },
+
+    /**
+     * Enable or disable card follow theme hue.
+     */
+    setCardFollowHueEnabled: function(enabled) {
+      localStorage.setItem(this.KEYS.cardFollowHueEnabled, String(enabled));
+      if (enabled) {
+        document.body.classList.add('card-follow-theme-hue');
+      } else {
+        document.body.classList.remove('card-follow-theme-hue');
+      }
+    },
+
+    /**
+     * Check if card follow theme hue is enabled.
+     */
+    isCardFollowHueEnabled: function() {
+      var stored = localStorage.getItem(this.KEYS.cardFollowHueEnabled);
+      if (stored !== null) return stored === 'true';
+      return document.body.classList.contains('card-follow-theme-hue');
+    },
+
     // ============================================================
     // RESTORE ALL SETTINGS ON PAGE LOAD
     // ============================================================
@@ -500,6 +544,26 @@
         if (container) container.setAttribute('data-layout', layout);
         var postList = document.querySelector('.post-list');
         if (postList) postList.setAttribute('data-mode', layout);
+      }
+
+      // --- Card border and shadow ---
+      var cardBorder = localStorage.getItem(self.KEYS.cardBorderEnabled);
+      if (cardBorder !== null) {
+        if (cardBorder === 'true') {
+          document.body.classList.add('enable-card-border');
+        } else {
+          document.body.classList.remove('enable-card-border');
+        }
+      }
+
+      // --- Card follow theme hue ---
+      var cardFollow = localStorage.getItem(self.KEYS.cardFollowHueEnabled);
+      if (cardFollow !== null) {
+        if (cardFollow === 'true') {
+          document.body.classList.add('card-follow-theme-hue');
+        } else {
+          document.body.classList.remove('card-follow-theme-hue');
+        }
       }
     },
 
