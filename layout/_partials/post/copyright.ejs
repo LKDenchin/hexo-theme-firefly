@@ -6,7 +6,30 @@ var licenseName = copyrightConfig.license || (theme.license && theme.license.nam
 var licenseUrl = copyrightConfig.license_url || (theme.license && theme.license.url) || 'https://creativecommons.org/licenses/by-nc-sa/4.0/';
 %>
 
+<!-- Support & Share Widget -->
+<div class="post-share-donate-box">
+  <div class="share-donate-left-icon">
+    <span class="material-symbols-outlined">favorite</span>
+  </div>
+  <div class="share-donate-content">
+    <div class="share-donate-title">支持与分享</div>
+    <div class="share-donate-desc">如果这篇文章对你有帮助，欢迎分享给更多人或打赏支持！</div>
+  </div>
+  <div class="share-donate-actions">
+    <button class="share-donate-btn share-btn-outline" id="share-post-btn">
+      <span class="material-symbols-outlined">share</span>
+      <span>分享</span>
+    </button>
+    <a href="<%= theme.donate && theme.donate.url || '/donate/' %>" class="share-donate-btn donate-btn-filled">
+      <span>打赏</span>
+      <span class="material-symbols-outlined">arrow_right_alt</span>
+    </a>
+  </div>
+</div>
+
+<!-- Copyright Card -->
 <div class="post-copyright-box">
+  <div class="copyright-watermark">CC</div>
   <div class="copyright-header">
     <span class="copyright-title"><%= page.title %></span>
     <a class="copyright-link" href="<%= page.permalink %>" target="_blank" rel="noopener noreferrer">
@@ -32,3 +55,53 @@ var licenseUrl = copyrightConfig.license_url || (theme.license && theme.license.
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const shareBtn = document.getElementById('share-post-btn');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', function() {
+      navigator.clipboard.writeText(window.location.href).then(function() {
+        showToast('链接已复制到剪贴板，快去分享给好友吧！');
+      }).catch(function() {
+        showToast('复制失败，请手动复制链接');
+      });
+    });
+  }
+  
+  function showToast(message) {
+    let toast = document.getElementById('firefly-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'firefly-toast';
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(1rem);
+        background: oklch(0.25 0.12 var(--hue));
+        color: #fff;
+        padding: 0.65rem 1.5rem;
+        border-radius: 9999px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        font-size: 0.875rem;
+        font-weight: 600;
+        z-index: 99999;
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+      `;
+      document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    setTimeout(() => {
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateX(-50%) translateY(0)';
+    }, 50);
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(-50%) translateY(1rem)';
+    }, 2500);
+  }
+});
+</script>

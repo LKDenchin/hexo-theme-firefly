@@ -1,28 +1,89 @@
 <%
 /**
  * Post meta-top: title, date, author, reading time, word count, category/tag path.
- * Used at the top of single post pages.
- *
- * Variables available:
- *   page - current post page
- *   theme - theme configuration
- *   config - Hexo site configuration
+ * Enhanced to show a header banner when a cover image exists.
  */
 var meta = (theme.post && theme.post.meta) || {};
-var isBannerMode = theme.wallpaper && theme.wallpaper.mode === 'banner';
+var coverImg = page.cover || page.thumbnail || page.index_img || page.banner_img;
 %>
 
-<header class="post-meta-top">
+<% if (coverImg) { %>
+  <header class="post-header-banner" style="background-image: url('<%= url_for(coverImg) %>');">
+    <div class="post-header-banner-overlay"></div>
+    <div class="post-header-banner-content">
+      <!-- Top Row: Word count & Reading time badges -->
+      <div class="post-banner-meta-top">
+        <% if (meta.wordcount && meta.wordcount.enable !== false) { %>
+        <span class="post-banner-badge">
+          <span class="material-symbols-outlined">notes</span>
+          <span><%- wordcount(page) %> 字</span>
+        </span>
+        <% } %>
+
+        <% if (meta.min2read && meta.min2read.enable !== false) { %>
+        <span class="post-banner-badge">
+          <span class="material-symbols-outlined">schedule</span>
+          <span>
+            <% var awl = parseInt(meta.min2read.awl, 10) || 0; %>
+            <% var wpm = parseInt(meta.min2read.wpm, 10) || 0; %>
+            <%- min2read(page, { awl: awl, wpm: wpm }) %> <%= __('min_read') || '分钟' %>
+          </span>
+        </span>
+        <% } %>
+      </div>
+
+      <!-- Bottom Left Row: Title & Metadata Info -->
+      <div class="post-banner-info-bottom">
+        <h1 class="post-banner-title"><%= page.title %></h1>
+        <div class="post-banner-meta-bottom">
+          <% if (meta.date && meta.date.enable !== false) { %>
+          <span class="post-banner-meta-item">
+            <span class="material-symbols-outlined">calendar_month</span>
+            <time datetime="<%= full_date(page.date, 'YYYY-MM-DD HH:mm') %>">
+              <%- full_date(page.date, (meta.date.format || config.date_format)) %>
+            </time>
+          </span>
+          <% } %>
+
+          <% if (page.categories && page.categories.length > 0) { %>
+          <span class="post-banner-meta-item">
+            <span class="material-symbols-outlined">folder</span>
+            <span class="taxonomy-path">
+              <% page.categories.forEach(function(cat, idx) { %>
+                <% if (idx > 0) { %><span class="taxonomy-separator">/</span><% } %>
+                <a href="<%= url_for(cat.path) %>"><%= cat.name %></a>
+              <% }); %>
+            </span>
+          </span>
+          <% } %>
+
+          <% if (page.tags && page.tags.length > 0) { %>
+          <span class="post-banner-meta-item">
+            <span class="tag-hash-icon">#</span>
+            <span class="taxonomy-path">
+              <% page.tags.forEach(function(tag, idx) { %>
+                <% if (idx > 0) { %><span class="taxonomy-separator">/</span><% } %>
+                <a href="<%= url_for(tag.path) %>"><%= tag.name %></a>
+              <% }); %>
+            </span>
+          </span>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </header>
+<% } else { %>
+  <header class="post-meta-top">
     <!-- Top row: Word count & Reading time pills -->
     <div class="post-header-badges-top">
-      <% if (meta.wordcount && meta.wordcount.enable) { %>
+      <% if (meta.wordcount && meta.wordcount.enable !== false) { %>
       <span class="post-meta-badge badge-wordcount">
         <span class="material-symbols-outlined" aria-hidden="true">trending_up</span>
         <span><%- __('post.meta.wordcount', wordcount(page)) %></span>
       </span>
       <% } %>
 
-      <% if (meta.min2read && meta.min2read.enable) { %>
+      <% if (meta.min2read && meta.min2read.enable !== false) { %>
       <span class="post-meta-badge badge-reading-time">
         <span class="material-symbols-outlined" aria-hidden="true">schedule</span>
         <span>
@@ -88,4 +149,5 @@ var isBannerMode = theme.wallpaper && theme.wallpaper.mode === 'banner';
       <%- __('post.updated', date(page.updated, theme.post.updated.date_format || config.date_format)) %>
     </div>
     <% } %>
-</header>
+  </header>
+<% } %>

@@ -72,13 +72,6 @@ if (actualLeft && actualRight) {
         <!-- Post meta top: title, date, author, reading time, word count, categories -->
         <%- partial('_partials/post/meta-top') %>
 
-        <% if (post.cover || post.thumbnail || post.index_img || post.banner_img) { %>
-        <% var coverImg = post.cover || post.thumbnail || post.index_img || post.banner_img; %>
-        <div class="post-cover">
-          <img src="<%= url_for(coverImg) %>" alt="<%= post.title %>" itemprop="image">
-        </div>
-        <% } %>
-
         <!-- Post content -->
         <div
           class="post-content markdown-body custom-md"
@@ -123,37 +116,8 @@ if (actualLeft && actualRight) {
       </div>
       <% } %>
 
-      <!-- Prev / Next post navigation -->
-      <% if (theme.post && theme.post.prev_next && theme.post.prev_next.enable !== false) { %>
-      <nav class="post-navigation" aria-label="<%= __('post.navigation') %>">
-        <div class="post-nav-item post-nav-prev">
-          <% if (post.prev) { %>
-          <a href="<%= url_for(post.prev.path) %>" rel="prev" title="<%= post.prev.title %>">
-            <span class="nav-label"><%= __('post.prev_post') %></span>
-            <span class="nav-title"><%= post.prev.title %></span>
-          </a>
-          <% } %>
-        </div>
-        <div class="post-nav-item post-nav-next">
-          <% if (post.next) { %>
-          <a href="<%= url_for(post.next.path) %>" rel="next" title="<%= post.next.title %>">
-            <span class="nav-label"><%= __('post.next_post') %></span>
-            <span class="nav-title"><%= post.next.title %></span>
-          </a>
-          <% } %>
-        </div>
-      </nav>
-      <% } %>
-
-      <!-- Related posts -->
-      <% if (theme.post && theme.post.related && theme.post.related.enable) { %>
-      <div class="related-posts">
-        <h3 class="related-posts-title"><%= __('post.related_posts') %></h3>
-        <div class="related-posts-grid">
-          <%- related_posts({ maxCount: theme.post.related.maxCount || 6 }) %>
-        </div>
-      </div>
-      <% } %>
+      <!-- Footer widgets (Alert, Prev/Next Navigation, Smart Related & Random Articles) -->
+      <%- partial('_partials/post/footer-widgets') %>
     </article>
 
     <!-- Comments section -->

@@ -1,0 +1,223 @@
+<%
+/**
+ * Post ending controls & recommendations layout.
+ */
+var postUpdated = page.updated || page.date;
+var diffMs = Date.now() - new Date(postUpdated).getTime();
+var daysAgo = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+// 1. Prev & Next Posts
+var prevPost = page.prev;
+var nextPost = page.next;
+
+// 2. Smart Related Posts Recommendation (Tag & Category weight based similarity scoring)
+var currentTags = [];
+if (page.tags && page.tags.length > 0) {
+  page.tags.forEach(function(t) { currentTags.push(t.name); });
+}
+var currentCats = [];
+if (page.categories && page.categories.length > 0) {
+  page.categories.forEach(function(c) { currentCats.push(c.name); });
+}
+
+var relatedScoreList = [];
+site.posts.forEach(function(p) {
+  if (p.path === page.path) return; // Exclude current post
+  
+  var score = 0;
+  // Shared tags (weight: 5)
+  if (p.tags && p.tags.length > 0) {
+    p.tags.forEach(function(t) {
+      if (currentTags.indexOf(t.name) !== -1) {
+        score += 5;
+      }
+    });
+  }
+  // Shared categories (weight: 2)
+  if (p.categories && p.categories.length > 0) {
+    p.categories.forEach(function(c) {
+      if (currentCats.indexOf(c.name) !== -1) {
+        score += 2;
+      }
+    });
+  }
+  
+  if (score > 0) {
+    relatedScoreList.push({ post: p, score: score });
+  }
+});
+
+// Sort by score desc, then date desc
+relatedScoreList.sort(function(a, b) {
+  if (b.score !== a.score) return b.score - a.score;
+  return b.post.date - a.post.date;
+});
+
+var relatedPosts = [];
+relatedScoreList.forEach(function(item) {
+  relatedPosts.push(item.post);
+});
+
+// Fill rest with latest posts if we don't have enough matching posts
+if (relatedPosts.length < 5) {
+  var usedPaths = {};
+  relatedPosts.forEach(function(rp) { usedPaths[rp.path] = true; });
+  usedPaths[page.path] = true;
+  
+  var latestPosts = site.posts.sort('-date').toArray();
+  for (var i = 0; i < latestPosts.length; i++) {
+    var lp = latestPosts[i];
+    if (!usedPaths[lp.path]) {
+      relatedPosts.push(lp);
+      usedPaths[lp.path] = true;
+      if (relatedPosts.length >= 5) break;
+    }
+  }
+}
+relatedPosts = relatedPosts.slice(0, 5);
+
+// 3. Random Posts (excluding current post)
+var allOtherPosts = [];
+site.posts.forEach(function(p) {
+  if (p.path !== page.path) {
+    allOtherPosts.push(p);
+  }
+});
+
+// Shuffle array
+for (var i = allOtherPosts.length - 1; i > 0; i--) {
+  var j = Math.floor(Math.random() * (i + 1));
+  var temp = allOtherPosts[i];
+  allOtherPosts[i] = allOtherPosts[j];
+  allOtherPosts[j] = temp;
+}
+var randomPosts = allOtherPosts.slice(0, 5);
+%>
+
+<div class="post-footer-widgets">
+  <!-- Warning Info Alert -->
+  <% if (daysAgo > 30) { %>
+  <div class="post-footer-alert card-base">
+    <div class="footer-alert-icon">
+      <span class="material-symbols-outlined">history</span>
+    </div>
+    <div class="footer-alert-content">
+      <div class="footer-alert-title">最后更新于 <%= date(postUpdated, 'YYYY-MM-DD') %>，距今已过 <%= daysAgo %> 天</div>
+      <div class="footer-alert-subtitle">部分内容可能已过时</div>
+    </div>
+  </div>
+  <% } %>
+
+  <!-- Prev / Next Navigation -->
+  <nav class="post-footer-navigation">
+    <div class="post-nav-card-wrapper">
+      <% if (prevPost) { %>
+      <a href="<%= url_for(prevPost.path) %>" class="post-nav-card card-base prev-nav-card" title="<%= prevPost.title %>">
+        <span class="material-symbols-outlined nav-arrow">chevron_left</span>
+        <span class="nav-card-title"><%= prevPost.title %></span>
+      </a>
+      <% } else { %>
+      <div class="post-nav-card card-base prev-nav-card disabled">
+        <span class="material-symbols-outlined nav-arrow">chevron_left</span>
+        <span class="nav-card-title">没有更早的文章了</span>
+      </div>
+      <% } %>
+    </div>
+    <div class="post-nav-card-wrapper">
+      <% if (nextPost) { %>
+      <a href="<%= url_for(nextPost.path) %>" class="post-nav-card card-base next-nav-card" title="<%= nextPost.title %>">
+        <span class="nav-card-title"><%= nextPost.title %></span>
+        <span class="material-symbols-outlined nav-arrow">chevron_right</span>
+      </a>
+      <% } else { %>
+      <div class="post-nav-card card-base next-nav-card disabled">
+        <span class="nav-card-title">没有最新的文章了</span>
+        <span class="material-symbols-outlined nav-arrow">chevron_right</span>
+      </div>
+      <% } %>
+    </div>
+  </nav>
+
+  <!-- Side-by-Side Recommendations Grid -->
+  <div class="post-recommendations-row">
+    <!-- Left Column: Related Posts -->
+    <div class="recommendations-column card-base">
+      <div class="recommendations-column-header">
+        <div class="column-header-title">
+          <span class="material-symbols-outlined">schema</span>
+          <h3>相关文章</h3>
+        </div>
+        <span class="recommend-badge smart-badge">智能推荐</span>
+      </div>
+      <ul class="recommend-list">
+        <% relatedPosts.forEach(function(p, index) { %>
+          <%
+            var catName = '默认分类';
+            if (p.categories && p.categories.length > 0) {
+              catName = p.categories.first().name;
+            }
+            var cleanExcerpt = strip_html(p.excerpt || p.description || p.content || '')
+              .replace(/\s+/g, ' ')
+              .substring(0, 35)
+              .trim();
+          %>
+          <li>
+            <a href="<%= url_for(p.path) %>" class="recommend-item">
+              <span class="recommend-index-badge <%= index === 0 ? 'first-index' : '' %>"><%= index + 1 %></span>
+              <div class="recommend-item-info">
+                <span class="recommend-item-title"><%= p.title %></span>
+                <div class="recommend-item-meta-row">
+                  <span class="recommend-item-category"><%= catName %></span>
+                  <% if (cleanExcerpt) { %>
+                    <span class="recommend-item-excerpt"><%= cleanExcerpt %>...</span>
+                  <% } %>
+                </div>
+              </div>
+              <span class="material-symbols-outlined recommend-item-chevron">chevron_right</span>
+            </a>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+
+    <!-- Right Column: Random Posts -->
+    <div class="recommendations-column card-base">
+      <div class="recommendations-column-header">
+        <div class="column-header-title">
+          <span class="material-symbols-outlined">explore</span>
+          <h3>随机文章</h3>
+        </div>
+        <span class="recommend-badge random-badge">随机推荐</span>
+      </div>
+      <ul class="recommend-list">
+        <% randomPosts.forEach(function(p, index) { %>
+          <%
+            var catName = '默认分类';
+            if (p.categories && p.categories.length > 0) {
+              catName = p.categories.first().name;
+            }
+            var cleanExcerpt = strip_html(p.excerpt || p.description || p.content || '')
+              .replace(/\s+/g, ' ')
+              .substring(0, 35)
+              .trim();
+          %>
+          <li>
+            <a href="<%= url_for(p.path) %>" class="recommend-item">
+              <span class="recommend-index-badge <%= index === 0 ? 'first-index' : '' %>"><%= index + 1 %></span>
+              <div class="recommend-item-info">
+                <span class="recommend-item-title"><%= p.title %></span>
+                <div class="recommend-item-meta-row">
+                  <span class="recommend-item-category"><%= catName %></span>
+                  <% if (cleanExcerpt) { %>
+                    <span class="recommend-item-excerpt"><%= cleanExcerpt %>...</span>
+                  <% } %>
+                </div>
+              </div>
+              <span class="material-symbols-outlined recommend-item-chevron">chevron_right</span>
+            </a>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+  </div>
+</div>
