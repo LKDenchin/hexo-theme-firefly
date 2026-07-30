@@ -175,59 +175,352 @@ var busuanziEnable = themeConfig.analytics && themeConfig.analytics.busuanzi !==
 <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <% } %>
 
-<!-- Code Copy Buttons -->
+<!-- Code Copy, Language Badges & Advanced Annotations -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Handle Hexo's figure.highlight code blocks
-    document.querySelectorAll('.post-content figure.highlight').forEach(function(fig) {
-      var btn = document.createElement('button');
-      btn.className = 'code-copy-btn';
-      btn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
-      btn.title = '<%= __("copy_code") || "Copy" %>';
-      fig.appendChild(btn);
-      
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var codeEl = fig.querySelector('.code pre code') || fig.querySelector('.code pre') || fig.querySelector('pre');
-        var text = codeEl ? codeEl.textContent : '';
-        navigator.clipboard.writeText(text).then(function() {
-          btn.innerHTML = '<span class="material-symbols-outlined">check</span>';
-          btn.classList.add('copied');
-          setTimeout(function() {
-            btn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
-            btn.classList.remove('copied');
-          }, 2000);
-        });
-      });
-    });
+  (function() {
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
 
-    // Handle plain pre blocks (for non-Hexo code blocks)
-    document.querySelectorAll('.post-content pre:not(figure.highlight pre)').forEach(function(pre) {
-      if (pre.closest('.code-block-wrapper') || pre.closest('.code-copy-btn')) return;
-      var wrapper = document.createElement('div');
-      wrapper.className = 'code-block-wrapper';
-      pre.parentNode.insertBefore(wrapper, pre);
-      wrapper.appendChild(pre);
+    function get8BitColor(idx) {
+      var standard = [
+        '#000000', '#c00000', '#00c000', '#c0c000', '#0000c0', '#c000c0', '#00c0c0', '#c0c0c0',
+        '#808080', '#ff0000', '#00ff00', '#ffff00', '#0000ff', '#ff00ff', '#00ffff', '#ffffff'
+      ];
+      if (idx < 16) return standard[idx];
+      if (idx >= 16 && idx <= 231) {
+        idx -= 16;
+        var r = Math.floor(idx / 36) * 51;
+        var g = Math.floor((idx % 36) / 6) * 51;
+        var b = (idx % 6) * 51;
+        return 'rgb(' + r + ',' + g + ',' + b + ')';
+      }
+      var val = 8 + (idx - 232) * 10;
+      return 'rgb(' + val + ',' + val + ',' + val + ')';
+    }
+
+    function ansiToHtml(text) {
+      var ansiRegex = /\x1B\[([0-9;]*)[mK]/g;
+      var html = '';
+      var openSpans = 0;
       
-      var btn = document.createElement('button');
-      btn.className = 'code-copy-btn';
-      btn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
-      btn.title = '<%= __("copy_code") || "Copy" %>';
-      wrapper.appendChild(btn);
+      var styles = {
+        30: 'color: #1e1e1e',
+        31: 'color: #f44336',
+        32: 'color: #4caf50',
+        33: 'color: #ffeb3b',
+        34: 'color: #2196f3',
+        35: 'color: #9c27b0',
+        36: 'color: #00bcd4',
+        37: 'color: #ffffff',
+        40: 'background-color: #1e1e1e',
+        41: 'background-color: #f44336',
+        42: 'background-color: #4caf50',
+        43: 'background-color: #ffeb3b',
+        44: 'background-color: #2196f3',
+        45: 'background-color: #9c27b0',
+        46: 'background-color: #00bcd4',
+        47: 'background-color: #ffffff',
+        1: 'font-weight: bold',
+        2: 'opacity: 0.6',
+        3: 'font-style: italic',
+        4: 'text-decoration: underline',
+        7: 'filter: invert(100%)',
+        9: 'text-decoration: line-through'
+      };
+
+      var lastIndex = 0;
+      var match;
       
-      btn.addEventListener('click', function() {
-        var code = pre.querySelector('code') || pre;
-        navigator.clipboard.writeText(code.textContent).then(function() {
-          btn.innerHTML = '<span class="material-symbols-outlined">check</span>';
-          btn.classList.add('copied');
-          setTimeout(function() {
-            btn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
-            btn.classList.remove('copied');
-          }, 2000);
-        });
+      while ((match = ansiRegex.exec(text)) !== null) {
+        html += escapeHtml(text.substring(lastIndex, match.index));
+        lastIndex = ansiRegex.lastIndex;
+        
+        var codes = match[1].split(';');
+        if (codes.includes('0') || match[1] === '') {
+          while (openSpans > 0) {
+            html += '</span>';
+            openSpans--;
+          }
+        }
+        
+        var styleStr = '';
+        var i = 0;
+        while (i < codes.length) {
+          var code = parseInt(codes[i], 10);
+          if (code === 38 || code === 48) {
+            var isBG = (code === 48);
+            var type = parseInt(codes[i+1], 10);
+            if (type === 5) {
+              var colorIdx = parseInt(codes[i+2], 10);
+              var hexColor = get8BitColor(colorIdx);
+              styleStr += (isBG ? 'background-color' : 'color') + ': ' + hexColor + ';';
+              i += 3;
+            } else if (type === 2) {
+              var r = parseInt(codes[i+2], 10);
+              var g = parseInt(codes[i+3], 10);
+              var b = parseInt(codes[i+4], 10);
+              styleStr += (isBG ? 'background-color' : 'color') + ': rgb(' + r + ',' + g + ',' + b + ');';
+              i += 5;
+            } else {
+              i++;
+            }
+          } else {
+            if (styles[code]) {
+              styleStr += styles[code] + ';';
+            }
+            i++;
+          }
+        }
+        
+        if (styleStr) {
+          html += '<span style="' + styleStr + '">';
+          openSpans++;
+        }
+      }
+      
+      html += escapeHtml(text.substring(lastIndex));
+      while (openSpans > 0) {
+        html += '</span>';
+        openSpans--;
+      }
+      
+      return html;
+    }
+
+    function parseHighlightRanges(rangeStr) {
+      if (!rangeStr) return [];
+      var lines = [];
+      var parts = rangeStr.split(',');
+      parts.forEach(function(part) {
+        part = part.trim();
+        if (part.indexOf('-') !== -1) {
+          var bounds = part.split('-');
+          var start = parseInt(bounds[0], 10);
+          var end = parseInt(bounds[1], 10);
+          for (var i = start; i <= end; i++) {
+            lines.push(i);
+          }
+        } else {
+          lines.push(parseInt(part, 10));
+        }
       });
+      return lines;
+    }
+
+    function processCodeBlocks() {
+      // 1. Wrap plain pre blocks
+      document.querySelectorAll('.post-content pre:not(figure.highlight pre)').forEach(function(pre) {
+        if (pre.closest('.code-block-wrapper')) return;
+        var wrapper = document.createElement('div');
+        wrapper.className = 'code-block-wrapper';
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+      });
+
+      // 2. Wrap Hexo's figure.highlight code blocks
+      document.querySelectorAll('.post-content figure.highlight').forEach(function(fig) {
+        if (fig.parentNode.classList.contains('code-block-wrapper')) return;
+        var wrapper = document.createElement('div');
+        wrapper.className = 'code-block-wrapper';
+        fig.parentNode.insertBefore(wrapper, fig);
+        wrapper.appendChild(fig);
+      });
+
+      // 3. Process each code block wrapper
+      document.querySelectorAll('.code-block-wrapper').forEach(function(wrapper) {
+        if (wrapper.querySelector('.code-block-header')) return; // Avoid double processing
+        
+        var fig = wrapper.querySelector('figure.highlight');
+        var pre = wrapper.querySelector('pre');
+        var code = wrapper.querySelector('code');
+        
+        var langClass = '';
+        if (fig) {
+          langClass = Array.from(fig.classList).find(function(c) { return c !== 'highlight'; }) || '';
+        } else if (code) {
+          langClass = Array.from(code.classList).find(function(c) { return c.startsWith('language-'); }) || '';
+          langClass = langClass.replace('language-', '');
+        }
+        
+        var langName = '';
+        var fileName = '';
+        var highlightRangeStr = '';
+        
+        if (langClass) {
+          var fileMatch = langClass.match(/:([^\s{]+)/);
+          if (fileMatch) {
+            fileName = fileMatch[1];
+          }
+          
+          var rangeMatch = langClass.match(/\{([^}]+)\}/);
+          if (rangeMatch) {
+            highlightRangeStr = rangeMatch[1];
+          }
+          
+          langName = langClass.split(/[:{\s]/)[0].toUpperCase();
+        }
+        
+        if (langName === 'ANSI') {
+          wrapper.classList.add('is-ansi-block');
+        }
+        
+        // Generate Header
+        var header = document.createElement('div');
+        header.className = 'code-block-header';
+        
+        if (fileName) {
+          header.innerHTML = '<div class="code-header-tab"><span class="material-symbols-outlined code-header-tab-icon">description</span><span class="code-header-tab-title">' + fileName + '</span></div>';
+          wrapper.classList.add('has-filename');
+        } else {
+          header.innerHTML = '<div class="code-header-terminal"><span class="terminal-dot dot-red"></span><span class="terminal-dot dot-yellow"></span><span class="terminal-dot dot-green"></span></div>';
+        }
+        
+        var headerActions = document.createElement('div');
+        headerActions.className = 'code-header-actions';
+        header.appendChild(headerActions);
+        
+        wrapper.insertBefore(header, wrapper.firstChild);
+        
+        // Inject Copy Button
+        var btn = document.createElement('button');
+        btn.className = 'code-copy-btn';
+        btn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
+        btn.title = '<%= __("copy_code") || "Copy" %>';
+        wrapper.appendChild(btn);
+        
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var codeEl = wrapper.querySelector('.code pre code') || wrapper.querySelector('pre code') || wrapper.querySelector('pre');
+          var text = codeEl ? codeEl.textContent : '';
+          
+          // Clean up plus/minus markers if copying diff-like codes
+          if (wrapper.querySelector('.code-line-ins') || wrapper.querySelector('.code-line-del')) {
+            var lines = text.split('\n');
+            var cleanedLines = lines.map(function(line) {
+              if (line.startsWith('+ ') || line.startsWith('- ')) {
+                return line.substring(2);
+              }
+              return line;
+            });
+            text = cleanedLines.join('\n');
+          }
+          
+          navigator.clipboard.writeText(text).then(function() {
+            btn.innerHTML = '<span class="material-symbols-outlined">check</span>';
+            btn.classList.add('copied');
+            setTimeout(function() {
+              btn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
+              btn.classList.remove('copied');
+            }, 2000);
+          });
+        });
+        
+        // Inject Language Badge
+        if (langName) {
+          var badge = document.createElement('span');
+          badge.className = 'code-language-badge';
+          badge.textContent = langName;
+          wrapper.appendChild(badge);
+        }
+        
+        var highlightLines = parseHighlightRanges(highlightRangeStr);
+        
+        // Process Table Rows (Lines)
+        var rows = wrapper.querySelectorAll('table.hljs-ln tr');
+        rows.forEach(function(row) {
+          var numTd = row.querySelector('.hljs-ln-numbers');
+          var codeTd = row.querySelector('.hljs-ln-code');
+          if (!numTd || !codeTd) return;
+          
+          var lineNum = parseInt(numTd.getAttribute('data-line-number'), 10);
+          var lineEl = codeTd.querySelector('.hljs-ln-line');
+          if (!lineEl) return;
+          
+          var text = lineEl.textContent;
+          
+          if (langName === 'ANSI') {
+            lineEl.innerHTML = ansiToHtml(text);
+          }
+          
+          // Check for Labels (e.g. // 1. ... or // 2. ...)
+          var labelMatch = text.match(/^\s*(?:\/\/\s*|#\s*)([0-9]+\.\s+.*)$/);
+          if (labelMatch) {
+            var labelText = labelMatch[1];
+            lineEl.textContent = labelText;
+            row.className = 'code-line-label';
+            if (labelText.indexOf('1.') === 0 || labelText.indexOf(' 1.') !== -1) row.classList.add('label-blue');
+            else if (labelText.indexOf('2.') === 0 || labelText.indexOf(' 2.') !== -1) row.classList.add('label-red');
+            else if (labelText.indexOf('3.') === 0 || labelText.indexOf(' 3.') !== -1) row.classList.add('label-green');
+          }
+          // Check for Ins/Del Markers
+          else if (text.indexOf('+ ') === 0) {
+            lineEl.textContent = text.substring(2);
+            row.className = 'code-line-ins';
+            numTd.setAttribute('data-marker', '+');
+          }
+          else if (text.indexOf('- ') === 0) {
+            lineEl.textContent = text.substring(2);
+            row.className = 'code-line-del';
+            numTd.setAttribute('data-marker', '-');
+          }
+          // Check for standard line marking
+          else if (highlightLines.includes(lineNum)) {
+            row.className = 'code-line-mark';
+          }
+        });
+        
+        // Collapsible check
+        var lineCount = rows.length;
+        if (lineCount > 10) {
+          wrapper.classList.add('code-collapsible', 'collapsed');
+          
+          var topExpandBtn = document.createElement('button');
+          topExpandBtn.className = 'code-header-expand-btn';
+          topExpandBtn.innerHTML = '<span>展开</span><span class="material-symbols-outlined">expand_more</span>';
+          headerActions.appendChild(topExpandBtn);
+          
+          var bottomPill = document.createElement('div');
+          bottomPill.className = 'code-expand-pill-wrapper';
+          bottomPill.innerHTML = '<button class="code-expand-pill-btn"><span>展开</span><span class="material-symbols-outlined">expand_more</span></button>';
+          wrapper.appendChild(bottomPill);
+          
+          var toggleCollapse = function() {
+            var isCollapsed = wrapper.classList.contains('collapsed');
+            if (isCollapsed) {
+              wrapper.classList.remove('collapsed');
+              wrapper.classList.add('expanded');
+              topExpandBtn.innerHTML = '<span>收起</span><span class="material-symbols-outlined">expand_less</span>';
+              bottomPill.innerHTML = '<button class="code-expand-pill-btn"><span>收起</span><span class="material-symbols-outlined">expand_less</span></button>';
+            } else {
+              wrapper.classList.remove('expanded');
+              wrapper.classList.add('collapsed');
+              topExpandBtn.innerHTML = '<span>展开</span><span class="material-symbols-outlined">expand_more</span>';
+              bottomPill.innerHTML = '<button class="code-expand-pill-btn"><span>展开</span><span class="material-symbols-outlined">expand_more</span></button>';
+              wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          };
+          
+          topExpandBtn.addEventListener('click', toggleCollapse);
+          bottomPill.addEventListener('click', toggleCollapse);
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.hljs) {
+        if (typeof hljs.initLineNumbersOnLoad === 'function') {
+          hljs.initLineNumbersOnLoad();
+        }
+      }
+      setTimeout(processCodeBlocks, 50);
     });
-  });
+  })();
 </script>
 
 <!-- Site Stats Fallback & Running Days Calculation -->
