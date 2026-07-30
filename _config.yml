@@ -258,6 +258,9 @@ widgets:
   - type: "tags"
     enable: true
     position: "left"
+  - type: "dynamic"
+    enable: true
+    position: "right"
   - type: "stats"
     enable: true
     position: "right"

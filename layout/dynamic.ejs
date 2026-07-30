@@ -1,0 +1,189 @@
+<%
+/**
+ * Dynamic microblog updates template.
+ */
+var dynamicsList = page.dynamics || [];
+var years = new Set();
+dynamicsList.forEach(function(d) {
+  if (d.date) {
+    years.add(new Date(d.date).getFullYear());
+  }
+});
+var yearsList = Array.from(years).sort((a, b) => b - a);
+
+// Determine sidebar positions (matching post.ejs)
+var sidebar = theme.sidebar || {};
+var sidebarPosition = sidebar.position || 'both';
+var showLeftSidebar = sidebarPosition === 'both' || sidebarPosition === 'left';
+var showRightSidebar = sidebarPosition === 'both' || sidebarPosition === 'right';
+
+var actualLeft = showLeftSidebar;
+var actualRight = showRightSidebar;
+var gridClass = 'has-no-sidebar';
+if (actualLeft && actualRight) {
+  gridClass = 'has-both-sidebars';
+} else if (actualLeft) {
+  gridClass = 'has-left-sidebar';
+} else if (actualRight) {
+  gridClass = 'has-right-sidebar';
+}
+%>
+
+<div id="main-grid" class="main-grid-layout <%= gridClass %>">
+  <!-- ===== Left Sidebar ===== -->
+  <% if (showLeftSidebar) { %>
+  <aside class="sidebar-left" aria-label="<%= __('sidebar.left') %>">
+    <%- partial('_partials/post/sidebar-left') %>
+  </aside>
+  <% } %>
+
+  <!-- ===== Main Content ===== -->
+  <main id="main-content" class="page-container">
+    <%- partial('_partials/post/content-nav') %>
+    
+    <div class="dynamic-page-container">
+      <!-- Dynamic Header -->
+      <header class="card-base dynamic-header-card">
+        <div class="dynamic-header-top">
+          <div class="dynamic-brand">
+            <div class="dynamic-header-icon">
+              <span class="material-symbols-outlined">forum</span>
+            </div>
+            <div class="dynamic-brand-text">
+              <h1 class="dynamic-title"><%= page.title || '动态' %></h1>
+              <p class="dynamic-subtitle"><%= page.description || '随手记下此刻的想法与日常。' %></p>
+            </div>
+          </div>
+          <div class="dynamic-header-badge">
+            <span class="material-symbols-outlined">description</span>
+            <span><span id="dynamic-count-num"><%= dynamicsList.length %></span> 动态</span>
+          </div>
+        </div>
+        
+        <!-- Filters (Search + Year select) -->
+        <div class="dynamic-filters">
+          <div class="dynamic-search-wrapper">
+            <span class="material-symbols-outlined dynamic-search-icon">search</span>
+            <input type="text" id="dynamic-search-input" class="dynamic-search-input" placeholder="搜索动态...">
+          </div>
+          <div class="dynamic-year-select-wrapper">
+            <select id="dynamic-year-select" class="dynamic-year-select">
+              <option value="all">全部年份</option>
+              <% yearsList.forEach(function(y) { %>
+              <option value="<%= y %>"><%= y %>年</option>
+              <% }); %>
+            </select>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dynamics List -->
+      <section class="dynamic-list">
+        <% if (dynamicsList.length > 0) { %>
+          <% dynamicsList.forEach(function(d) { %>
+            <% 
+              // Construct search text helper attribute
+              var searchText = (d.rawContent || '').toLowerCase();
+              var dYear = d.date ? new Date(d.date).getFullYear() : '';
+            %>
+            <article class="card-base dynamic-card" data-year="<%= dYear %>" data-content="<%= searchText %>">
+              <header class="dynamic-card-header">
+                <img src="<%= url_for(d.avatar) %>" alt="<%= d.author %>" class="dynamic-avatar-img" loading="lazy">
+                <div class="dynamic-meta">
+                  <span class="dynamic-author-name"><%= d.author %></span>
+                  <div class="dynamic-info-row">
+                    <span><%= date(d.date, 'YYYY/MM/DD HH:mm:ss') %> UTC+8</span>
+                    <% if (d.location) { %>
+                      <span class="dynamic-location">
+                        <span class="material-symbols-outlined">location_on</span>
+                        <%= d.location %>
+                      </span>
+                    <% } %>
+                  </div>
+                </div>
+                
+                <% if (d.sticky) { %>
+                  <span class="dynamic-pin-badge">
+                    <span class="material-symbols-outlined">push_pin</span>
+                    置顶
+                  </span>
+                <% } %>
+                
+                <span class="material-symbols-outlined dynamic-quote-icon">format_quote</span>
+              </header>
+
+              <!-- Body Content -->
+              <div class="markdown-body dynamic-content">
+                <%- d.content %>
+              </div>
+
+              <!-- Image Grid -->
+              <% if (d.images && d.images.length > 0) { %>
+                <div class="dynamic-images-grid grid-<%= Math.min(9, d.images.length) %>">
+                  <% d.images.forEach(function(imgUrl, idx) { %>
+                    <div class="dynamic-img-wrapper">
+                      <img src="<%= url_for(imgUrl) %>" alt="图片<%= idx + 1 %>" class="dynamic-img" loading="lazy" data-fancybox="gallery-<%= new Date(d.date).getTime() %>">
+                    </div>
+                  <% }); %>
+                </div>
+              <% } %>
+            </article>
+          <% }); %>
+        <% } else { %>
+          <div class="card-base" style="padding: 3rem; text-align: center; color: var(--text-tertiary);">
+            <p>暂无动态更新~</p>
+          </div>
+        <% } %>
+      </section>
+    </div>
+  </main>
+
+  <!-- ===== Right Sidebar ===== -->
+  <% if (showRightSidebar) { %>
+  <aside class="sidebar-right" aria-label="<%= __('sidebar.right') %>">
+    <%- partial('_partials/post/sidebar-right') %>
+  </aside>
+  <% } %>
+
+  <!-- ===== Mobile Bottom Sidebar (visible only on mobile) ===== -->
+  <%- partial('_partials/post/mobile-sidebar') %>
+  
+  <%- partial('_partials/footer') %>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('dynamic-search-input');
+  const yearSelect = document.getElementById('dynamic-year-select');
+  const cards = document.querySelectorAll('.dynamic-card');
+  const countEl = document.getElementById('dynamic-count-num');
+  
+  function filterDynamics() {
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const year = yearSelect ? yearSelect.value : 'all';
+    let visibleCount = 0;
+    
+    cards.forEach(card => {
+      const text = card.getAttribute('data-content');
+      const cardYear = card.getAttribute('data-year');
+      
+      const matchesSearch = text.includes(query);
+      const matchesYear = (year === 'all' || cardYear === year);
+      
+      if (matchesSearch && matchesYear) {
+        card.style.display = 'flex';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    
+    if (countEl) {
+      countEl.textContent = visibleCount;
+    }
+  }
+  
+  if (searchInput) searchInput.addEventListener('input', filterDynamics);
+  if (yearSelect) yearSelect.addEventListener('change', filterDynamics);
+});
+</script>

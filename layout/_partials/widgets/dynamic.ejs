@@ -1,0 +1,39 @@
+<%
+var dynamics = get_dynamics();
+var limit = 2; // Show top 2 latest dynamics as in image 3
+var latestDynamics = dynamics.slice(0, limit);
+%>
+<% if (dynamics.length > 0) { %>
+<div class="widget dynamic-widget">
+  <div class="widget-header"><%= __('latest_dynamics') || '最新动态' %></div>
+  <div class="widget-body">
+    <div class="dynamic-widget-list">
+      <% latestDynamics.forEach(function(d) { %>
+      <div class="dynamic-widget-item">
+        <div class="dynamic-widget-meta">
+          <span class="material-symbols-outlined">schedule</span>
+          <span><%= date(d.date, 'YYYY-MM-DD HH:mm:ss') %></span>
+          <% if (d.sticky) { %>
+            <span class="dynamic-pin-badge">
+              <span class="material-symbols-outlined">push_pin</span>
+              置顶
+            </span>
+          <% } %>
+        </div>
+        <!-- Strip HTML tags for clean text excerpt -->
+        <div class="dynamic-widget-content">
+          <%= strip_html(d.content).trim() %>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+    
+    <div class="dynamic-widget-footer">
+      <a href="<%= url_for('/dynamic/') %>" class="dynamic-widget-more-btn">
+        <span class="material-symbols-outlined">forum</span>
+        <span>更多动态 (<%= dynamics.length %>)</span>
+      </a>
+    </div>
+  </div>
+</div>
+<% } %>
