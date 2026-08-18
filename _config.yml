@@ -731,8 +731,8 @@ pio:
     model:
       # Live2D 模型配置文件路径
       path: "/pio/models/live2d/snow_miku/model.json"
-    # 模型停靠位置，可选：bottom-left, bottom-right, top-left, top-right
-    position: "bottom-left"
+    # 模型停靠位置，可选：left, right
+    position: "left"
 
 # ============================================================
 #  页脚设置

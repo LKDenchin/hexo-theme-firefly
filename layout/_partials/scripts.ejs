@@ -5,8 +5,10 @@ var mathEngine = themeConfig.math && themeConfig.math.engine;
 var mermaidEnable = themeConfig.mermaid && themeConfig.mermaid.enable;
 var fancyboxEnable = themeConfig.fancybox !== false;
 var pioConfig = themeConfig.pio || {};
-var characterEnable = pioConfig.live2d && pioConfig.live2d.enable;
-var characterType = characterEnable ? 'live2d' : (pioConfig.spine && pioConfig.spine.enable ? 'spine' : null);
+var live2dEnable = !!(pioConfig.live2d && (pioConfig.live2d.enable === true || pioConfig.live2d.enable === 'true'));
+var spineEnable = !!(pioConfig.spine && (pioConfig.spine.enable === true || pioConfig.spine.enable === 'true'));
+var characterEnable = live2dEnable || spineEnable;
+var characterType = live2dEnable ? 'live2d' : (spineEnable ? 'spine' : null);
 var musicMode = themeConfig.music && themeConfig.music.mode;
 var musicEnable = musicMode && musicMode !== 'none';
 var metingApi = themeConfig.music && themeConfig.music.meting;
@@ -138,28 +140,70 @@ var busuanziEnable = themeConfig.analytics && themeConfig.analytics.busuanzi !==
   <!-- Live2D Widget -->
   <script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
   <script>
-    L2Dwidget.init({
-      model: {
-        jsonPath: '<%= (pioConfig.live2d.model && pioConfig.live2d.model.path) || "https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1/assets/shizuku.model.json" %>',
-        scale: 1
-      },
-      display: {
-        position: '<%= pioConfig.live2d.position || "left" %>',
-        width: 150,
-        height: 300,
-        xOffset: 0,
-        yOffset: 0
-      },
-      mobile: {
-        show: true
+    (function() {
+      function initLive2D() {
+        if (typeof L2Dwidget === 'undefined') {
+          setTimeout(initLive2D, 100);
+          return;
+        }
+        L2Dwidget.init({
+          model: {
+            jsonPath: '<%= url_for((pioConfig.live2d && pioConfig.live2d.model && pioConfig.live2d.model.path) || "/pio/models/live2d/snow_miku/model.json") %>',
+            scale: 1
+          },
+          display: {
+            position: '<%= (pioConfig.live2d && pioConfig.live2d.position && pioConfig.live2d.position.indexOf("right") !== -1) ? "right" : "left" %>',
+            width: 150,
+            height: 300,
+            hOffset: 10,
+            vOffset: 10
+          },
+          mobile: {
+            show: true
+          },
+          react: {
+            opacity: 0.9
+          }
+        });
       }
-    });
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initLive2D);
+      } else {
+        initLive2D();
+      }
+    })();
   </script>
   <% } else if (characterType === 'spine') { %>
   <!-- Spine Player -->
-  <script src="https://cdn.jsdelivr.net/npm/pixi.js@7/dist/pixi.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/pixi-spine@4/dist/iife/pixi-spine.min.js"></script>
-  <script src="<%= url_for('/js/features/spine-player.js') %>"></script>
+  <link rel="stylesheet" href="<%= url_for('/pio/static/spine-player.min.css') %>">
+  <script src="<%= url_for('/pio/static/spine-player.min.js') %>"></script>
+  <div id="spine-player-container" style="position: fixed; <%= (pioConfig.spine && pioConfig.spine.position && pioConfig.spine.position.corner) ? pioConfig.spine.position.corner.replace('-', ': 20px; ') + ': 20px;' : 'bottom: 20px; left: 20px;' %> width: <%= (pioConfig.spine && pioConfig.spine.size && pioConfig.spine.size.width) || 280 %>px; height: <%= (pioConfig.spine && pioConfig.spine.size && pioConfig.spine.size.height) || 400 %>px; z-index: 45; pointer-events: none;"></div>
+  <script>
+    (function() {
+      function initSpine() {
+        if (typeof spine === 'undefined' || typeof spine.SpinePlayer === 'undefined') {
+          setTimeout(initSpine, 100);
+          return;
+        }
+        var container = document.getElementById('spine-player-container');
+        if (!container) return;
+        var jsonPath = '<%= url_for((pioConfig.spine && pioConfig.spine.model && pioConfig.spine.model.path) || "/pio/models/spine/firefly/1310.json") %>';
+        var atlasPath = jsonPath.replace(/\.json$/, '.atlas');
+        new spine.SpinePlayer("spine-player-container", {
+          jsonUrl: jsonPath,
+          atlasUrl: atlasPath,
+          showControls: false,
+          backgroundColor: "#00000000",
+          alpha: true
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSpine);
+      } else {
+        initSpine();
+      }
+    })();
+  </script>
   <% } %>
 <% } %>
 
