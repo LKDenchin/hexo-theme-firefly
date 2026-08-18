@@ -141,3 +141,18 @@
   font-family: var(--font-mono);
   font-size: 0.75rem;
 }
+
+@media (max-width: 768px) {
+  .search-modal {
+    padding-top: 1rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  .search-modal-content {
+    width: 100%;
+    max-width: 100%;
+  }
+  .search-results {
+    max-height: calc(100dvh - 120px);
+  }
+}

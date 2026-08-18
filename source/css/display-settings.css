@@ -5,14 +5,18 @@
 .display-settings-panel {
   position: fixed;
   top: calc(var(--navbar-height) + 0.5rem);
-  right: 1rem;
-  width: 300px;
-  max-height: calc(100vh - var(--navbar-height) - 2rem);
+  right: 0.75rem;
+  width: min(320px, calc(100vw - 1.5rem));
+  max-height: calc(100dvh - var(--navbar-height) - 1.5rem);
   overflow-y: auto;
-  z-index: 45;
+  z-index: 60;
   padding: 1.25rem;
   background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: var(--md-shape-corner-large);
+  border: 1px solid var(--line-divider);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
   transition: all var(--md-motion-duration-medium) var(--md-motion-easing-standard);
 }
 

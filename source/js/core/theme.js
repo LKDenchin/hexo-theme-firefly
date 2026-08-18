@@ -30,6 +30,14 @@
         btn.addEventListener('click', function(e) {
           e.stopPropagation();
           if (self.popover) {
+            var willOpen = self.popover.classList.contains('closed');
+            if (willOpen) {
+              if (window.ScrollManager && window.ScrollManager.closeMobileMenu) {
+                window.ScrollManager.closeMobileMenu();
+              }
+              var displayPanel = document.getElementById('display-settings-panel');
+              if (displayPanel) displayPanel.classList.add('closed');
+            }
             self.popover.classList.toggle('closed');
           }
         });

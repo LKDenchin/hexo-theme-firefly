@@ -61,37 +61,28 @@
   
   /* Navbar mobile */
   #navbar-wrapper {
-    z-index: 50 !important;
+    z-index: 60 !important;
   }
   #navbar > div { padding: 0 0.625rem; margin: 0 0.25rem; }
   
-  /* Display settings panel — centered popup overlay */
+  /* Display settings panel — anchored at top-right below navbar button */
   .display-settings-panel {
-    position: fixed;
-    top: 50% !important;
-    left: 50% !important;
-    right: auto !important;
-    transform: translate(-50%, -50%);
-    width: min(85vw, 340px);
-    max-height: 80vh;
+    position: fixed !important;
+    top: calc(var(--navbar-height) + 0.5rem) !important;
+    right: 0.75rem !important;
+    left: auto !important;
+    transform: none !important;
+    width: min(320px, calc(100vw - 1.5rem)) !important;
+    max-height: calc(100dvh - var(--navbar-height) - 1.5rem) !important;
     border-radius: var(--md-shape-corner-large) !important;
-    z-index: 70;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+    z-index: 70 !important;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.15) !important;
   }
   .display-settings-panel.closed {
-    transform: translate(-50%, -50%) scale(0.9);
-    opacity: 0;
-    visibility: hidden;
+    transform: translateY(-0.5rem) scale(0.98) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
   }
-  /* Settings backdrop overlay */
-  .settings-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 65;
-  }
-  .settings-backdrop.open { display: block; }
   
   /* Search panel */
   .search-panel {

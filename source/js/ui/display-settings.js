@@ -28,6 +28,12 @@
         this.panel.classList.add('closed');
         document.body.style.overflow = '';
       } else {
+        if (window.ScrollManager && window.ScrollManager.closeMobileMenu) {
+          window.ScrollManager.closeMobileMenu();
+        }
+        const themePopover = document.getElementById('theme-popover');
+        if (themePopover) themePopover.classList.add('closed');
+
         this.panel.classList.remove('closed');
         this.syncAllValues();
       }

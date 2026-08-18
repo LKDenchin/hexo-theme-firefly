@@ -37,7 +37,21 @@
       
       this.lastScrollY = scrollY;
     },
-    
+    // Close mobile menu helper
+    closeMobileMenu() {
+      const toggleBtn = document.getElementById('mobile-menu-toggle');
+      const menu = document.getElementById('navbar-menu');
+      if (!toggleBtn || !menu) return;
+      const links = menu.querySelector('.navbar-links');
+      const backdrop = document.querySelector('.mobile-menu-backdrop');
+      if (links) links.classList.remove('open');
+      if (backdrop) backdrop.classList.remove('open');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      var icon = toggleBtn.querySelector('.material-symbols-outlined');
+      if (icon) icon.textContent = 'menu';
+    },
+
     // Mobile menu toggle with backdrop overlay
     initMobileMenu() {
       const toggleBtn = document.getElementById('mobile-menu-toggle');
@@ -55,27 +69,23 @@
         document.body.appendChild(backdrop);
       }
 
-      const closeMenu = () => {
-        links.classList.remove('open');
-        backdrop.classList.remove('open');
-        toggleBtn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-        // Toggle icon back to menu
-        var icon = toggleBtn.querySelector('.material-symbols-outlined');
-        if (icon) icon.textContent = 'menu';
-      };
+      const closeMenu = () => this.closeMobileMenu();
 
       const openMenu = () => {
+        // Close other popups for mutual exclusion
+        const themePopover = document.getElementById('theme-popover');
+        if (themePopover) themePopover.classList.add('closed');
+        const displayPanel = document.getElementById('display-settings-panel');
+        if (displayPanel) displayPanel.classList.add('closed');
+
         links.classList.add('open');
         backdrop.classList.add('open');
         toggleBtn.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden';
-        // Toggle icon to close
         var icon = toggleBtn.querySelector('.material-symbols-outlined');
         if (icon) icon.textContent = 'close';
       };
 
-      // Show toggle only when navbar links overflow
+      // Show toggle only when navbar links overflow or on mobile screens
       const checkOverflow = () => {
         const navbar = document.getElementById('navbar');
         const navbarInner = document.querySelector('#navbar .navbar-inner');
@@ -96,7 +106,7 @@
       checkOverflow();
       window.addEventListener('resize', checkOverflow);
       
-      toggleBtn.addEventListener('click', function(e) {
+      toggleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         if (links.classList.contains('open')) {
           closeMenu();
@@ -108,19 +118,65 @@
       // Close when clicking backdrop
       backdrop.addEventListener('click', closeMenu);
       
-      // Close menu when clicking a link
-      menu.addEventListener('click', function(e) {
-        if (e.target.closest('a')) {
+      // Close menu when clicking normal links, toggle dropdown accordions on dropdown toggle links
+      menu.addEventListener('click', (e) => {
+        const dropdownToggle = e.target.closest('.dropdown-toggle');
+        if (dropdownToggle && window.innerWidth <= 768) {
+          e.preventDefault();
+          e.stopPropagation();
+          const parent = dropdownToggle.closest('.navbar-dropdown');
+          if (parent) {
+            parent.classList.toggle('open');
+          }
+          return;
+        }
+
+        const link = e.target.closest('a');
+        if (link && !link.classList.contains('dropdown-toggle')) {
           closeMenu();
         }
       });
 
       // Close on Escape key
-      document.addEventListener('keydown', function(e) {
+      document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && links.classList.contains('open')) {
           closeMenu();
         }
       });
+
+      this.initNavbarExtraButtons();
+    },
+
+    // Extra topbar buttons: Music & Play/Wallpaper
+    initNavbarExtraButtons() {
+      const musicBtn = document.getElementById('nav-music-btn');
+      if (musicBtn) {
+        musicBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (window.__aplayer) {
+            window.__aplayer.toggle();
+          } else {
+            const widget = document.querySelector('.music-widget');
+            if (widget) {
+              widget.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        });
+      }
+
+      const playBtn = document.getElementById('nav-play-btn');
+      if (playBtn) {
+        playBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (window.Settings) {
+            const current = window.Settings.getWallpaperMode();
+            const order = ['banner', 'fullscreen', 'overlay', 'none'];
+            const idx = order.indexOf(current);
+            const next = order[(idx + 1) % order.length];
+            window.Settings.setWallpaperMode(next);
+          }
+        });
+      }
     },
     
     // Back to top

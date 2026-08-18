@@ -12,7 +12,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 50;
+  z-index: 90;
   pointer-events: none;
   padding: 0 1rem;
 }
@@ -33,7 +33,7 @@
   position: relative;
   width: 100%;
   height: var(--navbar-height);
-  z-index: 40;
+  z-index: 90;
   transition: all var(--duration-medium);
   pointer-events: auto;
   margin-top: 0;
@@ -412,8 +412,14 @@ html.dark .enable-banner #navbar:not(.scrolled) .navbar-brand {
 }
 
 /* --------------------------------------------------------------------------
-   Mobile Menu — Compact Slide-In Panel
+   Mobile Menu — Top-Right Floating Card Modal
    -------------------------------------------------------------------------- */
+
+@media (min-width: 769px) {
+  .dropdown-arrow.mobile-arrow {
+    display: none !important;
+  }
+}
 
 @media (max-width: 768px) {
   #navbar {
@@ -421,48 +427,99 @@ html.dark .enable-banner #navbar:not(.scrolled) .navbar-brand {
     padding: 0 0.25rem;
   }
   #navbar > div {
-    padding: 0 0.75rem;
+    padding: 0 0.5rem 0 0.75rem;
+    margin: 0;
+  }
+  .navbar-actions {
+    gap: 0.125rem;
+  }
+  .navbar-actions .btn-plain,
+  .navbar-action-btn {
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0.2rem;
   }
   .navbar-links {
     display: none;
   }
 
-  /* Centered popup from  □ tray (respects content width) */
+  /* Top-Right Floating Card Popup Modal */
   .navbar-links.open {
     display: flex !important;
     flex-direction: column;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: min(80vw, 340px);
-    max-height: 70vh;
-    background: var(--card-bg);
-    padding: 1.25rem;
-    border-radius: var(--md-shape-corner-large);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+    top: calc(var(--navbar-height) + 0.5rem);
+    right: 0.75rem;
+    width: min(85vw, 280px);
+    max-height: calc(100dvh - var(--navbar-height) - 1.5rem);
+    background: oklch(0.99 0.005 var(--hue) / 0.88) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    padding: 0.75rem;
+    border-radius: var(--md-shape-corner-large, 20px) !important;
+    border: 1px solid var(--line-divider) !important;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15) !important;
     overflow-y: auto;
-    z-index: 60;
-    animation: popupIn var(--md-motion-duration-medium) var(--md-motion-easing-emphasized);
-  }
-  .navbar-links.open a {
-    width: 100%;
-    padding: 0.5rem 0.875rem;
-    font-size: 0.9375rem;
-    border-radius: var(--md-shape-corner-full);
-    margin-bottom: 0.125rem;
-  }
-  .navbar-links.open a.has-dropdown::after {
-    margin-left: auto;
+    z-index: 100 !important;
+    animation: popupInRight var(--md-motion-duration-medium) var(--md-motion-easing-emphasized);
   }
 
-  /* Backdrop overlay behind slide-in menu */
+  .dark .navbar-links.open,
+  :root.dark .navbar-links.open,
+  html.dark .navbar-links.open {
+    background: oklch(0.20 0.01 var(--hue) / 0.88) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  .navbar-links.open .navbar-link-item {
+    width: 100%;
+    margin-bottom: 0.25rem;
+  }
+
+  .navbar-links.open .navbar-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    border-radius: var(--md-shape-corner-full);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: background-color var(--duration-fast), color var(--duration-fast);
+  }
+
+  .navbar-links.open .navbar-link-content {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .navbar-links.open .navbar-link:hover {
+    background: var(--md-sys-color-surface-variant);
+  }
+
+  .navbar-links.open .navbar-link.active {
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+    font-weight: 600;
+  }
+
+  .navbar-links.open .dropdown-arrow {
+    margin-left: auto;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    transition: transform var(--md-motion-duration-short) var(--md-motion-easing-standard);
+  }
+
+  /* Backdrop overlay behind menu */
   .mobile-menu-backdrop {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.35);
-    z-index: 55;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 40 !important;
     animation: fadeIn var(--md-motion-duration-medium) var(--md-motion-easing-standard);
   }
   .mobile-menu-backdrop.open {
@@ -470,9 +527,9 @@ html.dark .enable-banner #navbar:not(.scrolled) .navbar-brand {
   }
 }
 
-@keyframes popupIn {
-  from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+@keyframes popupInRight {
+  from { opacity: 0; transform: translateY(-0.75rem) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes fadeIn {
@@ -488,28 +545,27 @@ html.dark .enable-banner #navbar:not(.scrolled) .navbar-brand {
   display: flex !important;
   flex-direction: column;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(80vw, 340px);
-  max-height: 70vh;
-  background: var(--card-bg);
-  padding: 1.25rem;
-  border-radius: var(--md-shape-corner-large);
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+  top: calc(var(--navbar-height) + 0.5rem);
+  right: 0.75rem;
+  width: min(85vw, 280px);
+  max-height: calc(100dvh - var(--navbar-height) - 1.5rem);
+  background: oklch(0.99 0.005 var(--hue) / 0.88) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  padding: 0.75rem;
+  border-radius: var(--md-shape-corner-large, 20px) !important;
+  border: 1px solid var(--line-divider) !important;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15) !important;
   overflow-y: auto;
-  z-index: 60;
-  animation: popupIn var(--md-motion-duration-medium) var(--md-motion-easing-emphasized);
+  z-index: 100 !important;
+  animation: popupInRight var(--md-motion-duration-medium) var(--md-motion-easing-emphasized);
 }
-#navbar.mobile-nav .navbar-links.open a {
-  width: 100%;
-  padding: 0.5rem 0.875rem;
-  font-size: 0.9375rem;
-  border-radius: var(--md-shape-corner-full);
-  margin-bottom: 0.125rem;
-}
-#navbar.mobile-nav .navbar-links.open a.has-dropdown::after {
-  margin-left: auto;
+
+.dark #navbar.mobile-nav .navbar-links.open,
+:root.dark #navbar.mobile-nav .navbar-links.open,
+html.dark #navbar.mobile-nav .navbar-links.open {
+  background: oklch(0.20 0.01 var(--hue) / 0.88) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
 }
 
 /* --------------------------------------------------------------------------
@@ -581,7 +637,7 @@ html.dark .enable-banner #navbar:not(.scrolled) .navbar-brand {
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
-/* Mobile dropdown: show inline */
+/* Mobile dropdown: show inline accordion */
 @media (max-width: 768px) {
   .navbar-dropdown .dropdown-menu {
     position: static;
@@ -589,8 +645,8 @@ html.dark .enable-banner #navbar:not(.scrolled) .navbar-brand {
     box-shadow: none;
     border: none;
     background: transparent;
-    padding: 0 0 0 0.75rem;
-    margin-top: 0.25rem;
+    padding: 0.25rem 0 0.25rem 0.75rem;
+    margin-top: 0.125rem;
     animation: none;
     min-width: auto;
   }
@@ -598,7 +654,10 @@ html.dark .enable-banner #navbar:not(.scrolled) .navbar-brand {
     display: none;
   }
   .navbar-dropdown.open .dropdown-menu {
-    display: block;
+    display: block !important;
+  }
+  .navbar-dropdown.open > .dropdown-toggle .dropdown-arrow {
+    transform: rotate(180deg);
   }
 }
 
@@ -679,10 +738,12 @@ html.dark .enable-banner #navbar:not(.scrolled) .navbar-brand {
   right: 0;
   width: 140px;
   background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: var(--md-shape-corner-medium, 12px);
   box-shadow: var(--shadow-lg, 0 4px 20px rgba(0,0,0,0.15));
   padding: 0.5rem;
-  z-index: 50;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
