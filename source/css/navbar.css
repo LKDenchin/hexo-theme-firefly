@@ -229,6 +229,31 @@ html.dark .enable-banner #navbar:not(.scrolled) .navbar-brand {
   white-space: nowrap;
 }
 
+.navbar-link-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  line-height: 1;
+}
+
+.navbar-link-content .material-symbols-outlined {
+  font-size: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.navbar-link-content span:not(.material-symbols-outlined) {
+  display: inline-block;
+  line-height: 1;
+}
+
 .navbar-links a:hover {
   color: var(--primary);
   background: oklch(0.65 0.18 var(--hue) / 0.08);
@@ -722,13 +747,28 @@ html.dark #navbar.mobile-nav .navbar-links.open {
    -------------------------------------------------------------------------- */
 
 #navbar > div > .navbar-inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
   max-width: var(--page-width);
   margin: 0 auto;
   height: 100%;
+}
+
+.navbar-brand {
+  grid-column: 1;
+  justify-self: start;
+}
+
+.navbar-menu {
+  grid-column: 2;
+  justify-self: center;
+}
+
+.navbar-actions {
+  grid-column: 3;
+  justify-self: end;
 }
 
 /* ---- Theme Popover ---- */
