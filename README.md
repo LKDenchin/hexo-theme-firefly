@@ -272,13 +272,12 @@ password: ""            # 加密密码（留空不加密）
 - Copyright (c) 2026 [LKDenchin](https://github.com/LKDenchin) - [hexo-theme-firefly](https://github.com/LKDenchin/hexo-theme-firefly)
 
 ---
-
 ## Star History
 
 <a href="https://www.star-history.com/?repos=LKDenchin%2Fhexo-theme-firefly&type=date&legend=bottom-right">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=LKDenchin/hexo-theme-firefly&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=LKDenchin/hexo-theme-firefly&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=LKDenchin/hexo-theme-firefly&type=date&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=LKDenchin/hexo-theme-firefly&type=date&theme=dark&legend=bottom-right&sealed_token=Ef2MeCJ3NVftFQl9I5Vh4z0AN2c5DFhg32lSgkoaKnwU_gC1BaOR-DVp3HjFodA_oBZf1XV3_HpujxY1I8hn90IIjfxYj5gPx3Y2v2zp83EvXoaMkR46Cw" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=LKDenchin/hexo-theme-firefly&type=date&legend=bottom-right&sealed_token=Ef2MeCJ3NVftFQl9I5Vh4z0AN2c5DFhg32lSgkoaKnwU_gC1BaOR-DVp3HjFodA_oBZf1XV3_HpujxY1I8hn90IIjfxYj5gPx3Y2v2zp83EvXoaMkR46Cw" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=LKDenchin/hexo-theme-firefly&type=date&legend=bottom-right&sealed_token=Ef2MeCJ3NVftFQl9I5Vh4z0AN2c5DFhg32lSgkoaKnwU_gC1BaOR-DVp3HjFodA_oBZf1XV3_HpujxY1I8hn90IIjfxYj5gPx3Y2v2zp83EvXoaMkR46Cw" />
  </picture>
 </a>
