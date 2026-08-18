@@ -1,219 +1,233 @@
-<div align="center">
+# Firefly (Hexo Theme)
 
-# 流萤 / Firefly
-> 一款清新美观的 Hexo 博客主题
+[English](README.en.md) | 中文
 
-> ![Hexo >= 6](https://img.shields.io/badge/hexo-%3E%3D6-blue)
-> ![Nunjucks >= 3](https://img.shields.io/badge/nunjucks-%3E%3D3-green)
-> ![Node.js](https://img.shields.io/badge/node.js-%3E%3D16-brightgreen)
-> ![License MIT](https://img.shields.io/badge/license-MIT-blue)
+Firefly 是一款基于 [Hexo](https://hexo.io/) 博客框架的个人博客主题，从 [Astro 版 Firefly](https://github.com/CuteLeaf/Firefly) 迁移而来。
 
-</div>
+它采用模块化的组件架构与 EJS 模板引擎，支持双侧边栏布局、暗黑模式切换、动态色相调节、多端响应式适配及 Spine / Live2D 看板娘集成。
 
----
+## 开发者预览
 
-📖 README：
-**[简体中文](README.md)** | **[English](README.en.md)**
+Firefly 主题目前处于 _开发者预览_ 阶段，正在持续优化迭代。**配置项与组件接口可能随版本更新微调。**
 
-🚀 演示站点：
-[**🖥️ 我的博客**](https://blog.1007777.xyz/)
+## 运行与安装
 
----
+### 通过 Git 安装
 
-## 📸 预览
+在 Hexo 博客根目录下克隆主题仓库至 `themes/firefly` 目录：
 
-| 首页 | 文章详情页 |
-|:---:|:---:|
-| ![首页截图](screenshot/index.png) | ![文章详情截图](screenshot/blog.png) |
-
----
-
-Firefly 是一款清新美观且现代化的 Hexo 个人博客主题，从 [CuteLeaf](https://github.com/CuteLeaf) 开发的 [Astro 版 Firefly](https://github.com/CuteLeaf/Firefly) 迁移而来，完整保留了原版 Firefly 的全部功能和设计风格。该主题融合了丰富的功能模块和高度可定制的界面，让您能够轻松打造出专业且美观的个人博客网站。
-
-在布局上，Firefly 支持左右双侧边栏、文章列表/网格(多列)布局，并增加了站点统计、日历、文章目录、音乐播放器、快捷分类导航等小组件，让侧边栏和整体页面布局更加丰富。同时也支持分享按钮、相关文章推荐、上下篇导航等组件，让文章页面内容更丰富。
-
-
-## ✨ 功能特性
-
-### 核心功能
-
-- [x] **Hexo + EJS 模板** - 基于 Hexo 框架的高性能静态博客
-- [x] **响应式设计** - 完美适配桌面端、平板和移动设备
-- [x] **多语言支持** - i18n 国际化，UI 支持简体中文、繁体中文、英文、日文、俄语
-- [x] **本地搜索** - 基于 XML 的客户端全文搜索
-- [x] **樱花飘落特效** - 可开关的樱花飘落动画
-- [x] **打字机效果** - 首页标题打字机动画
-
-### 个性化
-
-- [x] **动态侧边栏** - 支持配置单侧边栏、双侧边栏
-- [x] **文章布局** - 支持列表、网格(多列)布局，可在前台自由切换
-- [x] **亮暗色模式** - 支持浅色/深色/跟随系统三种模式
-- [x] **主题色自定义** - 360° 色相调节
-- [x] **壁纸模式** - 支持横幅、全屏、透明叠加、纯色背景四种模式
-- [x] **水波纹效果** - Banner 区域动态水波纹动画
-- [x] **导航栏自定义** - Logo、标题、菜单链接全面自定义
-- [x] **页脚配置** - HTML 内容注入，完全自定义
-
-### 文章与内容
-
-- [x] **封面图** - 支持文章封面图，支持随机 API 封面
-- [x] **文章目录 (TOC)** - 自动生成可浮动跟随的文章目录
-- [x] **代码高亮** - 基于 Highlight.js 的代码语法高亮
-- [x] **代码块折叠** - 长代码块自动折叠
-- [x] **Mermaid 图表** - Mermaid 语法渲染
-- [x] **PlantUML 图表** - PlantUML 渲染
-- [x] **图片灯箱** - 基于 Fancybox 的图片点击放大
-- [x] **加密文章** - 支持密码保护
-- [x] **文章过期提示** - 超过设定天数自动提示
-- [x] **版权声明** - 文章底部自定义版权许可信息
-
-### 评论系统
-
-- [x] **Giscus** / **Twikoo** / **Waline** / **Artalk** / **Disqus** - 多种评论系统支持
-
-### 侧边栏组件
-
-- [x] **个人资料卡片** - 头像、昵称、简介、社交链接
-- [x] **公告栏** - 可关闭的公告信息
-- [x] **音乐播放器** - MetingJS 在线音乐播放 / 本地音乐
-- [x] **分类导航** - 快捷分类列表
-- [x] **标签云** - 标签聚合展示
-- [x] **站点统计** - 文章数、分类数、标签数、运行天数
-- [x] **日历** - 文章发布日历视图
-
-### 独立页面
-
-- [x] **友链** / **赞助** / **留言板** / **相册** / **关于页面**
-
-### 统计分析
-
-- [x] **不蒜子** / **百度统计** / **Google Analytics** / **Microsoft Clarity** / **Umami** / **51.LA**
-
-### 其他
-
-- [x] **看板娘** - Spine 骨骼动画 / Live2D 模型
-- [x] **横幅轮播** - 多张壁纸自动轮播
-- [x] **显示设置面板** - 前台用户自定义开关特效和主题
-
----
-
-## 🚀 快速开始
-
-### 环境要求
-
-- Node.js >= 16
-- Hexo >= 6.x
-
-### 安装主题
-
-1. **进入 Hexo 站点目录：**
-   ```bash
-   cd your-hexo-blog
-   ```
-
-2. **克隆主题到 themes 目录：**
-   ```bash
-   git clone https://github.com/LKDenchin/hexo-theme-firefly.git themes/firefly
-   ```
-
-3. **设置主题：**
-   编辑站点根目录的 `_config.yml`，将 `theme` 字段设置为 `firefly`：
-   ```yaml
-   theme: firefly
-   ```
-
-   > **注意**：必须在站点根目录 `_config.yml` 中设置 `theme: firefly`，主题才能正常工作。
-
-4. **安装必需插件：**
-   ```bash
-   npm install hexo-generator-search --save
-   npm install hexo-wordcount --save
-   ```
-
-5. **创建页面（可选）：**
-   ```bash
-   hexo new page about
-   hexo new page friends
-   hexo new page categories
-   hexo new page tags
-   ```
-
-6. **配置主题：**
-   编辑 `themes/firefly/_config.yml` 自定义博客设置。
-
-7. **启动本地服务器：**
-   ```bash
-   hexo clean && hexo server
-   ```
-   博客将在 `http://localhost:4000` 可用
-
----
-
-## 📖 配置说明
-
-所有主题配置均在 `themes/firefly/_config.yml` 中完成：
-
-```
-themes/firefly/
-├── _config.yml          # 主题主配置文件
-├── _data/               # 数据文件（友链等）
-├── languages/           # 多语言文件 (zh-CN / zh-TW / en / ja / ru)
-├── layout/              # EJS 模板文件
-├── scripts/             # Hexo 脚本 (helpers, generators, tags)
-└── source/              # 静态资源 (CSS, JS, 图片, 模型)
+```sh
+git clone https://github.com/LKDenchin/hexo-theme-firefly.git themes/firefly
 ```
 
-### 网站语言
+### 配置启用
 
-站点根目录 `_config.yml` 中设置：
+修改 Hexo 博客根目录下的 `_config.yml` 文件：
 
 ```yaml
-language: zh-CN
+theme: firefly
 ```
 
-支持：`zh-CN` `zh-TW` `en` `ja` `ru`
+> **注意**：Hexo 根目录 `_config.yml` 中的 `theme_config:` 字段会覆盖主题主配置文件。建议将相关配置直接在 `themes/firefly/_config.yml` 中完成。
 
-### 关键配置项
+### 安装依赖插件
 
-| 配置模块 | 说明 |
-|:---------|:-----|
-| `theme_color` | 主题色 (0-360)，支持浅色/深色/跟随系统 |
-| `nav` | 导航栏：Logo、标题、菜单 |
-| `wallpaper` | 壁纸模式：banner / fullscreen / overlay / none |
-| `sidebar` | 侧边栏，左右组件独立配置 |
-| `post` | 文章设置：封面、目录、版权、导航 |
-| `post_list_layout` | 文章布局：list / grid / masonry |
-| `comments` | 评论系统 (giscus/twikoo/waline/artalk/disqus) |
-| `music` | 音乐播放器 (MetingJS / 本地) |
-| `effects` | 樱花特效 |
-| `pio` | 看板娘 (Spine/Live2D) |
-| `analytics` | 统计分析 (百度/Google/Umami 等) |
-| `search` | 本地搜索 |
-| `code` | 代码高亮主题、折叠 |
-| `mermaid` | Mermaid 图表 |
-| `plantuml` | PlantUML 图表 |
-| `font` | 自定义字体 |
-| `footer` | 页脚设置 |
-| `sponsor` | 赞助页面 |
-| `gallery` | 相册 |
-| `friends_page` | 友链页面 |
+```sh
+npm install hexo-generator-search hexo-wordcount --save
+```
+
+### 本地编译与运行
+
+```sh
+# 清除构建缓存
+npx hexo clean
+
+# 编译静态文件
+npx hexo generate
+
+# 启动本地服务 (默认地址 http://127.0.0.1:4000)
+npx hexo server
+```
 
 ---
 
-## 🧩 文章 Front-matter
+## 页面路由与分页面指南
+
+Firefly 支持多种系统页面与自定义分页面，详细路由及配置要求如下：
+
+### 1. 系统核心页面
+
+| 页面名称 | 路由路径 | 模板文件 | 说明 |
+|:---|:---|:---|:---|
+| **首页** | `/` | `layout/index.ejs` | 显示文章列表（支持 List 与 Grid 视图）及首页 Banner |
+| **归档页** | `/archives/` | `layout/archive.ejs` | 按年份与月份归档展示所有文章 |
+| **分类汇总页** | `/categories/` | `layout/categories.ejs` | 聚合全站文章分类 |
+| **分类详情页** | `/categories/:name/` | `layout/category.ejs` | 展示指定分类下的文章列表 |
+| **标签汇总页** | `/tags/` | `layout/tags.ejs` | 聚合全站标签云 |
+| **标签详情页** | `/tags/:name/` | `layout/tag.ejs` | 展示指定标签下的文章列表 |
+| **文章详情页** | `/:year/:month/:day/:title/` | `layout/post.ejs` | 文章正文、TOC 浮动目录、版权信息与评论区 |
+
+### 2. 自定义功能分页面
+
+需通过 `hexo new page <name>` 创建，并在其 Front-matter 中显式指定 `type` 或 `layout` 属性：
+
+#### 分类页 (`/categories/`)
+命令：`hexo new page categories`  
+文件路径：`source/categories/index.md`  
+Front-matter 配置：
+```yaml
+---
+title: 分类
+type: categories
+---
+```
+
+#### 标签页 (`/tags/`)
+命令：`hexo new page tags`  
+文件路径：`source/tags/index.md`  
+Front-matter 配置：
+```yaml
+---
+title: 标签
+type: tags
+---
+```
+
+#### 关于页 (`/about/`)
+命令：`hexo new page about`  
+文件路径：`source/about/index.md`  
+Front-matter 配置：
+```yaml
+---
+title: 关于
+layout: about
+---
+```
+
+#### 动态 / 说说页 (`/dynamic/`)
+由 `scripts/generators/dynamic.js` 脚本**自动生成**，无需手动执行 `hexo new page`。  
+数据源：在博客根目录的 `source/_dynamics/` 目录下创建 Markdown 文件（如 `source/_dynamics/status-01.md`）：
+```yaml
+---
+title: 今日随想
+date: 2026-01-01 12:00:00
+author: Firefly
+location: 上海
+sticky: true
+images:
+  - /img/cover.avif
+---
+动态正文内容，支持 Markdown 渲染。
+```
+
+#### 友链页 (`/friends/`)
+命令：`hexo new page friends`  
+文件路径：`source/friends/index.md`  
+Front-matter 配置：
+```yaml
+---
+title: 友链
+type: friends
+---
+```
+数据源：可选择在 `source/_data/friends.yml` 文件中配置友链数据列表。
+
+#### 赞助页 (`/sponsor/`)
+命令：`hexo new page sponsor`  
+文件路径：`source/sponsor/index.md`  
+Front-matter 配置：
+```yaml
+---
+title: 赞助
+type: sponsor
+---
+```
+配置文件：在 `_config.yml` 的 `sponsor:` 节点下配置二维码图片与赞助列表。
+
+#### 相册页 (`/gallery/`)
+命令：`hexo new page gallery`  
+文件路径：`source/gallery/index.md`  
+Front-matter 配置：
+```yaml
+---
+title: 相册
+type: gallery
+---
+```
+配置文件：在 `_config.yml` 的 `gallery:` 节点下配置图片瀑布流列宽与相册项目。
+
+#### 追番 / 番组页 (`/bangumi/`)
+命令：`hexo new page bangumi`  
+文件路径：`source/bangumi/index.md`  
+Front-matter 配置：
+```yaml
+---
+title: 追番
+type: bangumi
+---
+```
+
+#### 留言板页 (`/guestbook/`)
+命令：`hexo new page guestbook`  
+文件路径：`source/guestbook/index.md`  
+Front-matter 配置：
+```yaml
+---
+title: 留言板
+type: guestbook
+---
+```
+
+---
+
+## 配置文件完整功能块列举
+
+主题所有功能均在 `themes/firefly/_config.yml` 中控制。核心功能块分类如下：
+
+| 配置节点 | 说明 | 主要控制参数 |
+|:---|:---|:---|
+| `theme_color` | 主题色彩与模式 | `hue` (0-360 色相), `fixed` (锁定主题色), `default_mode` (light / dark / system) |
+| `nav` | 导航栏与菜单 | `sticky` (吸顶), `transparent` (透明度), `logo` (图片/文本 Logo), `menu` (导航链接与图标) |
+| `cards` | 卡片样式 | `border` (显示边框), `follow_theme_hue` (跟随主题色) |
+| `favicon` | 站点图标 | `favicon_16`, `favicon_32`, `apple_touch_icon`, `favicon_svg`, `manifest` |
+| `pages` | 功能分页面开关 | `friends`, `sponsor`, `guestbook`, `bangumi`, `gallery` 开关状态 |
+| `post` | 文章渲染细节 | `meta` (作者/日期/字数/阅读时间/分类/标签), `toc` (目录定位), `copyright` (版权声明), `outdated_threshold` (过期天数) |
+| `post_list_layout` | 文章列表展示 | `default_mode` (list / grid 视图), `mobile_default_mode`, `allow_switch` (前台切换), `description_lines` |
+| `social` | 社交链接 | 列表格式：`name`, `icon`, `url` |
+| `home_text` | 首页 Banner 文字 | `title`, `subtitle`, `typewriter` (打字机动画速度、删除速度、暂停间隔) |
+| `wallpaper` | 壁纸与背景 | `mode` (banner / fullscreen / overlay / none), `src` (Desktop/Mobile 尺寸图片组), `banner_switch_interval`, `enable_carousel` (自动轮播), `waves` (波浪特效) |
+| `widgets` | 侧边栏挂件声明 | 支持 `profile`, `announcement`, `music`, `categories`, `tags`, `dynamic`, `stats`, `calendar`, `site-info` 挂件挂载 |
+| `sidebar` | 侧边栏布局与规则 | `position` (left / right / both), `tablet_sidebar`, `left_components`, `right_components`, `mobile_bottom_components` |
+| `comments` | 评论系统集成 | `type` (none / giscus / twikoo / waline / artalk / disqus) 及各服务配置参数 |
+| `music` | 音乐播放器 | `mode` (meting / local), `volume`, `play_mode`, `meting` (server, type, id), `local` (播放列表数组) |
+| `effects` | 页面特效控制 | `sakura` (樱花数量 `num`、落速 `speed`、透明度 `opacity` 及 `z_index`) |
+| `pio` | 看板娘模型 | `spine` (Spine 骨骼动画 JSON/Atlas 路径与尺寸) 与 `live2d` (Live2D `model.json` 路径与 `position`) |
+| `analytics` | 统计分析集成 | `busuanzi`, `google_analytics_id`, `microsoft_clarity_id`, `umami`, `bai_du_tong_ji_id`, `la51` |
+| `code` | 代码高亮与折叠 | `highlight` (Client HLJS), `theme` (主题名), `collapsible` (行数阈值 `line_threshold`、预览行数 `preview_lines`), `language_badge` |
+| `plantuml` | PlantUML 图表 | `enable`, `server`, `light_theme`, `dark_theme` |
+| `mermaid` | Mermaid 图表 | `enable` |
+| `search` | 本地全文搜索 | `enable`, `path` (local-search.xml 文件路径) |
+| `announcement` | 公告栏配置 | `title`, `content`, `icon`, `type` (info/warning/success/error), `closable` |
+| `math` | 数学公式渲染 | `engine` (katex / mathjax) |
+| `fancybox` | 图片灯箱 | `fancybox: true / false` |
+
+---
+
+## 文章 Front-matter 配置规范
+
+在 Markdown 文章头部通过 Front-matter 配置参数：
 
 ```yaml
 ---
-title: 我的第一篇文章
-date: 2025-01-01 12:00:00
-updated: 2025-01-02 18:00:00
-tags: [Hexo, 博客]
-categories: 技术
-description: 文章描述
+title: 文章标题
+date: 2026-01-01 12:00:00
+updated: 2026-01-02 18:00:00
+categories: [技术]
+tags: [Hexo, 前端]
+description: 文章简短描述
 cover: /img/cover.jpg  # 文章封面图
 top: true               # 置顶文章
-toc: true               # 显示文章目录
+toc: true               # 显示浮动目录
 comments: true          # 允许评论
 copyright: true         # 显示版权声明
 password: ""            # 加密密码（留空不加密）
@@ -222,62 +236,22 @@ password: ""            # 加密密码（留空不加密）
 
 ---
 
-## 🧞 指令
+## 参与贡献
 
-| Command | Action |
-|:--------|:-------|
-| `hexo clean` | 清理缓存和生成目录 |
-| `hexo server` | 启动本地开发服务器 |
-| `hexo generate` | 生成静态文件 |
-| `hexo deploy` | 部署网站 |
-| `hexo new post "标题"` | 创建新文章 |
-| `hexo new page "页面名"` | 创建新页面 |
+参见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+欢迎通过 [GitHub Issues](https://github.com/LKDenchin/hexo-theme-firefly/issues) 提交 Bug 反馈或 Pull Request。
 
 ---
 
-## ❤️ 赞助
+## 致谢
 
-如果这个主题对你有帮助，欢迎请我喝杯咖啡~
-
-<img src="screenshot/support.png" width="200" alt="赞赏码" />
----
-
-## 🙏 致谢
-
-非常感谢 [saicaca](https://github.com/saicaca) 开发的 [fuwari](https://github.com/saicaca/fuwari) 模板，以及 [CuteLeaf](https://github.com/CuteLeaf) 基于 fuwari 二次开发的 [Firefly](https://github.com/CuteLeaf/Firefly) 主题。本项目是 Firefly 的 Hexo 移植版本。
-
-流萤部分相关图片素材版权归游戏 [《崩坏：星穹铁道》](https://sr.mihoyo.com/) 开发商 [米哈游](https://www.mihoyo.com/) 所有。
-
-### 技术栈
-
-- [Hexo](https://hexo.io) - 博客框架
-- [EJS](https://ejs.co) - 模板引擎
-- [Highlight.js](https://highlightjs.org) - 代码高亮
-- [MetingJS](https://github.com/metowolf/MetingJS) - 在线音乐播放器
-- [Fancybox](https://fancyapps.com/fancybox/) - 图片灯箱
-
-### 参考项目
-
-- [Firefly](https://github.com/CuteLeaf/Firefly) - Astro 原版主题 (CuteLeaf)
-- [fuwari](https://github.com/saicaca/fuwari) - Astro 博客模板 (saicaca)
----
-
-## 📝 许可协议
-
-本项目遵循 [MIT license](https://mit-license.org/) 开源协议。
-
-**版权声明：**
-- Copyright (c) 2024 [saicaca](https://github.com/saicaca) - [fuwari](https://github.com/saicaca/fuwari)
-- Copyright (c) 2025 [CuteLeaf](https://github.com/CuteLeaf) - [Firefly](https://github.com/CuteLeaf/Firefly)
-- Copyright (c) 2026 [LKDenchin](https://github.com/LKDenchin) - [hexo-theme-firefly](https://github.com/LKDenchin/hexo-theme-firefly)
+- 博客框架：[Hexo](https://hexo.io/)
+- 模板引擎：[EJS](https://ejs.co/)
+- 视觉与概念设计：[Firefly (Astro 版)](https://github.com/CuteLeaf/Firefly) by CuteLeaf / [fuwari](https://github.com/saicaca/fuwari) by saicaca
 
 ---
-## Star History
 
-<a href="https://www.star-history.com/?repos=LKDenchin%2Fhexo-theme-firefly&type=date&legend=bottom-right">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=LKDenchin/hexo-theme-firefly&type=date&theme=dark&legend=bottom-right&sealed_token=Ef2MeCJ3NVftFQl9I5Vh4z0AN2c5DFhg32lSgkoaKnwU_gC1BaOR-DVp3HjFodA_oBZf1XV3_HpujxY1I8hn90IIjfxYj5gPx3Y2v2zp83EvXoaMkR46Cw" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=LKDenchin/hexo-theme-firefly&type=date&legend=bottom-right&sealed_token=Ef2MeCJ3NVftFQl9I5Vh4z0AN2c5DFhg32lSgkoaKnwU_gC1BaOR-DVp3HjFodA_oBZf1XV3_HpujxY1I8hn90IIjfxYj5gPx3Y2v2zp83EvXoaMkR46Cw" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=LKDenchin/hexo-theme-firefly&type=date&legend=bottom-right&sealed_token=Ef2MeCJ3NVftFQl9I5Vh4z0AN2c5DFhg32lSgkoaKnwU_gC1BaOR-DVp3HjFodA_oBZf1XV3_HpujxY1I8hn90IIjfxYj5gPx3Y2v2zp83EvXoaMkR46Cw" />
- </picture>
-</a>
+## 许可证
+
+[MIT License](LICENSE)
