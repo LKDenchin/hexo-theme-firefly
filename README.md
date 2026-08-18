@@ -178,38 +178,7 @@ type: guestbook
 ---
 ```
 
----
 
-## 配置文件完整功能块列举
-
-主题所有功能均在 `themes/firefly/_config.yml` 中控制。核心功能块分类如下：
-
-| 配置节点 | 说明 | 主要控制参数 |
-|:---|:---|:---|
-| `theme_color` | 主题色彩与模式 | `hue` (0-360 色相), `fixed` (锁定主题色), `default_mode` (light / dark / system) |
-| `nav` | 导航栏与菜单 | `sticky` (吸顶), `transparent` (透明度), `logo` (图片/文本 Logo), `menu` (导航链接与图标) |
-| `cards` | 卡片样式 | `border` (显示边框), `follow_theme_hue` (跟随主题色) |
-| `favicon` | 站点图标 | `favicon_16`, `favicon_32`, `apple_touch_icon`, `favicon_svg`, `manifest` |
-| `pages` | 功能分页面开关 | `friends`, `sponsor`, `guestbook`, `bangumi`, `gallery` 开关状态 |
-| `post` | 文章渲染细节 | `meta` (作者/日期/字数/阅读时间/分类/标签), `toc` (目录定位), `copyright` (版权声明), `outdated_threshold` (过期天数) |
-| `post_list_layout` | 文章列表展示 | `default_mode` (list / grid 视图), `mobile_default_mode`, `allow_switch` (前台切换), `description_lines` |
-| `social` | 社交链接 | 列表格式：`name`, `icon`, `url` |
-| `home_text` | 首页 Banner 文字 | `title`, `subtitle`, `typewriter` (打字机动画速度、删除速度、暂停间隔) |
-| `wallpaper` | 壁纸与背景 | `mode` (banner / fullscreen / overlay / none), `src` (Desktop/Mobile 尺寸图片组), `banner_switch_interval`, `enable_carousel` (自动轮播), `waves` (波浪特效) |
-| `widgets` | 侧边栏挂件声明 | 支持 `profile`, `announcement`, `music`, `categories`, `tags`, `dynamic`, `stats`, `calendar`, `site-info` 挂件挂载 |
-| `sidebar` | 侧边栏布局与规则 | `position` (left / right / both), `tablet_sidebar`, `left_components`, `right_components`, `mobile_bottom_components` |
-| `comments` | 评论系统集成 | `type` (none / giscus / twikoo / waline / artalk / disqus) 及各服务配置参数 |
-| `music` | 音乐播放器 | `mode` (meting / local), `volume`, `play_mode`, `meting` (server, type, id), `local` (播放列表数组) |
-| `effects` | 页面特效控制 | `sakura` (樱花数量 `num`、落速 `speed`、透明度 `opacity` 及 `z_index`) |
-| `pio` | 看板娘模型 | `spine` (Spine 骨骼动画 JSON/Atlas 路径与尺寸) 与 `live2d` (Live2D `model.json` 路径与 `position`) |
-| `analytics` | 统计分析集成 | `busuanzi`, `google_analytics_id`, `microsoft_clarity_id`, `umami`, `bai_du_tong_ji_id`, `la51` |
-| `code` | 代码高亮与折叠 | `highlight` (Client HLJS), `theme` (主题名), `collapsible` (行数阈值 `line_threshold`、预览行数 `preview_lines`), `language_badge` |
-| `plantuml` | PlantUML 图表 | `enable`, `server`, `light_theme`, `dark_theme` |
-| `mermaid` | Mermaid 图表 | `enable` |
-| `search` | 本地全文搜索 | `enable`, `path` (local-search.xml 文件路径) |
-| `announcement` | 公告栏配置 | `title`, `content`, `icon`, `type` (info/warning/success/error), `closable` |
-| `math` | 数学公式渲染 | `engine` (katex / mathjax) |
-| `fancybox` | 图片灯箱 | `fancybox: true / false` |
 
 ---
 

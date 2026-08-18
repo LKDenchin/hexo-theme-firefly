@@ -178,38 +178,7 @@ type: guestbook
 ---
 ```
 
----
 
-## Configuration Blocks Reference
-
-All theme features are controlled in `themes/firefly/_config.yml`. Below is the complete listing of configuration blocks:
-
-| Config Block | Description | Key Parameters |
-|:---|:---|:---|
-| `theme_color` | Color & Theme Mode | `hue` (0-360), `fixed` (lock hue), `default_mode` (light / dark / system) |
-| `nav` | Navbar & Menus | `sticky`, `transparent`, `logo` (image/text), `menu` (items and icons) |
-| `cards` | Card Styling | `border`, `follow_theme_hue` |
-| `favicon` | Favicons & Web App | `favicon_16`, `favicon_32`, `apple_touch_icon`, `favicon_svg`, `manifest` |
-| `pages` | Standalone Page Switches | Toggles for `friends`, `sponsor`, `guestbook`, `bangumi`, `gallery` |
-| `post` | Post Rendering Details | `meta` (author/date/wordcount/readtime), `toc` placement, `copyright`, `outdated_threshold` |
-| `post_list_layout` | Post View Modes | `default_mode` (list / grid), `mobile_default_mode`, `allow_switch`, `description_lines` |
-| `social` | Social Links | Array of `name`, `icon`, `url` |
-| `home_text` | Hero Banner Text | `title`, `subtitle`, `typewriter` (speed, delete_speed, pause_time) |
-| `wallpaper` | Wallpaper & Background | `mode` (banner/fullscreen/overlay/none), `src` image arrays, `banner_switch_interval`, `enable_carousel`, `waves` |
-| `widgets` | Sidebar Widgets Declaration | Declarations for `profile`, `announcement`, `music`, `categories`, `tags`, `dynamic`, `stats`, `calendar`, `site-info` |
-| `sidebar` | Sidebar Layout & Rules | `position` (left/right/both), `tablet_sidebar`, `left_components`, `right_components`, `mobile_bottom_components` |
-| `comments` | Comment Integrations | `type` (none/giscus/twikoo/waline/artalk/disqus) and provider credentials |
-| `music` | Audio Player | `mode` (meting/local), `volume`, `play_mode`, `meting` (server, type, id), `local` playlist |
-| `effects` | Visual Effects | `sakura` (petal `num`, `speed`, `opacity`, `z_index`) |
-| `pio` | Character Mascots | `spine` (Spine JSON/Atlas path and size) and `live2d` (Live2D `model.json` path and `position`) |
-| `analytics` | Analytics Integration | `busuanzi`, `google_analytics_id`, `microsoft_clarity_id`, `umami`, `bai_du_tong_ji_id`, `la51` |
-| `code` | Code Highlighting & Folding | `highlight` (Client HLJS), `theme`, `collapsible` (`line_threshold`, `preview_lines`), `language_badge` |
-| `plantuml` | PlantUML Diagrams | `enable`, `server`, `light_theme`, `dark_theme` |
-| `mermaid` | Mermaid Diagrams | `enable` |
-| `search` | Local Full-text Search | `enable`, `path` (`local-search.xml` path) |
-| `announcement` | Announcement Box | `title`, `content`, `icon`, `type` (info/warning/success/error), `closable` |
-| `math` | Math Rendering | `engine` (katex / mathjax) |
-| `fancybox` | Image Lightbox | `fancybox: true / false` |
 
 ---
 
