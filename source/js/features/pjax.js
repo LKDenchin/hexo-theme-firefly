@@ -9,13 +9,17 @@
       window.pjax = new Pjax({
         selectors: [
           'title',
+          '#banner-overlay-container',
+          '#navbar-menu',
           '#main-content',
-          '#navbar-menu'
+          '.sidebar-right'
         ],
         elements: 'a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript:"]):not([download])',
         switches: {
+          '#banner-overlay-container': Pjax.switches.outerHTML,
           '#main-content': Pjax.switches.outerHTML,
-          '#navbar-menu': Pjax.switches.outerHTML
+          '#navbar-menu': Pjax.switches.outerHTML,
+          '.sidebar-right': Pjax.switches.outerHTML
         },
         cacheBust: false,
         scrollTo: false
@@ -40,10 +44,34 @@
         mainContent.style.opacity = '1';
       }
 
+      // Update body class (is-home)
+      var isHomeNew = !!document.querySelector('#banner-overlay-container .home-text-overlay');
+      if (isHomeNew) {
+        document.body.classList.add('is-home');
+      } else {
+        document.body.classList.remove('is-home');
+      }
+
+      // Re-initialize Typewriter effect
+      if (typeof window.initTypewriter === 'function') {
+        window.initTypewriter();
+      }
+
       // Re-initialize UI & post components
-      if (window.TOC) window.TOC.init();
-      if (window.PostLayoutManager) window.PostLayoutManager.init();
-      if (window.ScrollManager) window.ScrollManager.init();
+      if (window.TOC && typeof window.TOC.init === 'function') {
+        window.TOC.init();
+      }
+      if (window.PostLayoutManager && typeof window.PostLayoutManager.init === 'function') {
+        window.PostLayoutManager.init();
+      }
+      if (window.ScrollManager && typeof window.ScrollManager.init === 'function') {
+        window.ScrollManager.init();
+      }
+
+      // Re-initialize calendar widget
+      if (typeof window.initCalendar === 'function') {
+        window.initCalendar();
+      }
 
       // Process code blocks
       if (typeof window.processCodeBlocks === 'function') {

@@ -86,5 +86,6 @@
   }
 
   window.TypewriterEffect = TypewriterEffect;
+  window.initTypewriter = init;
   document.addEventListener('DOMContentLoaded', init);
 })();
