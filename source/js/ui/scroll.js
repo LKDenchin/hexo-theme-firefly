@@ -41,27 +41,26 @@
     closeMobileMenu() {
       const toggleBtn = document.getElementById('mobile-menu-toggle');
       const menu = document.getElementById('navbar-menu');
-      if (!toggleBtn || !menu) return;
-      const links = menu.querySelector('.navbar-links');
+      if (toggleBtn) {
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        var icon = toggleBtn.querySelector('.material-symbols-outlined');
+        if (icon) icon.textContent = 'menu';
+      }
+      if (menu) {
+        const links = menu.querySelector('.navbar-links');
+        if (links) links.classList.remove('open');
+      }
       const backdrop = document.querySelector('.mobile-menu-backdrop');
-      if (links) links.classList.remove('open');
       if (backdrop) backdrop.classList.remove('open');
-      toggleBtn.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
-      var icon = toggleBtn.querySelector('.material-symbols-outlined');
-      if (icon) icon.textContent = 'menu';
     },
 
     // Mobile menu toggle with backdrop overlay
     initMobileMenu() {
       const toggleBtn = document.getElementById('mobile-menu-toggle');
-      const menu = document.getElementById('navbar-menu');
-      if (!toggleBtn || !menu) return;
+      if (!toggleBtn) return;
       
-      const links = menu.querySelector('.navbar-links');
-      if (!links) return;
-
-      // Create backdrop element for mobile menu overlay
+      // Create backdrop element for mobile menu overlay if missing
       let backdrop = document.querySelector('.mobile-menu-backdrop');
       if (!backdrop) {
         backdrop = document.createElement('div');
@@ -71,28 +70,19 @@
 
       const closeMenu = () => this.closeMobileMenu();
 
-      const openMenu = () => {
-        // Close other popups for mutual exclusion
-        const themePopover = document.getElementById('theme-popover');
-        if (themePopover) themePopover.classList.add('closed');
-        const displayPanel = document.getElementById('display-settings-panel');
-        if (displayPanel) displayPanel.classList.add('closed');
-
-        links.classList.add('open');
-        backdrop.classList.add('open');
-        toggleBtn.setAttribute('aria-expanded', 'true');
-        var icon = toggleBtn.querySelector('.material-symbols-outlined');
-        if (icon) icon.textContent = 'close';
-      };
-
       // Show toggle only when navbar links overflow or on mobile screens
       const checkOverflow = () => {
         const navbar = document.getElementById('navbar');
         const navbarInner = document.querySelector('#navbar .navbar-inner');
-        if (!navbarInner || !navbar) return;
+        const menu = document.getElementById('navbar-menu');
+        if (!navbarInner || !navbar || !menu) return;
+        const links = menu.querySelector('.navbar-links');
+        if (!links) return;
+
         const brand = navbarInner.querySelector('.navbar-brand');
         const actions = navbarInner.querySelector('.navbar-actions');
         const available = navbarInner.offsetWidth - (brand ? brand.offsetWidth : 0) - (actions ? actions.offsetWidth : 0) - 40;
+
         if (links.scrollWidth > available || window.innerWidth <= 768) {
           toggleBtn.classList.add('visible');
           navbar.classList.add('mobile-nav');
@@ -105,41 +95,71 @@
       
       checkOverflow();
       window.addEventListener('resize', checkOverflow);
+      document.addEventListener('pjax:complete', checkOverflow);
       
       toggleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
+        const menu = document.getElementById('navbar-menu');
+        if (!menu) return;
+        const links = menu.querySelector('.navbar-links');
+        if (!links) return;
+
+        let bg = document.querySelector('.mobile-menu-backdrop');
+        if (!bg) {
+          bg = document.createElement('div');
+          bg.className = 'mobile-menu-backdrop';
+          document.body.appendChild(bg);
+        }
+
         if (links.classList.contains('open')) {
           closeMenu();
         } else {
-          openMenu();
+          // Close other popups for mutual exclusion
+          const themePopover = document.getElementById('theme-popover');
+          if (themePopover) themePopover.classList.add('closed');
+          const displayPanel = document.getElementById('display-settings-panel');
+          if (displayPanel) displayPanel.classList.add('closed');
+
+          links.classList.add('open');
+          bg.classList.add('open');
+          toggleBtn.setAttribute('aria-expanded', 'true');
+          var icon = toggleBtn.querySelector('.material-symbols-outlined');
+          if (icon) icon.textContent = 'close';
         }
       });
 
-      // Close when clicking backdrop
-      backdrop.addEventListener('click', closeMenu);
-      
-      // Close menu when clicking normal links, toggle dropdown accordions on dropdown toggle links
-      menu.addEventListener('click', (e) => {
-        const dropdownToggle = e.target.closest('.dropdown-toggle');
-        if (dropdownToggle && window.innerWidth <= 768) {
-          e.preventDefault();
-          e.stopPropagation();
-          const parent = dropdownToggle.closest('.navbar-dropdown');
-          if (parent) {
-            parent.classList.toggle('open');
-          }
+      // Global delegate click listener for backdrop, links, and dropdown toggles
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('mobile-menu-backdrop')) {
+          closeMenu();
           return;
         }
 
-        const link = e.target.closest('a');
-        if (link && !link.classList.contains('dropdown-toggle')) {
-          closeMenu();
+        const menu = document.getElementById('navbar-menu');
+        if (!menu) return;
+
+        if (menu.contains(e.target)) {
+          const dropdownToggle = e.target.closest('.dropdown-toggle');
+          if (dropdownToggle && window.innerWidth <= 768) {
+            e.preventDefault();
+            e.stopPropagation();
+            const parent = dropdownToggle.closest('.navbar-dropdown');
+            if (parent) {
+              parent.classList.toggle('open');
+            }
+            return;
+          }
+
+          const link = e.target.closest('a');
+          if (link && !link.classList.contains('dropdown-toggle')) {
+            closeMenu();
+          }
         }
       });
 
       // Close on Escape key
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && links.classList.contains('open')) {
+        if (e.key === 'Escape') {
           closeMenu();
         }
       });

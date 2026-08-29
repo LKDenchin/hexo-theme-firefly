@@ -40,11 +40,14 @@ var maxCount = (top10Tags.length > 0 && top10Tags[0].posts) ? top10Tags[0].posts
   <main id="main-content" class="tags-container">
     <%- partial('_partials/post/content-nav') %>
 
-    <!-- Tag Cloud Card -->
-    <div class="tags-cloud-card card-base">
+    <!-- Header Card -->
+    <div class="tags-header-card card-base">
       <h1 class="tags-header-title">标签</h1>
       <p class="tags-header-subtitle">全部标签 · <%= site.tags.length %> 个标签</p>
+    </div>
 
+    <!-- Tag Cloud Pill Box Card -->
+    <div class="tags-cloud-card card-base">
       <div class="tags-cloud-list">
         <% if (allTags.length > 0) { %>
           <% allTags.forEach(function(tag, index) { %>
