@@ -30,63 +30,108 @@
   </div>
 </div>
 
-<% if (theme.music.mode === 'meting' && theme.music.meting) { %>
 <script>
 (function() {
-  function setupMarquee(container) {
-    var titles = container.querySelectorAll('.aplayer-title');
-    var authors = container.querySelectorAll('.aplayer-author');
-    function check(el) {
-      if (!el) return;
-      var overflow = el.scrollWidth > el.clientWidth;
-      if (overflow) {
-        el.style.setProperty('--marquee-offset', '-' + (el.scrollWidth - el.clientWidth) + 'px');
-        el.classList.add('marquee-animate');
+  function setupCustomControls(ap) {
+    if (!ap || ap.dataset.customControlsInited) return;
+    ap.dataset.customControlsInited = '1';
+
+    // Ensure cover image is circular
+    var pic = ap.querySelector('.aplayer-pic');
+    if (pic) pic.style.borderRadius = '50%';
+
+    // Build custom control bar matching mockup
+    var controls = document.createElement('div');
+    controls.className = 'custom-music-controls';
+    controls.innerHTML = `
+      <button class="music-ctrl-btn music-btn-mode" title="切换模式" type="button">
+        <span class="material-symbols-outlined">repeat</span>
+      </button>
+      <button class="music-ctrl-btn music-btn-prev" title="上一首" type="button">
+        <span class="material-symbols-outlined">skip_previous</span>
+      </button>
+      <button class="music-ctrl-btn music-btn-play" title="播放/暂停" type="button">
+        <span class="material-symbols-outlined play-icon">play_arrow</span>
+      </button>
+      <button class="music-ctrl-btn music-btn-next" title="下一首" type="button">
+        <span class="material-symbols-outlined">skip_next</span>
+      </button>
+      <button class="music-ctrl-btn music-btn-list" title="播放列表" type="button">
+        <span class="material-symbols-outlined">queue_music</span>
+      </button>
+    `;
+
+    var body = ap.querySelector('.aplayer-body');
+    if (body) body.appendChild(controls);
+
+    var getAP = function() {
+      return ap.aplayer || (window.aplayers && window.aplayers[0]);
+    };
+
+    controls.querySelector('.music-btn-prev').addEventListener('click', function(e) {
+      e.stopPropagation();
+      var inst = getAP();
+      if (inst) inst.skipBack();
+    });
+
+    controls.querySelector('.music-btn-next').addEventListener('click', function(e) {
+      e.stopPropagation();
+      var inst = getAP();
+      if (inst) inst.skipForward();
+    });
+
+    var playBtn = controls.querySelector('.music-btn-play');
+    playBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var inst = getAP();
+      if (inst) {
+        inst.toggle();
       } else {
-        el.classList.remove('marquee-animate');
+        var origPlay = ap.querySelector('.aplayer-button');
+        if (origPlay) origPlay.click();
+      }
+    });
+
+    controls.querySelector('.music-btn-list').addEventListener('click', function(e) {
+      e.stopPropagation();
+      var list = ap.querySelector('.aplayer-list');
+      if (list) list.classList.toggle('aplayer-list-hide');
+    });
+
+    controls.querySelector('.music-btn-mode').addEventListener('click', function(e) {
+      e.stopPropagation();
+      var origBtn = ap.querySelector('.aplayer-icon-mode');
+      if (origBtn) origBtn.click();
+    });
+
+    function updateState() {
+      var icon = playBtn.querySelector('.play-icon');
+      var audio = ap.querySelector('audio');
+      if (icon && audio) {
+        icon.textContent = audio.paused ? 'play_arrow' : 'pause';
       }
     }
-    titles.forEach(check);
-    authors.forEach(check);
+
+    var audio = ap.querySelector('audio');
+    if (audio) {
+      audio.addEventListener('play', updateState);
+      audio.addEventListener('pause', updateState);
+      updateState();
+    }
   }
 
-  function initMarquee(widgetBody) {
-    // Observe for APlayer creation
-    var observer = new MutationObserver(function(muts) {
-      muts.forEach(function(mut) {
-        mut.addedNodes.forEach(function(node) {
-          if (node.nodeType === 1) {
-            if (node.classList && node.classList.contains('aplayer')) {
-              setupMarquee(node);
-              // Also observe music section for text changes (song switch)
-              var music = node.querySelector('.aplayer-music');
-              if (music) {
-                var textObserver = new MutationObserver(function() { setupMarquee(node); });
-                textObserver.observe(music, { childList: true, subtree: true, characterData: true });
-              }
-            } else if (node.querySelectorAll) {
-              node.querySelectorAll('.aplayer').forEach(function(ap) { setupMarquee(ap); });
-            }
-          }
-        });
-      });
+  function initWidget(widgetBody) {
+    var observer = new MutationObserver(function() {
+      var ap = widgetBody.querySelector('.aplayer');
+      if (ap) setupCustomControls(ap);
     });
     observer.observe(widgetBody, { childList: true, subtree: true });
 
-    // Also handle click on list items (song switching)
-    widgetBody.addEventListener('click', function(e) {
-      var li = e.target.closest('.aplayer-list li');
-      if (li) {
-        setTimeout(function() {
-          var ap = widgetBody.querySelector('.aplayer');
-          if (ap) setupMarquee(ap);
-        }, 100);
-      }
-    });
+    var existing = widgetBody.querySelector('.aplayer');
+    if (existing) setupCustomControls(existing);
   }
 
-  document.querySelectorAll('.music-widget .widget-body').forEach(initMarquee);
+  document.querySelectorAll('.music-widget .widget-body').forEach(initWidget);
 })();
 </script>
-<% } %>
 <% } %>
