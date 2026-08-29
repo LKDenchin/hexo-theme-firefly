@@ -4,6 +4,14 @@ var showLicense = footerConfig.license !== false;
 var showPoweredBy = footerConfig.powered_by !== false;
 var showVisitorCounter = footerConfig.visitor_counter !== false;
 var customFooterHTML = footerConfig.custom || '';
+
+var beianConfig = footerConfig.beian || theme.beian || {};
+var showBeian = !!(beianConfig && (beianConfig.enable === true || beianConfig.enable === 'true'));
+var icpText = beianConfig.icp || '';
+var icpUrl = beianConfig.icp_url || 'https://beian.miit.gov.cn/';
+var gonganText = beianConfig.gongan || '';
+var gonganIcon = beianConfig.gongan_icon || '';
+var gonganUrl = beianConfig.gongan_url || '';
 %>
 
 <footer id="site-footer" class="site-footer" role="contentinfo">
@@ -59,6 +67,35 @@ var customFooterHTML = footerConfig.custom || '';
         <span class="material-symbols-outlined md-18">visibility</span>
         <span id="busuanzi_value_site_pv">-</span> <%= __('views') || 'views' %>
       </span>
+    </div>
+    <% } %>
+
+    <% if (showBeian && (icpText || gonganText)) { %>
+    <div class="footer-beian">
+      <% if (icpText) { %>
+      <span class="beian-item">
+        <a href="<%= icpUrl %>" target="_blank" rel="noopener noreferrer"><%= icpText %></a>
+      </span>
+      <% } %>
+      <% if (icpText && gonganText) { %>
+      <span class="footer-separator">|</span>
+      <% } %>
+      <% if (gonganText) { %>
+      <span class="beian-item">
+        <% if (gonganUrl) { %>
+        <a href="<%= gonganUrl %>" target="_blank" rel="noopener noreferrer">
+        <% } %>
+          <% if (gonganIcon) { %>
+          <img src="<%= url_for(gonganIcon) %>" class="beian-icon" alt="gongan" />
+          <% } else { %>
+          <span class="material-symbols-outlined md-18">verified_user</span>
+          <% } %>
+          <span><%= gonganText %></span>
+        <% if (gonganUrl) { %>
+        </a>
+        <% } %>
+      </span>
+      <% } %>
     </div>
     <% } %>
 

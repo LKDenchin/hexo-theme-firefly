@@ -116,6 +116,9 @@ license: License
 powered_by: Powered by
 rss: RSS Feed
 sitemap: Sitemap
+beian: ICP Filing
+icp_beian: ICP License
+gongan_beian: Security Record
 
 # 404
 page_not_found: Page Not Found

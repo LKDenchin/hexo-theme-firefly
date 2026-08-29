@@ -274,6 +274,63 @@
   grid-column: 1 / -1; /* Spans all columns in CSS Grid */
 }
 
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: var(--page-width);
+  margin: 0 auto;
+}
+
+.footer-license,
+.footer-copyright,
+.footer-custom,
+.footer-powered-by,
+.footer-visitor-counter,
+.footer-beian {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  line-height: 1.5;
+}
+
+.footer-license-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.footer-separator {
+  color: var(--line-divider);
+  margin: 0 0.25rem;
+}
+
+.site-footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast, 0.2s ease);
+}
+
+.site-footer a:hover {
+  color: var(--primary);
+}
+
+.beian-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.beian-icon {
+  width: 1rem;
+  height: 1rem;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
 /* ==========================================================================
    Main Content Wrapper Responsive / CSS-First Positioning (Avoid FOUC)
    ========================================================================== */
