@@ -1,23 +1,54 @@
 <% if (theme.comments.type === 'giscus' && theme.comments.giscus && theme.comments.giscus.repo) { %>
 <div class="comments-container">
   <div class="comments-title"><%= __('comments') %></div>
-  <div class="giscus-wrapper">
-    <script src="https://giscus.app/client.js"
-      data-repo="<%= theme.comments.giscus.repo %>"
-      data-repo-id="<%= theme.comments.giscus.repo_id %>"
-      data-category="<%= theme.comments.giscus.category %>"
-      data-category-id="<%= theme.comments.giscus.category_id %>"
-      data-mapping="<%= theme.comments.giscus.mapping || 'title' %>"
-      data-strict="<%= theme.comments.giscus.strict || '0' %>"
-      data-reactions-enabled="<%= theme.comments.giscus.reactions_enabled || '1' %>"
-      data-emit-metadata="<%= theme.comments.giscus.emit_metadata || '0' %>"
-      data-input-position="<%= theme.comments.giscus.input_position || 'top' %>"
-      data-theme="preferred_color_scheme"
-      data-lang="<%= theme.comments.giscus.lang || config.language %>"
-      data-loading="<%= theme.comments.giscus.loading || 'lazy' %>"
-      crossorigin="anonymous"
-      async>
-    </script>
-  </div>
+  <div class="giscus-wrapper" id="giscus-container"></div>
 </div>
+
+<script>
+(function() {
+  function loadGiscus() {
+    var container = document.getElementById('giscus-container');
+    if (!container) return;
+
+    // Clear previous iframe/script to prevent duplicates after PJAX page swaps
+    container.innerHTML = '';
+
+    // Auto-detect dark mode
+    var isDark = document.documentElement.classList.contains('dark') ||
+                 document.documentElement.getAttribute('data-theme') === 'dark';
+    var giscusTheme = isDark ? 'dark' : 'light';
+
+    var script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', '<%= theme.comments.giscus.repo %>');
+    script.setAttribute('data-repo-id', '<%= theme.comments.giscus.repo_id || "" %>');
+    script.setAttribute('data-category', '<%= theme.comments.giscus.category || "" %>');
+    script.setAttribute('data-category-id', '<%= theme.comments.giscus.category_id || "" %>');
+    script.setAttribute('data-mapping', '<%= theme.comments.giscus.mapping || "pathname" %>');
+    script.setAttribute('data-strict', '<%= theme.comments.giscus.strict || "0" %>');
+    script.setAttribute('data-reactions-enabled', '<%= theme.comments.giscus.reactions_enabled || "1" %>');
+    script.setAttribute('data-emit-metadata', '<%= theme.comments.giscus.emit_metadata || "0" %>');
+    script.setAttribute('data-input-position', '<%= theme.comments.giscus.input_position || "top" %>');
+    script.setAttribute('data-theme', giscusTheme);
+    script.setAttribute('data-lang', '<%= theme.comments.giscus.lang || config.language || "zh-CN" %>');
+    script.setAttribute('data-loading', '<%= theme.comments.giscus.loading || "lazy" %>');
+    script.crossOrigin = 'anonymous';
+    script.async = true;
+
+    container.appendChild(script);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadGiscus);
+  } else {
+    loadGiscus();
+  }
+  document.addEventListener('pjax:complete', loadGiscus);
+
+  // Send postMessage to Giscus iframe when theme mode changes
+  window.addEventListener('message', function(e) {
+    if (e.origin !== 'https://giscus.app') return;
+  });
+})();
+</script>
 <% } %>
