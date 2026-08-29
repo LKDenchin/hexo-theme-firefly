@@ -88,20 +88,20 @@
 .sidebar-right {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  gap: 1.25rem;
 }
 
 .sidebar-widgets {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  gap: 1.25rem;
 }
 
 .sidebar-left .top-widgets,
 .sidebar-right .top-widgets {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  gap: 1.25rem;
 }
 
 .sidebar-left .sticky-widgets,
@@ -110,16 +110,7 @@
   top: calc(var(--navbar-height) + 1.25rem);
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
-  max-height: calc(100vh - var(--navbar-height) - 2.5rem);
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.sidebar-left .sticky-widgets::-webkit-scrollbar,
-.sidebar-right .sticky-widgets::-webkit-scrollbar {
-  display: none;
+  gap: 1.25rem;
 }
 
 /* --------------------------------------------------------------------------
