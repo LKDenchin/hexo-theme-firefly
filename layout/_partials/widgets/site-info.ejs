@@ -124,27 +124,26 @@ var fireflyVersion = theme.version || 'v6.12.2';
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.site-info-toggle').forEach(function(toggle) {
-    if (toggle.dataset.siteInfoInited) return;
-    toggle.dataset.siteInfoInited = '1';
+if (!window._siteInfoToggleBound) {
+  window._siteInfoToggleBound = true;
+  document.addEventListener('click', function(e) {
+    var toggle = e.target.closest('.site-info-toggle');
+    if (!toggle) return;
 
     var details = toggle.nextElementSibling;
     if (!details || !details.classList.contains('site-info-details')) return;
 
-    toggle.addEventListener('click', function() {
-      details.classList.toggle('expanded');
-      var icon = toggle.querySelector('.material-symbols-outlined');
-      var text = toggle.querySelector('.toggle-text');
+    details.classList.toggle('expanded');
+    var icon = toggle.querySelector('.material-symbols-outlined');
+    var text = toggle.querySelector('.toggle-text');
 
-      if (details.classList.contains('expanded')) {
-        if (icon) icon.textContent = 'expand_less';
-        if (text) text.textContent = '<%= __("collapse_site_info") || "收起站点信息" %>';
-      } else {
-        if (icon) icon.textContent = 'expand_more';
-        if (text) text.textContent = '<%= __("expand_site_info") || "展开站点信息" %>';
-      }
-    });
+    if (details.classList.contains('expanded')) {
+      if (icon) icon.textContent = 'expand_less';
+      if (text) text.textContent = '<%= __("collapse_site_info") || "收起站点信息" %>';
+    } else {
+      if (icon) icon.textContent = 'expand_more';
+      if (text) text.textContent = '<%= __("expand_site_info") || "展开站点信息" %>';
+    }
   });
-});
+}
 </script>

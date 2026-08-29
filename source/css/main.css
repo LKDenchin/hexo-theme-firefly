@@ -1172,9 +1172,9 @@ html.dark .top-gradient-highlight {
    -------------------------------------------------------------------------- */
 
 .tags-container {
-  padding: 2rem 0;
-  max-width: 820px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .tags-header {
@@ -1246,7 +1246,9 @@ html.dark .top-gradient-highlight {
 /* Single tag page */
 .tag-container,
 .category-container {
-  padding: 2rem 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .tag-header,
@@ -1318,9 +1320,9 @@ html.dark .top-gradient-highlight {
    -------------------------------------------------------------------------- */
 
 .categories-container {
-  padding: 2rem 0;
-  max-width: 900px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .categories-header {
