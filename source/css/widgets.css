@@ -588,8 +588,9 @@
   max-height: 15rem !important;
   padding-bottom: 0.5rem !important;
   overflow-y: auto !important;
+  display: none !important;
 }
-.music-widget .aplayer .aplayer-list:not(.aplayer-list-hide) {
+.music-widget .aplayer .aplayer-list.aplayer-list-show {
   display: block !important;
 }
 .music-widget .aplayer .aplayer-list.aplayer-list-hide {

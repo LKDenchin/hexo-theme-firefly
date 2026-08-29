@@ -131,46 +131,58 @@
     controls.querySelector('.music-btn-list').onclick = function(e) {
       e.preventDefault();
       e.stopPropagation();
-      var apInst = getAPInstance();
-      if (apInst && apInst.list) {
-        apInst.list.toggle();
-      } else {
-        var list = ap.querySelector('.aplayer-list');
-        if (list) list.classList.toggle('aplayer-list-hide');
+      var list = ap.querySelector('.aplayer-list');
+      if (list) {
+        list.classList.toggle('aplayer-list-show');
       }
     };
 
     var modeBtn = controls.querySelector('.music-btn-mode');
+    var currentModeIndex = 0; // 0: list loop, 1: single loop, 2: shuffle
+
     modeBtn.onclick = function(e) {
       e.preventDefault();
       e.stopPropagation();
       var apInst = getAPInstance();
-      var modes = ['all', 'one', 'none'];
-      var curr = (apInst && apInst.options) ? apInst.options.loop : 'all';
-      var nextMode = modes[(modes.indexOf(curr) + 1) % modes.length];
+      currentModeIndex = (currentModeIndex + 1) % 3;
 
-      if (apInst) {
-        apInst.options.loop = nextMode;
-        if (apInst.audio) apInst.audio.loop = (nextMode === 'one');
-        if (apInst.notice) apInst.notice('播放模式: ' + (nextMode === 'all' ? '列表循环' : (nextMode === 'one' ? '单曲循环' : '随机播放')));
+      var modeIcon = this.querySelector('.material-symbols-outlined');
+      var audio = ap.querySelector('audio');
+
+      if (currentModeIndex === 1) {
+        // Mode 1: Single Loop (单曲循环)
+        if (apInst) {
+          apInst.options.loop = 'one';
+          apInst.options.order = 'list';
+          if (apInst.notice) apInst.notice('播放模式: 单曲循环');
+        }
+        if (audio) audio.loop = true;
+        if (modeIcon) modeIcon.textContent = 'repeat_one';
+        this.title = '单曲循环';
+      } else if (currentModeIndex === 2) {
+        // Mode 2: Shuffle (随机播放)
+        if (apInst) {
+          apInst.options.loop = 'all';
+          apInst.options.order = 'random';
+          if (apInst.notice) apInst.notice('播放模式: 随机播放');
+        }
+        if (audio) audio.loop = false;
+        if (modeIcon) modeIcon.textContent = 'shuffle';
+        this.title = '随机播放';
+      } else {
+        // Mode 0: List Loop (列表循环)
+        if (apInst) {
+          apInst.options.loop = 'all';
+          apInst.options.order = 'list';
+          if (apInst.notice) apInst.notice('播放模式: 列表循环');
+        }
+        if (audio) audio.loop = false;
+        if (modeIcon) modeIcon.textContent = 'repeat';
+        this.title = '列表循环';
       }
 
       var origMode = ap.querySelector('.aplayer-icon-mode');
       if (origMode) origMode.click();
-
-      var modeIcon = this.querySelector('.material-symbols-outlined');
-      if (modeIcon) {
-        if (nextMode === 'one') {
-          modeIcon.textContent = 'repeat_one';
-          this.title = '单曲循环';
-        } else if (nextMode === 'none') {
-          modeIcon.textContent = 'shuffle';
-          this.title = '随机播放';
-        } else {
-          modeIcon.textContent = 'repeat';
-          this.title = '列表循环';
-        }
-      }
     };
 
     var audio = ap.querySelector('audio');
