@@ -82,15 +82,8 @@
     var playIcon = playBtn.querySelector('.play-icon');
 
     function syncPlayState() {
-      var apInst = getAPInstance();
-      var isPaused = true;
-      if (apInst && apInst.audio) {
-        isPaused = apInst.audio.paused;
-      } else {
-        var audio = ap.querySelector('audio');
-        if (audio) isPaused = audio.paused;
-      }
-      playIcon.textContent = isPaused ? 'play_arrow' : 'pause';
+      // Keep play_arrow triangle icon matching mockup 2
+      playIcon.textContent = 'play_arrow';
     }
 
     playBtn.onclick = function(e) {
@@ -108,7 +101,7 @@
           if (origBtn) origBtn.click();
         }
       }
-      setTimeout(syncPlayState, 50);
+      syncPlayState();
     };
 
     controls.querySelector('.music-btn-prev').onclick = function(e) {
@@ -147,11 +140,37 @@
       }
     };
 
-    controls.querySelector('.music-btn-mode').onclick = function(e) {
+    var modeBtn = controls.querySelector('.music-btn-mode');
+    modeBtn.onclick = function(e) {
       e.preventDefault();
       e.stopPropagation();
+      var apInst = getAPInstance();
+      var modes = ['all', 'one', 'none'];
+      var curr = (apInst && apInst.options) ? apInst.options.loop : 'all';
+      var nextMode = modes[(modes.indexOf(curr) + 1) % modes.length];
+
+      if (apInst) {
+        apInst.options.loop = nextMode;
+        if (apInst.audio) apInst.audio.loop = (nextMode === 'one');
+        if (apInst.notice) apInst.notice('播放模式: ' + (nextMode === 'all' ? '列表循环' : (nextMode === 'one' ? '单曲循环' : '随机播放')));
+      }
+
       var origMode = ap.querySelector('.aplayer-icon-mode');
       if (origMode) origMode.click();
+
+      var modeIcon = this.querySelector('.material-symbols-outlined');
+      if (modeIcon) {
+        if (nextMode === 'one') {
+          modeIcon.textContent = 'repeat_one';
+          this.title = '单曲循环';
+        } else if (nextMode === 'none') {
+          modeIcon.textContent = 'shuffle';
+          this.title = '随机播放';
+        } else {
+          modeIcon.textContent = 'repeat';
+          this.title = '列表循环';
+        }
+      }
     };
 
     var audio = ap.querySelector('audio');
