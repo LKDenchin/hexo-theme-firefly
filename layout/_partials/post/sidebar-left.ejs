@@ -10,11 +10,27 @@
 
 <!-- Left sidebar widgets -->
 <div class="sidebar-widgets sidebar-left-widgets">
-  <% if (theme.widgets) { %>
-    <% theme.widgets.forEach(function(widget) { %>
-      <% if (widget.enable !== false && widget.position !== 'right') { %>
-        <%- partial('_partials/widgets/' + widget.type) %>
-      <% } %>
-    <% }); %>
-  <% } %>
+  <div class="top-widgets">
+    <% if (theme.widgets) { %>
+      <% theme.widgets.forEach(function(widget) { %>
+        <% if (widget.enable !== false && widget.position !== 'right') { %>
+          <% if (widget.type === 'profile' || widget.type === 'announcement') { %>
+            <%- partial('_partials/widgets/' + widget.type) %>
+          <% } %>
+        <% } %>
+      <% }); %>
+    <% } %>
+  </div>
+
+  <div class="sticky-widgets">
+    <% if (theme.widgets) { %>
+      <% theme.widgets.forEach(function(widget) { %>
+        <% if (widget.enable !== false && widget.position !== 'right') { %>
+          <% if (widget.type !== 'profile' && widget.type !== 'announcement') { %>
+            <%- partial('_partials/widgets/' + widget.type) %>
+          <% } %>
+        <% } %>
+      <% }); %>
+    <% } %>
+  </div>
 </div>

@@ -135,7 +135,9 @@ if (actualLeft && actualRight) {
       <%- partial('_partials/post/sidebar-right') %>
     <% } %>
     <% if (tocInRight) { %>
-      <%- partial('_partials/post/toc') %>
+      <div class="sticky-widgets">
+        <%- partial('_partials/post/toc') %>
+      </div>
     <% } %>
     <% if (showCatBarInRight) { %>
       <%- partial('_partials/post/category-bar') %>

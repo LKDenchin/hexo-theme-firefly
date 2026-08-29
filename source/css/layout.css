@@ -89,31 +89,37 @@
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
+}
+
+.sidebar-widgets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.sidebar-left .top-widgets,
+.sidebar-right .top-widgets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.sidebar-left .sticky-widgets,
+.sidebar-right .sticky-widgets {
   position: sticky;
   top: calc(var(--navbar-height) + 1.25rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
   max-height: calc(100vh - var(--navbar-height) - 2.5rem);
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
-.sidebar-left::-webkit-scrollbar,
-.sidebar-right::-webkit-scrollbar {
+.sidebar-left .sticky-widgets::-webkit-scrollbar,
+.sidebar-right .sticky-widgets::-webkit-scrollbar {
   display: none;
-}
-
-.sidebar-left .top-widgets,
-.sidebar-right .top-widgets {
-  /* No sticky; scrolls with the page */
-}
-
-.sidebar-left .sticky-widgets,
-.sidebar-right .sticky-widgets {
-  position: sticky;
-  top: calc(var(--navbar-height) + 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: 0.875rem;
 }
 
 /* --------------------------------------------------------------------------
