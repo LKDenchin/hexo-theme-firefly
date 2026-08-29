@@ -1,38 +1,80 @@
 <%
 /**
- * Archive page - lists all posts grouped by year.
- *
- * Variables:
- *   page       - paginated page containing posts
- *   site       - Hexo site object
- *   config     - Hexo site configuration
- *   theme      - theme _config.yml values
+ * Archive page - lists all posts grouped by year matching design mockup.
  */
+var sidebar = theme.sidebar || {};
+var sidebarPosition = sidebar.position || 'both';
+var showLeftSidebar = sidebarPosition === 'both' || sidebarPosition === 'left';
+var showRightSidebar = sidebarPosition === 'both' || sidebarPosition === 'right';
+var gridClass = 'has-no-sidebar';
+if (showLeftSidebar && showRightSidebar) {
+  gridClass = 'has-both-sidebars';
+} else if (showLeftSidebar) {
+  gridClass = 'has-left-sidebar';
+} else if (showRightSidebar) {
+  gridClass = 'has-right-sidebar';
+}
+
+var postsByYear = {};
+if (site.posts && site.posts.length > 0) {
+  site.posts.sort('date', -1).forEach(function(post) {
+    var year = date(post.date, 'YYYY');
+    if (!postsByYear[year]) postsByYear[year] = [];
+    postsByYear[year].push(post);
+  });
+}
+var years = Object.keys(postsByYear).sort(function(a, b) { return b - a; });
 %>
 
-<div id="main-grid" class="main-grid-layout has-no-sidebar">
-  <main id="main-content" class="archive-container full-width">
+<div id="main-grid" class="main-grid-layout <%= gridClass %>">
+  <!-- ===== Left Sidebar ===== -->
+  <% if (showLeftSidebar) { %>
+  <aside class="sidebar-left" aria-label="<%= __('sidebar.left') %>">
+    <%- partial('_partials/post/sidebar-left') %>
+  </aside>
+  <% } %>
+
+  <!-- ===== Main Content ===== -->
+  <main id="main-content" class="archive-container">
     <%- partial('_partials/post/content-nav') %>
 
-
-    <div class="archive-list">
-      <% var cursorYear = 0; %>
-      <% if (page.posts && page.posts.length > 0) { %>
-        <% page.posts.each(function(post) { %>
-          <% var postYear = date(post.date, 'YYYY'); %>
-          <% if (postYear !== cursorYear) { cursorYear = postYear; %>
-          <h2 class="archive-year" id="year-<%= cursorYear %>">
-            <%= cursorYear %>
-          </h2>
-          <% } %>
-          <div class="archive-item">
-            <time datetime="<%= date(post.date, 'YYYY-MM-DD') %>" pubdate class="archive-item-date">
-              <%- date(post.date, 'MM-DD') %>
-            </time>
-            <a href="<%= url_for(post.path) %>" class="archive-item-title">
-              <%= post.title %>
-            </a>
+    <div class="archive-card card-base">
+      <% if (years && years.length > 0) { %>
+        <% years.forEach(function(year) { %>
+        <div class="archive-year-section">
+          <div class="archive-year-header">
+            <span class="archive-year-title"><%= year %></span>
+            <span class="archive-year-dot"></span>
+            <span class="archive-year-count">
+              <%= postsByYear[year].length %> 篇文章
+              <span class="material-symbols-outlined" style="font-size: 1rem;">expand_more</span>
+            </span>
           </div>
+
+          <div class="archive-timeline-list">
+            <% postsByYear[year].forEach(function(post) { %>
+            <div class="archive-timeline-item">
+              <time class="archive-item-date"><%= date(post.date, 'MM-DD') %></time>
+              <span class="archive-bullet"></span>
+              <% if (post.categories && post.categories.length > 0) { %>
+              <a href="<%= url_for(post.categories.data[0].path) %>" class="archive-item-cat">
+                <%= post.categories.data[0].name %>
+              </a>
+              <% } %>
+              <a href="<%= url_for(post.path) %>" class="archive-item-title">
+                <%= post.title %>
+              </a>
+              <% if (post.tags && post.tags.length > 0) { %>
+              <div class="archive-item-tags">
+                <% post.tags.data.slice(0, 2).forEach(function(tag) { %>
+                <a href="<%= url_for(tag.path) %>" class="archive-tag-link">#<%= tag.name %></a>
+                <% }); %>
+              </div>
+              <% } %>
+            </div>
+            <% }); %>
+          </div>
+        </div>
         <% }); %>
       <% } else { %>
       <div class="archive-empty">
@@ -43,6 +85,16 @@
 
     <%- partial('_partials/paginator') %>
   </main>
+
+  <!-- ===== Right Sidebar ===== -->
+  <% if (showRightSidebar) { %>
+  <aside class="sidebar-right" aria-label="<%= __('sidebar.right') %>">
+    <%- partial('_partials/post/sidebar-right') %>
+  </aside>
+  <% } %>
+
+  <!-- ===== Mobile Bottom Sidebar ===== -->
+  <%- partial('_partials/post/mobile-sidebar') %>
 
   <%- partial('_partials/footer') %>
 </div>

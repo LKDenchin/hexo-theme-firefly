@@ -1,38 +1,96 @@
 <%
 /**
- * Tags cloud page.
- * Displays all tags in a proportional cloud layout with post counts.
+ * Tags cloud & rank chart page matching design mockup.
  */
-var allTags = site.tags.sort('name').filter(function(tag) {
-  return tag.length > 0;
-});
-var maxCount = 0;
-allTags.forEach(function(tag) { if (tag.length > maxCount) maxCount = tag.length; });
+var sidebar = theme.sidebar || {};
+var sidebarPosition = sidebar.position || 'both';
+var showLeftSidebar = sidebarPosition === 'both' || sidebarPosition === 'left';
+var showRightSidebar = sidebarPosition === 'both' || sidebarPosition === 'right';
+var gridClass = 'has-no-sidebar';
+if (showLeftSidebar && showRightSidebar) {
+  gridClass = 'has-both-sidebars';
+} else if (showLeftSidebar) {
+  gridClass = 'has-left-sidebar';
+} else if (showRightSidebar) {
+  gridClass = 'has-right-sidebar';
+}
+
+var allTags = [];
+if (site.tags && site.tags.length > 0) {
+  allTags = site.tags.toArray().filter(function(tag) {
+    return tag.posts && tag.posts.length > 0;
+  });
+  allTags.sort(function(a, b) {
+    return b.posts.length - a.posts.length;
+  });
+}
+var top10Tags = allTags.slice(0, 10);
+var maxCount = (top10Tags.length > 0 && top10Tags[0].posts) ? top10Tags[0].posts.length : 1;
 %>
 
-<div id="main-grid" class="main-grid-layout has-no-sidebar">
-  <main id="main-content" class="tags-container full-width">
+<div id="main-grid" class="main-grid-layout <%= gridClass %>">
+  <!-- ===== Left Sidebar ===== -->
+  <% if (showLeftSidebar) { %>
+  <aside class="sidebar-left" aria-label="<%= __('sidebar.left') %>">
+    <%- partial('_partials/post/sidebar-left') %>
+  </aside>
+  <% } %>
+
+  <!-- ===== Main Content ===== -->
+  <main id="main-content" class="tags-container">
     <%- partial('_partials/post/content-nav') %>
 
+    <!-- Tag Cloud Card -->
+    <div class="tags-cloud-card card-base">
+      <h1 class="tags-header-title">标签</h1>
+      <p class="tags-header-subtitle">全部标签 · <%= site.tags.length %> 个标签</p>
 
-    <div class="tag-cloud">
-      <% if (allTags.length > 0) { %>
-        <% allTags.forEach(function(tag) {
-          var size = 0.85 + (tag.length / Math.max(maxCount, 1)) * 1.15;
-        %>
-        <a href="<%= url_for(tag.path) %>" class="tag-cloud-item"
-           style="font-size: <%= size.toFixed(2) %>rem;">
-          <span class="tag-cloud-name"><%= tag.name %></span>
-          <span class="tag-cloud-count"><%= tag.length %></span>
-        </a>
-        <% }); %>
-      <% } else { %>
-      <div class="tag-cloud-empty">
-        <p><%= __('tag.empty') %></p>
+      <div class="tags-cloud-list">
+        <% if (allTags.length > 0) { %>
+          <% allTags.forEach(function(tag, index) { %>
+          <a href="<%= url_for(tag.path) %>" class="tag-cloud-pill<%= index === 0 ? ' active' : '' %>">
+            <span class="tag-pill-name"><%= tag.name %></span>
+            <span class="tag-pill-badge"><%= tag.posts.length %></span>
+          </a>
+          <% }); %>
+        <% } else { %>
+        <p class="tags-empty"><%= __('tag.empty') %></p>
+        <% } %>
       </div>
-      <% } %>
     </div>
+
+    <!-- Top 10 Tags Rank Card -->
+    <% if (top10Tags.length > 0) { %>
+    <div class="tags-rank-card card-base">
+      <h2 class="tags-rank-title">Top 10</h2>
+      <div class="tags-rank-list">
+        <% top10Tags.forEach(function(tag, index) {
+          var count = tag.posts ? tag.posts.length : 1;
+          var percent = Math.min(100, Math.max(12, (count / maxCount) * 100));
+        %>
+        <div class="tag-rank-item">
+          <span class="rank-num"><%= index + 1 %></span>
+          <a href="<%= url_for(tag.path) %>" class="rank-name">#<%= tag.name %></a>
+          <div class="rank-track">
+            <div class="rank-bar" style="width: <%= percent.toFixed(1) %>%;"></div>
+          </div>
+          <span class="rank-count"><%= count %> 篇文章</span>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+    <% } %>
   </main>
+
+  <!-- ===== Right Sidebar ===== -->
+  <% if (showRightSidebar) { %>
+  <aside class="sidebar-right" aria-label="<%= __('sidebar.right') %>">
+    <%- partial('_partials/post/sidebar-right') %>
+  </aside>
+  <% } %>
+
+  <!-- ===== Mobile Bottom Sidebar ===== -->
+  <%- partial('_partials/post/mobile-sidebar') %>
 
   <%- partial('_partials/footer') %>
 </div>

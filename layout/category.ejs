@@ -1,22 +1,36 @@
 <%
 /**
- * Single category page.
- * Shows category name, post count, and lists posts using post-card partial.
- *
- * Variables:
- *   page       - current category page (page.category has the category name)
- *   site       - Hexo site object
- *   config     - Hexo site configuration
- *   theme      - theme _config.yml values
+ * Single category page with 3-column layout matching design.
  */
+var sidebar = theme.sidebar || {};
+var sidebarPosition = sidebar.position || 'both';
+var showLeftSidebar = sidebarPosition === 'both' || sidebarPosition === 'left';
+var showRightSidebar = sidebarPosition === 'both' || sidebarPosition === 'right';
+var gridClass = 'has-no-sidebar';
+if (showLeftSidebar && showRightSidebar) {
+  gridClass = 'has-both-sidebars';
+} else if (showLeftSidebar) {
+  gridClass = 'has-left-sidebar';
+} else if (showRightSidebar) {
+  gridClass = 'has-right-sidebar';
+}
+
 var catName = page.category;
 var cat = site.categories.findOne({ name: catName });
 var totalPosts = cat ? cat.posts.length : 0;
 var postListDefault = theme.post_list_layout && theme.post_list_layout.default_mode || 'list';
 %>
 
-<div id="main-grid" class="main-grid-layout has-no-sidebar">
-  <main id="main-content" class="post-list-container category-container full-width" data-layout="<%= postListDefault %>">
+<div id="main-grid" class="main-grid-layout <%= gridClass %>">
+  <!-- ===== Left Sidebar ===== -->
+  <% if (showLeftSidebar) { %>
+  <aside class="sidebar-left" aria-label="<%= __('sidebar.left') %>">
+    <%- partial('_partials/post/sidebar-left') %>
+  </aside>
+  <% } %>
+
+  <!-- ===== Main Content ===== -->
+  <main id="main-content" class="post-list-container category-container" data-layout="<%= postListDefault %>">
     <%- partial('_partials/post/content-nav') %>
 
     <div class="post-list" data-mode="<%= postListDefault %>">
@@ -33,6 +47,16 @@ var postListDefault = theme.post_list_layout && theme.post_list_layout.default_m
 
     <%- partial('_partials/paginator') %>
   </main>
+
+  <!-- ===== Right Sidebar ===== -->
+  <% if (showRightSidebar) { %>
+  <aside class="sidebar-right" aria-label="<%= __('sidebar.right') %>">
+    <%- partial('_partials/post/sidebar-right') %>
+  </aside>
+  <% } %>
+
+  <!-- ===== Mobile Bottom Sidebar ===== -->
+  <%- partial('_partials/post/mobile-sidebar') %>
 
   <%- partial('_partials/footer') %>
 </div>

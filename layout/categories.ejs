@@ -1,63 +1,75 @@
 <%
 /**
- * Categories list page.
- * Displays all categories in a grid of cards, each showing:
- * - Category name
- * - Post count
- * - Link to category page
- *
- * Variables:
- *   site       - Hexo site object with site.categories
- *   config     - Hexo site configuration
- *   theme      - theme _config.yml values
+ * Categories list page matching design mockup.
  */
-var catConfig = theme.category || {};
-var orderBy = catConfig.order_by || 'name';
-var allCategories = site.categories.find({ parent: { $exists: false } }).sort(orderBy).filter(function(cat) {
+var sidebar = theme.sidebar || {};
+var sidebarPosition = sidebar.position || 'both';
+var showLeftSidebar = sidebarPosition === 'both' || sidebarPosition === 'left';
+var showRightSidebar = sidebarPosition === 'both' || sidebarPosition === 'right';
+var gridClass = 'has-no-sidebar';
+if (showLeftSidebar && showRightSidebar) {
+  gridClass = 'has-both-sidebars';
+} else if (showLeftSidebar) {
+  gridClass = 'has-left-sidebar';
+} else if (showRightSidebar) {
+  gridClass = 'has-right-sidebar';
+}
+
+var allCategories = site.categories.find({ parent: { $exists: false } }).sort('length', -1).filter(function(cat) {
   return cat.length > 0;
 });
 %>
 
-<div id="main-grid" class="main-grid-layout has-no-sidebar">
-  <main id="main-content" class="categories-container full-width">
+<div id="main-grid" class="main-grid-layout <%= gridClass %>">
+  <!-- ===== Left Sidebar ===== -->
+  <% if (showLeftSidebar) { %>
+  <aside class="sidebar-left" aria-label="<%= __('sidebar.left') %>">
+    <%- partial('_partials/post/sidebar-left') %>
+  </aside>
+  <% } %>
+
+  <!-- ===== Main Content ===== -->
+  <main id="main-content" class="categories-container">
     <%- partial('_partials/post/content-nav') %>
 
+    <!-- Header Card -->
+    <div class="categories-header-card card-base">
+      <h1 class="categories-header-title">分类</h1>
+      <p class="categories-header-subtitle">全部分类 · <%= site.posts.length %> 篇文章</p>
+    </div>
 
+    <!-- Category Cards Grid -->
     <div class="categories-grid">
       <% if (allCategories.length > 0) { %>
-        <% allCategories.each(function(cat) { %>
-        <article class="category-card">
-          <a href="<%= url_for(cat.path) %>" class="category-card-link">
-            <div class="category-card-icon">
-              <span class="material-symbols-outlined md-28">folder</span>
-            </div>
-            <h2 class="category-card-name"><%= cat.name %></h2>
-            <p class="category-card-count">
-              <%- __('category.post_count', cat.posts.length) %>
-            </p>
-          </a>
-
-          <!-- Subcategories -->
-          <% var subCats = site.categories.find({ parent: cat._id }).sort(orderBy).filter(function(sub) { return sub.length > 0; }); %>
-          <% if (subCats.length > 0) { %>
-          <div class="category-card-subcategories">
-            <% subCats.each(function(sub) { %>
-            <a href="<%= url_for(sub.path) %>" class="category-card-subitem">
-              <%= sub.name %>
-              <span class="subitem-count">(<%= sub.posts.length %>)</span>
-            </a>
-            <% }); %>
+        <% allCategories.forEach(function(cat) { %>
+        <a href="<%= url_for(cat.path) %>" class="category-grid-card card-base">
+          <div class="category-grid-icon">
+            <span class="material-symbols-outlined">folder</span>
           </div>
-          <% } %>
-        </article>
+          <div class="category-grid-info">
+            <h2 class="category-grid-name"><%= cat.name %></h2>
+            <span class="category-grid-count"><%= cat.posts.length %> 篇文章</span>
+          </div>
+          <span class="material-symbols-outlined category-grid-arrow">chevron_right</span>
+        </a>
         <% }); %>
       <% } else { %>
-      <div class="categories-empty">
+      <div class="categories-empty card-base">
         <p><%= __('category.empty') %></p>
       </div>
       <% } %>
     </div>
   </main>
+
+  <!-- ===== Right Sidebar ===== -->
+  <% if (showRightSidebar) { %>
+  <aside class="sidebar-right" aria-label="<%= __('sidebar.right') %>">
+    <%- partial('_partials/post/sidebar-right') %>
+  </aside>
+  <% } %>
+
+  <!-- ===== Mobile Bottom Sidebar ===== -->
+  <%- partial('_partials/post/mobile-sidebar') %>
 
   <%- partial('_partials/footer') %>
 </div>

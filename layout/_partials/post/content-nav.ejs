@@ -25,7 +25,7 @@ var postListDefault = theme.post_list_layout && theme.post_list_layout.default_m
   if (site.categories && site.categories.length > 0) {
     displayCats = site.categories.filter(function(cat) { return cat.length > 0; }).toArray();
     displayCats.sort(function(a, b) { return b.length - a.length; });
-    displayCats = displayCats.slice(0, 3); // Top 3 categories
+    displayCats = displayCats.slice(0, 2); // Top 2 categories
   }
   if (displayCats && displayCats.length > 0) {
     displayCats.forEach(function(cat) {
@@ -47,16 +47,9 @@ var postListDefault = theme.post_list_layout && theme.post_list_layout.default_m
   }
   %>
 
-  <!-- Layout Toggle (right-aligned spacer + buttons) -->
-  <% if (isHome || isArchive || page.layout === 'archive' || isCategory || isTag) { %>
-  <span class="content-nav-spacer"></span>
-  <div class="layout-buttons" style="display:flex;gap:0.25rem;">
-    <button data-layout="list" class="<%= postListDefault === 'list' ? 'active' : '' %>" title="<%= __('list') %>">
-      <span class="material-symbols-outlined">view_list</span>
-    </button>
-    <button data-layout="grid" class="<%= postListDefault === 'grid' ? 'active' : '' %>" title="<%= __('grid') %>">
-      <span class="material-symbols-outlined">grid_view</span>
-    </button>
-  </div>
-  <% } %>
+  <!-- More button -->
+  <a href="<%= url_for('/categories') %>" class="content-nav-item content-nav-more" style="margin-left: auto; background: oklch(0.65 0.18 var(--hue) / 0.15); color: var(--primary, #10b981); font-weight: 600;">
+    <span class="nav-item-label">更多</span>
+    <span class="material-symbols-outlined" style="font-size: 1rem;">chevron_right</span>
+  </a>
 </div>
