@@ -13,6 +13,7 @@
   <% if (theme.widgets) { %>
     <% theme.widgets.forEach(function(widget) { %>
       <% if (widget.enable !== false && widget.position !== 'left') { %>
+        <% if (is_post() && (widget.type === 'calendar' || widget.type === 'site-info')) { return; } %>
         <%- partial('_partials/widgets/' + widget.type) %>
       <% } %>
     <% }); %>

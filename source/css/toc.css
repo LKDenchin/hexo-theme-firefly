@@ -10,6 +10,15 @@
   border: 1px solid var(--line-divider);
   overflow: hidden;
   margin-bottom: 1.5rem;
+  position: sticky;
+  top: calc(var(--navbar-height) + 1.25rem);
+  max-height: calc(100vh - var(--navbar-height) - 2.5rem);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.toc-widget::-webkit-scrollbar {
+  display: none;
 }
 
 .toc-widget .toc-header {
