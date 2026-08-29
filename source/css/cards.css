@@ -1006,12 +1006,17 @@
   transform: translateX(3px);
 }
 
-/* Tag Cloud Pills */
+/* Tag Cloud Pills Container Card */
+.tags-cloud-card {
+  padding: 1.75rem 2.25rem;
+  margin-bottom: 1.25rem;
+}
+
 .tags-cloud-list {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem 0.875rem;
-  margin-top: 1.5rem;
+  margin-top: 0;
 }
 
 .tag-cloud-pill {
