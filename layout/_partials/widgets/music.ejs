@@ -10,7 +10,7 @@
         server="<%= theme.music.meting.server || 'netease' %>"
         type="<%= theme.music.meting.type || 'playlist' %>"
         id="<%= theme.music.meting.id || '' %>"
-        <% if (theme.music.meting.api) { %>api="<%= theme.music.meting.api %>"<% } %>
+        api="<%= theme.music.meting.api || 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&r=:r' %>"
         order="<%= theme.music.play_mode || 'list' %>"
         fixed="false"
         mini="false"
