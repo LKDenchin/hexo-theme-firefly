@@ -203,11 +203,14 @@ post_list_layout:
 # ============================================================
 social:
   - name: "GitHub"
-    icon: "gite"
+    icon: "github"
     url: "https://github.com"
   - name: "Email"
     icon: "mail"
     url: "mailto:example@email.com"
+  - name: "Sponsor"
+    icon: "favorite"
+    url: "/donate/"
   - name: "RSS"
     icon: "rss_feed"
     url: "/rss/"
