@@ -516,12 +516,11 @@
   display: none !important;
 }
 
-/* Hide default APlayer button controls */
-.music-widget .aplayer .aplayer-info .aplayer-controller .aplayer-btn {
-  display: none !important;
-}
-
-.music-widget .aplayer .aplayer-info .aplayer-controller .aplayer-play {
+/* Hide default APlayer button controls & pause overlays */
+.music-widget .aplayer .aplayer-info .aplayer-controller .aplayer-btn,
+.music-widget .aplayer .aplayer-info .aplayer-controller .aplayer-play,
+.music-widget .aplayer .aplayer-info .aplayer-controller .aplayer-pause,
+.music-widget .aplayer .aplayer-button {
   display: none !important;
 }
 
@@ -568,6 +567,7 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
   padding: 0 !important;
+  overflow: hidden !important;
 }
 
 .music-widget .music-btn-play:hover {
@@ -576,10 +576,15 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
 
-.music-widget .music-btn-play .material-symbols-outlined {
-  font-size: 1.5rem !important;
-  color: #10b981 !important;
-  font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24 !important;
+.music-widget .music-btn-play svg.play-triangle-svg {
+  width: 26px !important;
+  height: 26px !important;
+  margin: 0 auto !important;
+  display: block !important;
+}
+
+.music-widget .music-btn-play svg.play-triangle-svg path {
+  fill: #10b981 !important;
 }
 
 .music-widget .aplayer .aplayer-list {

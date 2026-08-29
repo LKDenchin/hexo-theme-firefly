@@ -58,14 +58,16 @@
       controls = document.createElement('div');
       controls.className = 'custom-music-controls';
       controls.innerHTML = `
-        <button class="music-ctrl-btn music-btn-mode" title="切换模式" type="button">
+        <button class="music-ctrl-btn music-btn-mode" title="列表循环" type="button">
           <span class="material-symbols-outlined">repeat</span>
         </button>
         <button class="music-ctrl-btn music-btn-prev" title="上一首" type="button">
           <span class="material-symbols-outlined">skip_previous</span>
         </button>
         <button class="music-ctrl-btn music-btn-play" title="播放/暂停" type="button">
-          <span class="material-symbols-outlined play-icon">play_arrow</span>
+          <svg class="play-triangle-svg" viewBox="0 0 24 24" width="26" height="26" style="display:block;margin:0 auto;">
+            <path fill="#10b981" d="M8 5v14l11-7z"/>
+          </svg>
         </button>
         <button class="music-ctrl-btn music-btn-next" title="下一首" type="button">
           <span class="material-symbols-outlined">skip_next</span>
@@ -79,12 +81,6 @@
     }
 
     var playBtn = controls.querySelector('.music-btn-play');
-    var playIcon = playBtn.querySelector('.play-icon');
-
-    function syncPlayState() {
-      // Keep play_arrow triangle icon matching mockup 2
-      playIcon.textContent = 'play_arrow';
-    }
 
     playBtn.onclick = function(e) {
       e.preventDefault();
@@ -101,31 +97,38 @@
           if (origBtn) origBtn.click();
         }
       }
-      syncPlayState();
     };
 
     controls.querySelector('.music-btn-prev').onclick = function(e) {
       e.preventDefault();
       e.stopPropagation();
       var apInst = getAPInstance();
-      if (apInst) {
-        apInst.skipBack();
+      if (!apInst || !apInst.list) return;
+      var mode = window.__FIREFLY_MUSIC_MODE || 'list';
+      if (mode === 'random') {
+        var total = apInst.list.audios.length;
+        var nextIdx = Math.floor(Math.random() * total);
+        apInst.list.switch(nextIdx);
       } else {
-        var btn = ap.querySelector('.aplayer-icon-back, .aplayer-skip-back');
-        if (btn) btn.click();
+        apInst.skipBack();
       }
+      apInst.play();
     };
 
     controls.querySelector('.music-btn-next').onclick = function(e) {
       e.preventDefault();
       e.stopPropagation();
       var apInst = getAPInstance();
-      if (apInst) {
-        apInst.skipForward();
+      if (!apInst || !apInst.list) return;
+      var mode = window.__FIREFLY_MUSIC_MODE || 'list';
+      if (mode === 'random') {
+        var total = apInst.list.audios.length;
+        var nextIdx = Math.floor(Math.random() * total);
+        apInst.list.switch(nextIdx);
       } else {
-        var btn = ap.querySelector('.aplayer-icon-forward, .aplayer-skip-forward');
-        if (btn) btn.click();
+        apInst.skipForward();
       }
+      apInst.play();
     };
 
     controls.querySelector('.music-btn-list').onclick = function(e) {
@@ -138,59 +141,56 @@
     };
 
     var modeBtn = controls.querySelector('.music-btn-mode');
-    var currentModeIndex = 0; // 0: list loop, 1: single loop, 2: shuffle
+    var modes = [
+      { key: 'list', title: '列表循环', icon: 'repeat' },
+      { key: 'single', title: '单曲循环', icon: 'repeat_one' },
+      { key: 'random', title: '随机播放', icon: 'shuffle' }
+    ];
+    var currentModeIndex = 0;
 
     modeBtn.onclick = function(e) {
       e.preventDefault();
       e.stopPropagation();
-      var apInst = getAPInstance();
-      currentModeIndex = (currentModeIndex + 1) % 3;
+      currentModeIndex = (currentModeIndex + 1) % modes.length;
+      var activeMode = modes[currentModeIndex];
+      window.__FIREFLY_MUSIC_MODE = activeMode.key;
 
       var modeIcon = this.querySelector('.material-symbols-outlined');
-      var audio = ap.querySelector('audio');
+      if (modeIcon) modeIcon.textContent = activeMode.icon;
+      this.title = activeMode.title;
 
-      if (currentModeIndex === 1) {
-        // Mode 1: Single Loop (单曲循环)
-        if (apInst) {
-          apInst.options.loop = 'one';
-          apInst.options.order = 'list';
-          if (apInst.notice) apInst.notice('播放模式: 单曲循环');
-        }
-        if (audio) audio.loop = true;
-        if (modeIcon) modeIcon.textContent = 'repeat_one';
-        this.title = '单曲循环';
-      } else if (currentModeIndex === 2) {
-        // Mode 2: Shuffle (随机播放)
-        if (apInst) {
-          apInst.options.loop = 'all';
-          apInst.options.order = 'random';
-          if (apInst.notice) apInst.notice('播放模式: 随机播放');
-        }
-        if (audio) audio.loop = false;
-        if (modeIcon) modeIcon.textContent = 'shuffle';
-        this.title = '随机播放';
-      } else {
-        // Mode 0: List Loop (列表循环)
-        if (apInst) {
-          apInst.options.loop = 'all';
-          apInst.options.order = 'list';
-          if (apInst.notice) apInst.notice('播放模式: 列表循环');
-        }
-        if (audio) audio.loop = false;
-        if (modeIcon) modeIcon.textContent = 'repeat';
-        this.title = '列表循环';
+      var apInst = getAPInstance();
+      if (apInst && apInst.notice) {
+        apInst.notice('播放模式: ' + activeMode.title);
       }
-
-      var origMode = ap.querySelector('.aplayer-icon-mode');
-      if (origMode) origMode.click();
     };
 
+    // Attach custom capture-phase ended listener on audio element to enforce mode
     var audio = ap.querySelector('audio');
-    if (audio) {
-      audio.removeEventListener('play', syncPlayState);
-      audio.removeEventListener('pause', syncPlayState);
-      audio.addEventListener('play', syncPlayState);
-      audio.addEventListener('pause', syncPlayState);
+    if (audio && !audio.dataset.customEndedBound) {
+      audio.dataset.customEndedBound = '1';
+      audio.addEventListener('ended', function(e) {
+        var mode = window.__FIREFLY_MUSIC_MODE || 'list';
+        var apInst = getAPInstance();
+        if (!apInst || !apInst.list) return;
+
+        var total = apInst.list.audios.length;
+        var current = apInst.list.index;
+
+        if (mode === 'single') {
+          e.stopPropagation();
+          audio.currentTime = 0;
+          audio.play();
+        } else if (mode === 'random') {
+          e.stopPropagation();
+          var nextIdx = Math.floor(Math.random() * total);
+          if (total > 1 && nextIdx === current) {
+            nextIdx = (current + 1) % total;
+          }
+          apInst.list.switch(nextIdx);
+          apInst.play();
+        }
+      }, true);
     }
   }
 
