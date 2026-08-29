@@ -1,6 +1,7 @@
 /* ============================================================
    code.css
    Code highlighting and code block UI for Firefly Hexo theme
+   Redesigned matching macOS window controls & One Dark theme
    ============================================================ */
 
 /* Enforce monospace font stack on all code elements */
@@ -18,41 +19,183 @@ figure.highlight,
 figure.highlight pre,
 figure.highlight code,
 figure.highlight td {
-  font-family: var(--font-mono) !important;
+  font-family: var(--font-mono, "JetBrains Mono", "Fira Code", Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace) !important;
 }
 
-/* Hexo figure.highlight wrapper */
-figure.highlight {
-  margin: 1rem 0;
-  border-left: 3px solid var(--primary);
-  background: var(--btn-regular-bg);
+/* Base Code Block Wrapper */
+.code-block-wrapper {
   position: relative;
+  margin: 1.5rem 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #21252b; /* Dark editor background */
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  transition: all var(--duration-medium, 0.3s ease);
 }
+
+.code-block-wrapper pre {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #abb2bf; /* One Dark code color */
+  background: transparent;
+}
+
+.code-block-wrapper figure.highlight {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+}
+
+/* Header bar styling (macOS window style matching screenshot) */
+.code-block-header {
+  height: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #181a1f; /* Darker header bar */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0 1rem;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+.code-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.terminal-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-red { background-color: #ff5f56; }
+.dot-yellow { background-color: #ffbd2e; }
+.dot-green { background-color: #27c93f; }
+
+.code-header-filename {
+  font-size: 0.8125rem;
+  color: #abb2bf;
+  margin-left: 0.5rem;
+  font-family: var(--font-mono);
+  opacity: 0.8;
+}
+
+.code-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #abb2bf;
+  font-size: 0.8125rem;
+  font-family: var(--font-mono);
+}
+
+.code-header-lang {
+  font-weight: 500;
+  color: #abb2bf;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+/* Header Copy Button */
+.code-header-right .code-copy-btn {
+  position: static;
+  background: transparent;
+  border: none;
+  color: #abb2bf;
+  cursor: pointer;
+  padding: 0.2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  opacity: 0.85;
+  transition: color 0.2s, background 0.2s, opacity 0.2s;
+}
+
+.code-header-right .code-copy-btn:hover {
+  opacity: 1;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.code-header-right .code-copy-btn .material-symbols-outlined {
+  font-size: 1.125rem;
+}
+
+.code-header-right .code-copy-btn.copied {
+  color: #98c379;
+}
+
+/* Header Fold Chevron Button */
+.code-header-fold-btn {
+  background: transparent;
+  border: none;
+  color: #abb2bf;
+  cursor: pointer;
+  padding: 0.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  opacity: 0.85;
+  transition: transform 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.code-header-fold-btn:hover {
+  opacity: 1;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.code-header-fold-btn .material-symbols-outlined {
+  font-size: 1.25rem;
+}
+
+/* Hexo figure.highlight table & gutter layout */
 figure.highlight table {
   width: 100%;
   border-collapse: collapse;
   margin: 0;
+  border-spacing: 0;
 }
+
 figure.highlight .gutter {
-  width: 2.5rem;
+  width: 2.75rem;
   text-align: right;
-  padding: 0 0.75rem 0 0;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.875rem 0.875rem 0.875rem 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
   user-select: none;
+  vertical-align: top;
 }
+
 figure.highlight .gutter pre {
-  padding: 1.25rem 0;
-  font-size: 0.8125rem;
+  padding: 0;
+  font-size: 0.85rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.3);
+  color: #5c6370; /* Muted gray line numbers */
   background: transparent;
   margin: 0;
 }
+
 figure.highlight .code {
   padding: 0;
+  vertical-align: top;
 }
+
 figure.highlight .code pre {
-  padding: 1.25rem 0 1.25rem 1rem;
+  padding: 0.875rem 1rem;
   font-size: 0.875rem;
   line-height: 1.6;
   color: #abb2bf;
@@ -61,169 +204,78 @@ figure.highlight .code pre {
   overflow-x: auto;
 }
 
-/* Code block wrapper (for our JS-injected wrapper) */
-.code-block-wrapper {
-  position: relative;
-  margin: 1.5rem 0;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--line-divider);
-  background: oklch(0.18 0.015 var(--hue)); /* Premium dark slate background */
-  box-shadow: var(--shadow-sm);
-  transition: all var(--duration-medium);
+/* Highlight.js Line Numbers Table Integration */
+.markdown-body table.hljs-ln,
+table.hljs-ln {
+  border: none !important;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  margin: 0 !important;
+  width: 100% !important;
+  box-shadow: none !important;
 }
-.code-block-wrapper pre {
-  margin: 0;
-  padding: 1.25rem 1rem;
-  overflow-x: auto;
+
+table.hljs-ln tr {
+  border: none !important;
+  background: transparent !important;
+}
+
+table.hljs-ln td {
+  border: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+  vertical-align: top;
+}
+
+.hljs-ln-numbers {
+  text-align: right;
+  color: #5c6370 !important; /* Muted gray line numbers matching screenshot */
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding-right: 0.875rem !important;
+  width: 2.75rem;
+  user-select: none;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.hljs-ln-code {
+  padding-left: 1rem !important;
   font-size: 0.875rem;
   line-height: 1.6;
-  color: #abb2bf; /* Monokai/OneDark style code color */
-}
-.code-block-wrapper figure.highlight {
-  margin: 0;
-  border: none;
-  border-radius: 0;
-  background: transparent;
-}
-
-/* Language badge */
-.code-language-badge {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  padding: 0.15rem 0.6rem;
-  background: oklch(0.22 0.08 var(--hue) / 0.5);
-  border: 1px solid oklch(0.65 0.18 var(--hue) / 0.3);
-  border-radius: 6px;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  color: oklch(0.70 0.18 var(--hue));
-  font-family: var(--font-mono);
-  letter-spacing: 0.05em;
-  z-index: 4;
-}
-
-/* Copy button */
-.code-copy-btn {
-  position: absolute;
-  top: 0.65rem;
-  right: 0.75rem; /* Matches the position of the language badge */
-  padding: 0.25rem;
-  width: 1.75rem;
-  height: 1.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid oklch(0.65 0.18 var(--hue) / 0.3);
-  border-radius: 6px;
-  background: oklch(0.22 0.08 var(--hue) / 0.8);
-  color: oklch(0.70 0.18 var(--hue));
-  cursor: pointer;
-  transition: all var(--duration-fast);
-  opacity: 0;
-  z-index: 5;
-}
-.code-copy-btn .material-symbols-outlined {
-  font-size: 1rem;
-}
-.code-block-wrapper:hover .code-copy-btn { opacity: 1; }
-.code-block-wrapper:hover .code-language-badge { opacity: 0; pointer-events: none; }
-.code-copy-btn:hover { color: #fff; border-color: var(--primary); background: var(--primary); }
-.code-copy-btn.copied { color: oklch(0.65 0.15 140); border-color: oklch(0.65 0.15 140 / 0.6); }
-
-/* Header styling for file titles & terminal dots */
-.code-block-header {
-  height: 2.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.15);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 0 1rem;
-  box-sizing: border-box;
-}
-.code-header-tab {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  height: 100%;
-  border-bottom: 2px solid var(--primary);
-  box-sizing: border-box;
-  padding: 0 0.25rem;
-}
-.code-header-tab-title {
-  font-weight: 600;
-  font-size: 0.8125rem;
-  color: #fff;
-  font-family: var(--font-mono);
-}
-.code-header-tab-icon {
-  font-size: 1rem;
-  color: var(--primary);
-}
-.code-header-terminal {
-  display: flex;
-  gap: 0.375rem;
-}
-.terminal-dot {
-  width: 0.625rem;
-  height: 0.625rem;
-  border-radius: 50%;
-}
-.dot-red { background: #ff5f56; }
-.dot-yellow { background: #ffbd2e; }
-.dot-green { background: #27c93f; }
-
-.code-header-actions {
-  display: flex;
-  align-items: center;
-}
-.code-header-expand-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-secondary);
-  font-size: 0.75rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  cursor: pointer;
-  transition: color var(--duration-fast);
-}
-.code-header-expand-btn:hover {
-  color: var(--primary);
-}
-.code-header-expand-btn .material-symbols-outlined {
-  font-size: 1rem;
+  color: #abb2bf;
 }
 
 /* Collapsible Code Blocks */
 .code-collapsible.collapsed {
-  max-height: 260px;
+  max-height: 280px;
 }
-.code-collapsible.collapsed table.hljs-ln {
-  max-height: 200px;
+
+.code-collapsible.collapsed figure.highlight,
+.code-collapsible.collapsed pre {
+  max-height: 230px;
   overflow: hidden;
-  display: block;
 }
+
 .code-expand-pill-wrapper {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 4.5rem;
-  background: linear-gradient(to bottom, transparent, oklch(0.18 0.015 var(--hue)));
+  background: linear-gradient(to bottom, transparent, #21252b);
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 0.50rem;
+  padding-bottom: 0.5rem;
   z-index: 3;
   box-sizing: border-box;
 }
+
 .code-collapsible.expanded .code-expand-pill-wrapper {
   position: relative;
-  height: 3.5rem;
+  height: 3rem;
   background: transparent;
   display: flex;
   align-items: center;
@@ -231,11 +283,12 @@ figure.highlight .code pre {
   padding: 0.5rem 0;
   border-top: 1px dashed rgba(255, 255, 255, 0.08);
 }
+
 .code-expand-pill-btn {
-  background: oklch(0.22 0.08 var(--hue));
-  border: 1px solid oklch(0.65 0.18 var(--hue) / 0.3);
-  color: oklch(0.70 0.18 var(--hue));
-  font-weight: 700;
+  background: #282c34;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #abb2bf;
+  font-weight: 600;
   font-size: 0.8125rem;
   padding: 0.35rem 1rem;
   border-radius: 20px;
@@ -243,12 +296,15 @@ figure.highlight .code pre {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  transition: all var(--duration-fast);
+  transition: all var(--duration-fast, 0.2s ease);
 }
+
 .code-expand-pill-btn:hover {
-  background: oklch(0.65 0.18 var(--hue) / 0.2);
-  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  transform: scale(1.03);
 }
+
 .code-expand-pill-btn .material-symbols-outlined {
   font-size: 1rem;
 }
@@ -276,17 +332,6 @@ figure.highlight .code pre {
   color: #2196f3 !important;
 }
 
-.hljs-ln-numbers {
-  position: relative;
-}
-.hljs-ln-numbers[data-marker]::after {
-  content: attr(data-marker);
-  position: absolute;
-  right: 0.25rem;
-  font-weight: bold;
-  font-size: 0.8125rem;
-}
-
 /* Banner Labels (// 1. Label) */
 .code-line-label {
   background: var(--banner-bg) !important;
@@ -310,223 +355,156 @@ figure.highlight .code pre {
   font-size: 0.8125rem;
   padding: 0.25rem 0.5rem !important;
 }
-.code-line-label .hljs-ln-numbers {
-  color: rgba(255, 255, 255, 0.3) !important;
-}
-
-/* Highlight.js themes integration */
-pre code.hljs { display: block; overflow-x: auto; padding: 1rem; }
-
-/* Reset markdown table styling on highlight.js line numbers tables */
-.markdown-body table.hljs-ln {
-  border: none !important;
-  border-collapse: collapse !important;
-  border-spacing: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  margin: 0 !important;
-  width: 100% !important;
-  box-shadow: none !important;
-}
-.markdown-body table.hljs-ln tr {
-  border: none !important;
-  background: transparent !important;
-}
-.markdown-body table.hljs-ln td {
-  border: none !important;
-  padding: 0 !important;
-  background: transparent !important;
-}
-
-/* Diff / line numbers */
-/* Diff / line numbers */
-.hljs-ln {
-  width: 100%;
-  border-collapse: collapse;
-}
-.hljs-ln td {
-  padding: 0;
-  vertical-align: top;
-}
-.hljs-ln-numbers {
-  text-align: right;
-  color: rgba(255, 255, 255, 0.3) !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
-  padding-right: 0.75rem !important;
-  width: 2.25rem;
-  user-select: none;
-  border-radius: 0 !important;
-  border: none !important;
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-.hljs-ln-code {
-  padding-left: 1rem !important;
-}
 
 /* ============================================================
-   Syntax Highlighting Colors (OKLCH-based)
+   Syntax Highlighting Colors (Atom One Dark Palette)
    Supports Hexo server-side highlight and Highlight.js classes
    ============================================================ */
 
-/* Comments & punctuation */
+/* Comments */
 figure.highlight .comment,
 .hljs-comment,
 figure.highlight .quote,
 .hljs-quote {
-  color: var(--text-tertiary);
+  color: #5c6370;
   font-style: italic;
 }
 
-/* Keywords */
+/* Keywords (function, var, let, const, return, if, else, defaults, options) */
 figure.highlight .keyword,
 .hljs-keyword,
 figure.highlight .selector-tag,
 .hljs-selector-tag,
 figure.highlight .addition,
 .hljs-addition {
-  color: oklch(0.55 0.18 10); /* rich red/pink */
+  color: #c678dd; /* One Dark Purple */
   font-weight: 600;
 }
-.dark figure.highlight .keyword,
-.dark .hljs-keyword,
-.dark figure.highlight .selector-tag,
-.dark .hljs-selector-tag,
-.dark figure.highlight .addition,
-.dark .hljs-addition {
-  color: oklch(0.70 0.16 10); /* bright red/pink */
-}
 
-/* Strings */
+/* Strings ('absolute', '#AFDAEF', 'snowbox', 'body') */
 figure.highlight .string,
 .hljs-string,
 figure.highlight .meta .string,
 .hljs-meta .string,
 figure.highlight .doctag,
 .hljs-doctag {
-  color: oklch(0.48 0.14 140); /* rich green */
-}
-.dark figure.highlight .string,
-.dark .hljs-string,
-.dark figure.highlight .meta .string,
-.dark .hljs-meta .string,
-.dark figure.highlight .doctag,
-.dark .hljs-doctag {
-  color: oklch(0.75 0.14 140); /* bright green */
+  color: #98c379; /* One Dark Green */
 }
 
-/* Numbers & Literals */
+/* Numbers & Literals (10, 20, 1000, 0.5, 100, 500) */
 figure.highlight .number,
 .hljs-number,
 figure.highlight .literal,
-.hljs-literal,
+.hljs-literal {
+  color: #d19a66; /* One Dark Orange */
+}
+
+/* Variables & Properties ($flake, defaults, documentHeight, minSize, maxSize) */
 figure.highlight .variable,
 .hljs-variable,
 figure.highlight .template-variable,
-.hljs-template-variable {
-  color: oklch(0.50 0.15 65); /* rich orange/yellow */
-}
-.dark figure.highlight .number,
-.dark .hljs-number,
-.dark figure.highlight .literal,
-.dark .hljs-literal,
-.dark figure.highlight .variable,
-.dark .hljs-variable,
-.dark figure.highlight .template-variable,
-.dark .hljs-template-variable {
-  color: oklch(0.72 0.15 65); /* bright orange */
-}
-
-/* Titles, Function Names, Classes */
-figure.highlight .title,
-.hljs-title,
+.hljs-template-variable,
 figure.highlight .attr,
 .hljs-attr,
 figure.highlight .attribute,
-.hljs-attribute,
-figure.highlight .section,
-.hljs-section,
-figure.highlight .name,
-.hljs-name {
-  color: oklch(0.48 0.16 260); /* rich blue */
-}
-.dark figure.highlight .title,
-.dark .hljs-title,
-.dark figure.highlight .attr,
-.dark .hljs-attr,
-.dark figure.highlight .attribute,
-.dark .hljs-attribute,
-.dark figure.highlight .section,
-.dark .hljs-section,
-.dark figure.highlight .name,
-.dark .hljs-name {
-  color: oklch(0.72 0.14 260); /* bright blue */
+.hljs-attribute {
+  color: #e06c75; /* One Dark Red/Coral */
 }
 
-/* Built-ins, Types */
+/* Functions & Methods (snow, setInterval, random, css, height, width, extend, clone, appendTo) */
+figure.highlight .title,
+.hljs-title,
+figure.highlight .title.function_,
+.hljs-title.function_,
+figure.highlight .section,
+.hljs-section {
+  color: #61afef; /* One Dark Blue */
+}
+
+/* Built-ins & Classes (jQuery, $, Math, document, window, console) */
 figure.highlight .built_in,
 .hljs-built_in,
 figure.highlight .type,
 .hljs-type,
 figure.highlight .class,
-.hljs-class,
-figure.highlight .selector-class,
-.hljs-selector-class,
-figure.highlight .selector-id,
-.hljs-selector-id {
-  color: oklch(0.46 0.15 200); /* rich teal/cyan */
-}
-.dark figure.highlight .built_in,
-.dark .hljs-built_in,
-.dark figure.highlight .type,
-.dark .hljs-type,
-.dark figure.highlight .class,
-.dark .hljs-class,
-.dark figure.highlight .selector-class,
-.dark .hljs-selector-class,
-.dark figure.highlight .selector-id,
-.dark .hljs-selector-id {
-  color: oklch(0.70 0.15 200); /* bright teal */
+.hljs-class {
+  color: #e5c07b; /* One Dark Yellow/Gold */
 }
 
-/* Regexp & Special Characters */
+/* Operators, Regexp & Punctuation */
 figure.highlight .regexp,
 .hljs-regexp,
-figure.highlight .link,
-.hljs-link,
 figure.highlight .meta,
 .hljs-meta,
 figure.highlight .symbol,
 .hljs-symbol,
-figure.highlight .bullet,
-.hljs-bullet {
-  color: oklch(0.48 0.16 330); /* rich magenta */
-}
-.dark figure.highlight .regexp,
-.dark .hljs-regexp,
-.dark figure.highlight .link,
-.dark .hljs-link,
-.dark figure.highlight .meta,
-.dark .hljs-meta,
-.dark figure.highlight .symbol,
-.dark .hljs-symbol,
-.dark figure.highlight .bullet,
-.dark .hljs-bullet {
-  color: oklch(0.72 0.16 330); /* bright magenta */
+figure.highlight .operator,
+.hljs-operator {
+  color: #56b6c2; /* One Dark Cyan */
 }
 
-/* Deletions (diff blocks) */
-figure.highlight .deletion,
-.hljs-deletion {
-  color: oklch(0.50 0.18 20); /* rich dark red */
-  background: oklch(0.50 0.18 20 / 0.1);
-  display: inline-block;
-  width: 100%;
+/* ============================================================
+   Markdown Syntax Highlighting Rules
+   ============================================================ */
+
+/* Headings (# Heading 1, ## Heading 2) */
+figure.highlight.markdown .section,
+figure.highlight.md .section,
+.hljs-section {
+  color: #61afef !important;
+  font-weight: 700 !important;
 }
-.dark figure.highlight .deletion,
-.dark .hljs-deletion {
-  color: oklch(0.70 0.16 20); /* bright red */
-  background: oklch(0.70 0.16 20 / 0.15);
+
+/* Strong / Bold (**bold**) */
+figure.highlight.markdown .strong,
+figure.highlight.md .strong,
+.hljs-strong {
+  color: #98c379 !important;
+  font-weight: 700 !important;
+}
+
+/* Emphasis / Italic (*italic*) */
+figure.highlight.markdown .emphasis,
+figure.highlight.md .emphasis,
+.hljs-emphasis {
+  color: #e5c07b !important;
+  font-style: italic !important;
+}
+
+/* Bullets / Lists (- Item 1, * Item 2, 1. Item 3) */
+figure.highlight.markdown .bullet,
+figure.highlight.md .bullet,
+.hljs-bullet {
+  color: #d19a66 !important;
+  font-weight: 600 !important;
+}
+
+/* Blockquotes (> Quote) */
+figure.highlight.markdown .quote,
+figure.highlight.md .quote,
+.hljs-quote {
+  color: #5c6370 !important;
+  font-style: italic !important;
+}
+
+/* Markdown Code (`inline code` or ```code block```) */
+figure.highlight.markdown .code,
+figure.highlight.md .code,
+.hljs-code {
+  color: #e06c75 !important;
+}
+
+/* Markdown Links ([Title](url)) */
+figure.highlight.markdown .link,
+figure.highlight.md .link,
+.hljs-link {
+  color: #56b6c2 !important;
+  text-decoration: underline !important;
+}
+
+/* Markdown Frontmatter / YAML metadata */
+figure.highlight.markdown .meta,
+figure.highlight.md .meta,
+.hljs-meta {
+  color: #c678dd !important;
 }

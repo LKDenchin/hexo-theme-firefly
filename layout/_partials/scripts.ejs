@@ -13,6 +13,7 @@ var musicMode = themeConfig.music && themeConfig.music.mode;
 var musicEnable = musicMode && musicMode !== 'none';
 var metingApi = themeConfig.music && themeConfig.music.meting;
 var busuanziEnable = themeConfig.analytics && themeConfig.analytics.busuanzi !== false;
+var pjaxEnable = themeConfig.pjax && themeConfig.pjax.enable !== false;
 %>
 
 <!-- Core Scripts -->
@@ -214,6 +215,12 @@ var busuanziEnable = themeConfig.analytics && themeConfig.analytics.busuanzi !==
 <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
 <% } %>
 
+<!-- PJAX - Seamless Page Navigation -->
+<% if (pjaxEnable) { %>
+<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
+<script src="<%= url_for('/js/features/pjax.js') %>"></script>
+<% } %>
+
 <!-- Busuanzi - Visitor Counter -->
 <% if (busuanziEnable) { %>
 <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -357,6 +364,48 @@ var busuanziEnable = themeConfig.analytics && themeConfig.analytics.busuanzi !==
       return lines;
     }
 
+    function formatLangName(raw) {
+      if (!raw) return 'Text';
+      var lower = raw.trim().toLowerCase();
+      var map = {
+        'js': 'Javascript',
+        'javascript': 'Javascript',
+        'ts': 'TypeScript',
+        'typescript': 'TypeScript',
+        'md': 'Markdown',
+        'markdown': 'Markdown',
+        'mkd': 'Markdown',
+        'py': 'Python',
+        'python': 'Python',
+        'html': 'HTML',
+        'css': 'CSS',
+        'scss': 'SCSS',
+        'sass': 'SASS',
+        'less': 'LESS',
+        'json': 'JSON',
+        'yml': 'YAML',
+        'yaml': 'YAML',
+        'bash': 'Bash',
+        'sh': 'Shell',
+        'shell': 'Shell',
+        'zsh': 'Zsh',
+        'cpp': 'C++',
+        'c': 'C',
+        'cs': 'C#',
+        'csharp': 'C#',
+        'java': 'Java',
+        'go': 'Go',
+        'rust': 'Rust',
+        'rs': 'Rust',
+        'php': 'PHP',
+        'sql': 'SQL',
+        'xml': 'XML',
+        'docker': 'Dockerfile'
+      };
+      if (map[lower]) return map[lower];
+      return raw.charAt(0).toUpperCase() + raw.slice(1);
+    }
+
     function processCodeBlocks() {
       // 1. Wrap plain pre blocks
       document.querySelectorAll('.post-content pre:not(figure.highlight pre)').forEach(function(pre) {
@@ -407,43 +456,48 @@ var busuanziEnable = themeConfig.analytics && themeConfig.analytics.busuanzi !==
             highlightRangeStr = rangeMatch[1];
           }
           
-          langName = langClass.split(/[:{\s]/)[0].toUpperCase();
+          langName = langClass.split(/[:{\s]/)[0];
         }
         
-        if (langName === 'ANSI') {
+        if (langName.toUpperCase() === 'ANSI') {
           wrapper.classList.add('is-ansi-block');
         }
         
-        // Generate Header
+        // Generate Header matching screenshot design
         var header = document.createElement('div');
         header.className = 'code-block-header';
         
+        var headerLeft = document.createElement('div');
+        headerLeft.className = 'code-header-left';
+        headerLeft.innerHTML = '<span class="terminal-dot dot-red"></span><span class="terminal-dot dot-yellow"></span><span class="terminal-dot dot-green"></span>';
         if (fileName) {
-          header.innerHTML = '<div class="code-header-tab"><span class="material-symbols-outlined code-header-tab-icon">description</span><span class="code-header-tab-title">' + fileName + '</span></div>';
-          wrapper.classList.add('has-filename');
-        } else {
-          header.innerHTML = '<div class="code-header-terminal"><span class="terminal-dot dot-red"></span><span class="terminal-dot dot-yellow"></span><span class="terminal-dot dot-green"></span></div>';
+          var fileSpan = document.createElement('span');
+          fileSpan.className = 'code-header-filename';
+          fileSpan.textContent = fileName;
+          headerLeft.appendChild(fileSpan);
         }
         
-        var headerActions = document.createElement('div');
-        headerActions.className = 'code-header-actions';
-        header.appendChild(headerActions);
+        var headerRight = document.createElement('div');
+        headerRight.className = 'code-header-right';
         
-        wrapper.insertBefore(header, wrapper.firstChild);
+        var langDisplay = formatLangName(langName);
+        var langSpan = document.createElement('span');
+        langSpan.className = 'code-header-lang';
+        langSpan.textContent = langDisplay;
+        headerRight.appendChild(langSpan);
         
-        // Inject Copy Button
+        // Copy Button (in header right, matching screenshot)
         var btn = document.createElement('button');
         btn.className = 'code-copy-btn';
         btn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
         btn.title = '<%= __("copy_code") || "Copy" %>';
-        wrapper.appendChild(btn);
+        headerRight.appendChild(btn);
         
         btn.addEventListener('click', function(e) {
           e.stopPropagation();
-          var codeEl = wrapper.querySelector('.code pre code') || wrapper.querySelector('pre code') || wrapper.querySelector('pre');
+          var codeEl = wrapper.querySelector('.code pre code') || wrapper.querySelector('pre code') || wrapper.querySelector('pre') || wrapper.querySelector('.code');
           var text = codeEl ? codeEl.textContent : '';
           
-          // Clean up plus/minus markers if copying diff-like codes
           if (wrapper.querySelector('.code-line-ins') || wrapper.querySelector('.code-line-del')) {
             var lines = text.split('\n');
             var cleanedLines = lines.map(function(line) {
@@ -464,14 +518,17 @@ var busuanziEnable = themeConfig.analytics && themeConfig.analytics.busuanzi !==
             }, 2000);
           });
         });
+
+        // Fold toggle chevron
+        var foldBtn = document.createElement('button');
+        foldBtn.className = 'code-header-fold-btn';
+        foldBtn.innerHTML = '<span class="material-symbols-outlined">expand_more</span>';
+        foldBtn.title = '折叠/展开';
+        headerRight.appendChild(foldBtn);
         
-        // Inject Language Badge
-        if (langName) {
-          var badge = document.createElement('span');
-          badge.className = 'code-language-badge';
-          badge.textContent = langName;
-          wrapper.appendChild(badge);
-        }
+        header.appendChild(headerLeft);
+        header.appendChild(headerRight);
+        wrapper.insertBefore(header, wrapper.firstChild);
         
         var highlightLines = parseHighlightRanges(highlightRangeStr);
         
@@ -488,11 +545,10 @@ var busuanziEnable = themeConfig.analytics && themeConfig.analytics.busuanzi !==
           
           var text = lineEl.textContent;
           
-          if (langName === 'ANSI') {
+          if (langName.toUpperCase() === 'ANSI') {
             lineEl.innerHTML = ansiToHtml(text);
           }
           
-          // Check for Labels (e.g. // 1. ... or // 2. ...)
           var labelMatch = text.match(/^\s*(?:\/\/\s*|#\s*)([0-9]+\.\s+.*)$/);
           if (labelMatch) {
             var labelText = labelMatch[1];
@@ -502,7 +558,6 @@ var busuanziEnable = themeConfig.analytics && themeConfig.analytics.busuanzi !==
             else if (labelText.indexOf('2.') === 0 || labelText.indexOf(' 2.') !== -1) row.classList.add('label-red');
             else if (labelText.indexOf('3.') === 0 || labelText.indexOf(' 3.') !== -1) row.classList.add('label-green');
           }
-          // Check for Ins/Del Markers
           else if (text.indexOf('+ ') === 0) {
             lineEl.textContent = text.substring(2);
             row.className = 'code-line-ins';
@@ -513,48 +568,42 @@ var busuanziEnable = themeConfig.analytics && themeConfig.analytics.busuanzi !==
             row.className = 'code-line-del';
             numTd.setAttribute('data-marker', '-');
           }
-          // Check for standard line marking
           else if (highlightLines.includes(lineNum)) {
             row.className = 'code-line-mark';
           }
         });
-        
-        // Collapsible check
-        var lineCount = rows.length;
-        if (lineCount > 10) {
+
+        // Toggle fold button handler
+        var toggleCollapse = function() {
+          var isCollapsed = wrapper.classList.contains('collapsed');
+          if (isCollapsed) {
+            wrapper.classList.remove('collapsed');
+            wrapper.classList.add('expanded');
+            foldBtn.style.transform = 'rotate(180deg)';
+          } else {
+            wrapper.classList.remove('expanded');
+            wrapper.classList.add('collapsed');
+            foldBtn.style.transform = 'rotate(0deg)';
+          }
+        };
+        foldBtn.addEventListener('click', toggleCollapse);
+
+        // Collapsible check for long code blocks (> 18 lines)
+        var lineCount = rows.length || (pre ? pre.textContent.split('\n').length : 0);
+        if (lineCount > 18) {
           wrapper.classList.add('code-collapsible', 'collapsed');
-          
-          var topExpandBtn = document.createElement('button');
-          topExpandBtn.className = 'code-header-expand-btn';
-          topExpandBtn.innerHTML = '<span>展开</span><span class="material-symbols-outlined">expand_more</span>';
-          headerActions.appendChild(topExpandBtn);
           
           var bottomPill = document.createElement('div');
           bottomPill.className = 'code-expand-pill-wrapper';
-          bottomPill.innerHTML = '<button class="code-expand-pill-btn"><span>展开</span><span class="material-symbols-outlined">expand_more</span></button>';
+          bottomPill.innerHTML = '<button class="code-expand-pill-btn"><span>展开代码</span><span class="material-symbols-outlined">expand_more</span></button>';
           wrapper.appendChild(bottomPill);
           
-          var toggleCollapse = function() {
-            var isCollapsed = wrapper.classList.contains('collapsed');
-            if (isCollapsed) {
-              wrapper.classList.remove('collapsed');
-              wrapper.classList.add('expanded');
-              topExpandBtn.innerHTML = '<span>收起</span><span class="material-symbols-outlined">expand_less</span>';
-              bottomPill.innerHTML = '<button class="code-expand-pill-btn"><span>收起</span><span class="material-symbols-outlined">expand_less</span></button>';
-            } else {
-              wrapper.classList.remove('expanded');
-              wrapper.classList.add('collapsed');
-              topExpandBtn.innerHTML = '<span>展开</span><span class="material-symbols-outlined">expand_more</span>';
-              bottomPill.innerHTML = '<button class="code-expand-pill-btn"><span>展开</span><span class="material-symbols-outlined">expand_more</span></button>';
-              wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-          };
-          
-          topExpandBtn.addEventListener('click', toggleCollapse);
           bottomPill.addEventListener('click', toggleCollapse);
         }
       });
     }
+
+    window.processCodeBlocks = processCodeBlocks;
 
     document.addEventListener('DOMContentLoaded', function() {
       if (window.hljs) {
