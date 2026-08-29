@@ -32,106 +32,149 @@
 
 <script>
 (function() {
-  function setupCustomControls(ap) {
-    if (!ap || ap.dataset.customControlsInited) return;
-    ap.dataset.customControlsInited = '1';
+  function bindAPlayer(ap) {
+    if (!ap) return;
+
+    function getAPInstance() {
+      if (ap.aplayer) return ap.aplayer;
+      if (window.aplayers && window.aplayers.length > 0) {
+        for (var i = 0; i < window.aplayers.length; i++) {
+          if (window.aplayers[i].container === ap || ap.contains(window.aplayers[i].container)) {
+            return window.aplayers[i];
+          }
+        }
+        return window.aplayers[0];
+      }
+      return null;
+    }
 
     // Ensure cover image is circular
     var pic = ap.querySelector('.aplayer-pic');
     if (pic) pic.style.borderRadius = '50%';
 
-    // Build custom control bar matching mockup
-    var controls = document.createElement('div');
-    controls.className = 'custom-music-controls';
-    controls.innerHTML = `
-      <button class="music-ctrl-btn music-btn-mode" title="切换模式" type="button">
-        <span class="material-symbols-outlined">repeat</span>
-      </button>
-      <button class="music-ctrl-btn music-btn-prev" title="上一首" type="button">
-        <span class="material-symbols-outlined">skip_previous</span>
-      </button>
-      <button class="music-ctrl-btn music-btn-play" title="播放/暂停" type="button">
-        <span class="material-symbols-outlined play-icon">play_arrow</span>
-      </button>
-      <button class="music-ctrl-btn music-btn-next" title="下一首" type="button">
-        <span class="material-symbols-outlined">skip_next</span>
-      </button>
-      <button class="music-ctrl-btn music-btn-list" title="播放列表" type="button">
-        <span class="material-symbols-outlined">queue_music</span>
-      </button>
-    `;
-
-    var body = ap.querySelector('.aplayer-body');
-    if (body) body.appendChild(controls);
-
-    var getAP = function() {
-      return ap.aplayer || (window.aplayers && window.aplayers[0]);
-    };
-
-    controls.querySelector('.music-btn-prev').addEventListener('click', function(e) {
-      e.stopPropagation();
-      var inst = getAP();
-      if (inst) inst.skipBack();
-    });
-
-    controls.querySelector('.music-btn-next').addEventListener('click', function(e) {
-      e.stopPropagation();
-      var inst = getAP();
-      if (inst) inst.skipForward();
-    });
+    // Inject or query custom control bar
+    var controls = ap.querySelector('.custom-music-controls');
+    if (!controls) {
+      controls = document.createElement('div');
+      controls.className = 'custom-music-controls';
+      controls.innerHTML = `
+        <button class="music-ctrl-btn music-btn-mode" title="切换模式" type="button">
+          <span class="material-symbols-outlined">repeat</span>
+        </button>
+        <button class="music-ctrl-btn music-btn-prev" title="上一首" type="button">
+          <span class="material-symbols-outlined">skip_previous</span>
+        </button>
+        <button class="music-ctrl-btn music-btn-play" title="播放/暂停" type="button">
+          <span class="material-symbols-outlined play-icon">play_arrow</span>
+        </button>
+        <button class="music-ctrl-btn music-btn-next" title="下一首" type="button">
+          <span class="material-symbols-outlined">skip_next</span>
+        </button>
+        <button class="music-ctrl-btn music-btn-list" title="播放列表" type="button">
+          <span class="material-symbols-outlined">queue_music</span>
+        </button>
+      `;
+      var body = ap.querySelector('.aplayer-body');
+      if (body) body.appendChild(controls);
+    }
 
     var playBtn = controls.querySelector('.music-btn-play');
-    playBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var inst = getAP();
-      if (inst) {
-        inst.toggle();
+    var playIcon = playBtn.querySelector('.play-icon');
+
+    function syncPlayState() {
+      var apInst = getAPInstance();
+      var isPaused = true;
+      if (apInst && apInst.audio) {
+        isPaused = apInst.audio.paused;
       } else {
-        var origPlay = ap.querySelector('.aplayer-button');
-        if (origPlay) origPlay.click();
+        var audio = ap.querySelector('audio');
+        if (audio) isPaused = audio.paused;
       }
-    });
-
-    controls.querySelector('.music-btn-list').addEventListener('click', function(e) {
-      e.stopPropagation();
-      var list = ap.querySelector('.aplayer-list');
-      if (list) list.classList.toggle('aplayer-list-hide');
-    });
-
-    controls.querySelector('.music-btn-mode').addEventListener('click', function(e) {
-      e.stopPropagation();
-      var origBtn = ap.querySelector('.aplayer-icon-mode');
-      if (origBtn) origBtn.click();
-    });
-
-    function updateState() {
-      var icon = playBtn.querySelector('.play-icon');
-      var audio = ap.querySelector('audio');
-      if (icon && audio) {
-        icon.textContent = audio.paused ? 'play_arrow' : 'pause';
-      }
+      playIcon.textContent = isPaused ? 'play_arrow' : 'pause';
     }
+
+    playBtn.onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var apInst = getAPInstance();
+      if (apInst) {
+        apInst.toggle();
+      } else {
+        var audio = ap.querySelector('audio');
+        if (audio) {
+          if (audio.paused) audio.play(); else audio.pause();
+        } else {
+          var origBtn = ap.querySelector('.aplayer-button');
+          if (origBtn) origBtn.click();
+        }
+      }
+      setTimeout(syncPlayState, 50);
+    };
+
+    controls.querySelector('.music-btn-prev').onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var apInst = getAPInstance();
+      if (apInst) {
+        apInst.skipBack();
+      } else {
+        var btn = ap.querySelector('.aplayer-icon-back, .aplayer-skip-back');
+        if (btn) btn.click();
+      }
+    };
+
+    controls.querySelector('.music-btn-next').onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var apInst = getAPInstance();
+      if (apInst) {
+        apInst.skipForward();
+      } else {
+        var btn = ap.querySelector('.aplayer-icon-forward, .aplayer-skip-forward');
+        if (btn) btn.click();
+      }
+    };
+
+    controls.querySelector('.music-btn-list').onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var apInst = getAPInstance();
+      if (apInst && apInst.list) {
+        apInst.list.toggle();
+      } else {
+        var list = ap.querySelector('.aplayer-list');
+        if (list) list.classList.toggle('aplayer-list-hide');
+      }
+    };
+
+    controls.querySelector('.music-btn-mode').onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var origMode = ap.querySelector('.aplayer-icon-mode');
+      if (origMode) origMode.click();
+    };
 
     var audio = ap.querySelector('audio');
     if (audio) {
-      audio.addEventListener('play', updateState);
-      audio.addEventListener('pause', updateState);
-      updateState();
+      audio.removeEventListener('play', syncPlayState);
+      audio.removeEventListener('pause', syncPlayState);
+      audio.addEventListener('play', syncPlayState);
+      audio.addEventListener('pause', syncPlayState);
     }
   }
 
-  function initWidget(widgetBody) {
-    var observer = new MutationObserver(function() {
-      var ap = widgetBody.querySelector('.aplayer');
-      if (ap) setupCustomControls(ap);
-    });
-    observer.observe(widgetBody, { childList: true, subtree: true });
-
-    var existing = widgetBody.querySelector('.aplayer');
-    if (existing) setupCustomControls(existing);
+  function initAll() {
+    document.querySelectorAll('.music-widget .aplayer').forEach(bindAPlayer);
   }
 
-  document.querySelectorAll('.music-widget .widget-body').forEach(initWidget);
+  var observer = new MutationObserver(function() {
+    initAll();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  document.addEventListener('DOMContentLoaded', initAll);
+  document.addEventListener('pjax:complete', initAll);
+  initAll();
 })();
 </script>
 <% } %>

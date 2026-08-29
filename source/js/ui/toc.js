@@ -4,8 +4,11 @@
     tocLinks: [],
     
     init() {
-      if (this.initialized) return;
-      this.initialized = true;
+      this.headings = [];
+      this.tocLinks = [];
+      if (this.observer) {
+        this.observer.disconnect();
+      }
       this.buildTOC();
       this.bindScroll();
       this.bindFloatingButton();
@@ -87,4 +90,5 @@
   
   window.TOC = TOC;
   document.addEventListener('DOMContentLoaded', () => TOC.init());
+  document.addEventListener('pjax:complete', () => TOC.init());
 })();
