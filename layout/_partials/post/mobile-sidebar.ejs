@@ -20,7 +20,7 @@ var widgets = theme.widgets || [];
 <!-- Fallback: use theme.widgets when mobile_bottom_components not configured -->
 <div class="mobile-bottom-sidebar">
   <%
-  var mobileTypes = ['profile', 'music', 'tags', 'stats', 'site-info'];
+  var mobileTypes = ['profile', 'music', 'dynamic', 'tags', 'stats', 'site-info'];
   widgets.forEach(function(widget) {
     if (widget.enable !== false && mobileTypes.indexOf(widget.type) !== -1) {
   %>

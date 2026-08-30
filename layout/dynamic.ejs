@@ -119,11 +119,12 @@ if (actualLeft && actualRight) {
 
               <!-- Image Grid -->
               <% if (d.images && d.images.length > 0) { %>
+                <% var galleryId = 'gallery-' + (d.date ? new Date(d.date).getTime() : Math.random().toString(36).substr(2, 9)); %>
                 <div class="dynamic-images-grid grid-<%= Math.min(9, d.images.length) %>">
                   <% d.images.forEach(function(imgUrl, idx) { %>
-                    <div class="dynamic-img-wrapper">
-                      <img src="<%= url_for(imgUrl) %>" alt="图片<%= idx + 1 %>" class="dynamic-img" loading="lazy" data-fancybox="gallery-<%= new Date(d.date).getTime() %>">
-                    </div>
+                    <a href="<%= url_for(imgUrl) %>" data-src="<%= url_for(imgUrl) %>" data-fancybox="<%= galleryId %>" class="dynamic-img-wrapper" data-caption="图片 <%= idx + 1 %>">
+                      <img src="<%= url_for(imgUrl) %>" alt="图片<%= idx + 1 %>" class="dynamic-img" loading="lazy">
+                    </a>
                   <% }); %>
                 </div>
               <% } %>

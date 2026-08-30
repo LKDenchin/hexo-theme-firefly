@@ -14,7 +14,7 @@
           '#main-content',
           '.sidebar-right'
         ],
-        elements: 'a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript:"]):not([download])',
+        elements: 'a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript:"]):not([download]):not([data-fancybox])',
         switches: {
           '#banner-overlay-container': Pjax.switches.outerHTML,
           '#main-content': Pjax.switches.outerHTML,
@@ -79,7 +79,9 @@
       }
 
       // Fancybox lightbox re-binding
-      if (window.Fancybox && typeof window.Fancybox.bind === 'function') {
+      if (window.FancyboxManager && typeof window.FancyboxManager.init === 'function') {
+        window.FancyboxManager.init();
+      } else if (window.Fancybox && typeof window.Fancybox.bind === 'function') {
         try {
           window.Fancybox.unbind('[data-fancybox]');
           window.Fancybox.bind('[data-fancybox]', {});

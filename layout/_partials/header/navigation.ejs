@@ -75,6 +75,19 @@ var logoIcon = theme.logo ? theme.logo.icon : null;
           </a>
         </li>
 
+        <!-- Dynamic -->
+        <% if (pagesEnabled.dynamic !== false) { %>
+        <li class="navbar-link-item" role="none">
+          <a href="<%= url_for('/dynamic') %>" class="navbar-link<%= page.layout === 'dynamic' || (page.path && page.path.indexOf('dynamic') !== -1) ? ' active' : '' %>" role="menuitem">
+            <span class="navbar-link-content">
+              <span class="material-symbols-outlined">forum</span>
+              <span><%= __('dynamic') || '动态' %></span>
+            </span>
+            <span class="material-symbols-outlined dropdown-arrow mobile-arrow">chevron_right</span>
+          </a>
+        </li>
+        <% } %>
+
         <!-- About -->
         <% var aboutChildren = (navConfig.groups && navConfig.groups.about) || []; %>
         <% if (aboutChildren.length > 0) { %>

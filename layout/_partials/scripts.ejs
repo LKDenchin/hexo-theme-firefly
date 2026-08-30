@@ -127,11 +127,20 @@ var pjaxEnable = themeConfig.pjax && themeConfig.pjax.enable !== false;
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.umd.min.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    Fancybox.bind('[data-fancybox]', {
-      // Fancybox options
-    });
-  });
+  (function() {
+    function initFancybox() {
+      if (window.FancyboxManager) {
+        FancyboxManager.init();
+      } else if (typeof Fancybox !== 'undefined') {
+        Fancybox.bind('[data-fancybox]', {});
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFancybox);
+    } else {
+      initFancybox();
+    }
+  })();
 </script>
 <% } %>
 

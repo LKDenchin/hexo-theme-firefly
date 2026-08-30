@@ -51,6 +51,9 @@ nav:
     - name: "标签"
       icon: "tag"
       path: "/tags/"
+    - name: "动态"
+      icon: "forum"
+      path: "/dynamic/"
     - name: "关于"
       icon: "user"
       path: "/about/"
@@ -96,6 +99,8 @@ favicon:
 #  独立页面配置 (对应模板中 theme.pages.*)
 # ============================================================
 pages:
+  # 动态页面
+  dynamic: true
   # 友链页面
   friends: true
   # 赞助页面
@@ -658,6 +663,10 @@ sidebar:
       position: top
       show_on_post: true
     - type: music
+      enable: true
+      position: top
+      show_on_post: true
+    - type: dynamic
       enable: true
       position: top
       show_on_post: true
